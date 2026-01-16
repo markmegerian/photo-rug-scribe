@@ -2,6 +2,7 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get("OPENAI_API_KEY");
+const PROMPT_ID = "pmpt_696a8de58b648196aef26ad720ec3c720318d629e12dba15";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -21,30 +22,17 @@ serve(async (req) => {
       throw new Error("OpenAI API key is not configured");
     }
 
-    console.log(`Analyzing rug inspection for ${rugInfo.rugNumber} with ${photos.length} photos`);
+    console.log(`Analyzing rug inspection for ${rugInfo.rugNumber} with ${photos.length} photos using custom prompt`);
 
-    // Build the image content array for vision API
+    // Build the image content array for the Responses API
     const imageContent = photos.map((photoUrl: string) => ({
-      type: "image_url",
-      image_url: {
-        url: photoUrl,
-        detail: "high",
-      },
+      type: "input_image",
+      image_url: photoUrl,
+      detail: "high",
     }));
 
-    const systemPrompt = `You are an expert rug restoration and repair specialist with decades of experience. You analyze photographs of rugs to identify:
-
-1. **Condition Assessment**: Overall condition, signs of wear, damage, or deterioration
-2. **Specific Issues**: Stains, tears, fraying, moth damage, color fading, foundation problems, pile wear, fringe damage
-3. **Rug Characteristics**: Estimated age, quality indicators, construction type, materials
-4. **Restoration Recommendations**: Prioritized list of needed repairs with estimated costs
-5. **Cost Estimates**: Provide realistic price ranges based on industry standards
-
-Always structure your response with clear sections and provide actionable recommendations. Include price estimates in USD. Be thorough but concise.`;
-
-    const userPrompt = `Please analyze this ${rugInfo.rugType} rug for repair and restoration.
-
-**Rug Details:**
+    // Build the user input with rug details and images
+    const userInput = `**Rug Details:**
 - Client: ${rugInfo.clientName}
 - Rug Number: ${rugInfo.rugNumber}
 - Type: ${rugInfo.rugType}
@@ -60,36 +48,60 @@ Please examine the attached ${photos.length} photograph(s) and provide:
 5. Total estimated cost range
 6. Recommended timeline for restoration`;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    // Use OpenAI Responses API with saved prompt ID
+    const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${openAIApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-5",
-        messages: [
-          { role: "system", content: systemPrompt },
+        model: "gpt-4o",
+        prompt: {
+          id: PROMPT_ID,
+        },
+        input: [
           {
+            type: "message",
             role: "user",
-            content: [{ type: "text", text: userPrompt }, ...imageContent],
+            content: [
+              { type: "input_text", text: userInput },
+              ...imageContent,
+            ],
           },
         ],
-        max_tokens: 2000,
-        temperature: 0.7,
+        max_output_tokens: 4000,
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("OpenAI API error:", response.status, errorText);
+      console.error("OpenAI Responses API error:", response.status, errorText);
       throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const analysisReport = data.choices[0].message.content;
+    console.log("OpenAI response structure:", JSON.stringify(data, null, 2));
 
-    console.log("Analysis completed successfully");
+    // Extract the text content from the response
+    let analysisReport = "";
+    if (data.output && Array.isArray(data.output)) {
+      for (const item of data.output) {
+        if (item.type === "message" && item.content) {
+          for (const content of item.content) {
+            if (content.type === "output_text") {
+              analysisReport += content.text;
+            }
+          }
+        }
+      }
+    }
+
+    if (!analysisReport) {
+      throw new Error("No analysis content in response");
+    }
+
+    console.log("Analysis completed successfully using custom prompt");
 
     return new Response(JSON.stringify({ report: analysisReport }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
