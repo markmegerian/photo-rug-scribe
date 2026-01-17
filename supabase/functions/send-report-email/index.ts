@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
+import nodemailer from "https://esm.sh/nodemailer@6.9.9";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -15,6 +15,7 @@ interface EmailRequest {
     rugType: string;
     dimensions: string;
   }[];
+  pdfBase64?: string;
   businessName?: string;
   businessEmail?: string;
   businessPhone?: string;
@@ -31,6 +32,7 @@ const handler = async (req: Request): Promise<Response> => {
       clientName,
       jobNumber,
       rugDetails,
+      pdfBase64,
       businessName,
       businessEmail,
       businessPhone,
@@ -39,6 +41,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending email to:", to);
     console.log("Job number:", jobNumber);
     console.log("Number of rugs:", rugDetails.length);
+    console.log("PDF attached:", !!pdfBase64);
 
     const smtpHost = Deno.env.get("SMTP_HOST");
     const smtpPort = parseInt(Deno.env.get("SMTP_PORT") || "587");
@@ -49,13 +52,14 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("SMTP configuration is incomplete");
     }
 
-    const client = new SmtpClient();
-
-    await client.connectTLS({
-      hostname: smtpHost,
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
       port: smtpPort,
-      username: smtpUser,
-      password: smtpPassword,
+      secure: smtpPort === 465,
+      auth: {
+        user: smtpUser,
+        pass: smtpPassword,
+      },
     });
 
     const fromName = businessName || "Rug Inspection Service";
@@ -93,7 +97,7 @@ const handler = async (req: Request): Promise<Response> => {
       </p>
       
       <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 0 0 30px 0;">
-        Thank you for choosing our services. Please find below the inspection report for Job #<strong>${jobNumber}</strong>.
+        Thank you for choosing our services. Please find attached the detailed inspection report for Job #<strong>${jobNumber}</strong>.
       </p>
       
       <div style="margin: 30px 0;">
@@ -113,6 +117,14 @@ const handler = async (req: Request): Promise<Response> => {
           </tbody>
         </table>
       </div>
+      
+      ${pdfBase64 ? `
+      <div style="background-color: #eff6ff; border-radius: 12px; padding: 20px; margin: 30px 0; text-align: center;">
+        <p style="color: #1e40af; margin: 0; font-size: 14px;">
+          📎 <strong>Detailed PDF report attached</strong>
+        </p>
+      </div>
+      ` : ''}
       
       <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 30px 0 0 0;">
         If you have any questions about this report, please don't hesitate to contact us.
@@ -139,20 +151,29 @@ const handler = async (req: Request): Promise<Response> => {
 </html>
     `;
 
-    await client.send({
-      from: smtpUser,
+    const mailOptions: any = {
+      from: `"${fromName}" <${smtpUser}>`,
       to: to,
       subject: `Rug Inspection Report - Job #${jobNumber}`,
-      content: "Please view this email in an HTML-compatible email client.",
       html: emailHtml,
-    });
+    };
 
-    await client.close();
+    // Add PDF attachment if provided
+    if (pdfBase64) {
+      mailOptions.attachments = [
+        {
+          filename: `Inspection_Report_Job_${jobNumber}.pdf`,
+          content: pdfBase64,
+          encoding: 'base64',
+        },
+      ];
+    }
 
-    console.log("Email sent successfully");
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully:", info.messageId);
 
     return new Response(
-      JSON.stringify({ success: true, message: "Email sent successfully" }),
+      JSON.stringify({ success: true, message: "Email sent successfully", messageId: info.messageId }),
       {
         status: 200,
         headers: { "Content-Type": "application/json", ...corsHeaders },

@@ -15,7 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { format } from 'date-fns';
-import { generatePDF, generateJobPDF, BusinessBranding } from '@/lib/pdfGenerator';
+import { generatePDF, generateJobPDF, generateJobPDFBase64, BusinessBranding } from '@/lib/pdfGenerator';
 import RugForm from '@/components/RugForm';
 import JobForm from '@/components/JobForm';
 import EditRugDialog from '@/components/EditRugDialog';
@@ -451,18 +451,33 @@ const JobDetail = () => {
 
     setSendingEmail(true);
     try {
+      toast.info('Generating PDF report...');
+      
+      // Generate PDF as base64 for email attachment
+      const rugsWithClient = analyzedRugs.map(rug => ({
+        ...rug,
+        client_name: job.client_name,
+        client_email: job.client_email,
+        client_phone: job.client_phone,
+      }));
+      
+      const pdfBase64 = await generateJobPDFBase64(job, rugsWithClient, branding);
+      
       const rugDetails = analyzedRugs.map(rug => ({
         rugNumber: rug.rug_number,
         rugType: rug.rug_type,
         dimensions: rug.length && rug.width ? `${rug.length}' × ${rug.width}'` : '—',
       }));
 
+      toast.info('Sending email...');
+      
       const { data, error } = await supabase.functions.invoke('send-report-email', {
         body: {
           to: job.client_email,
           clientName: job.client_name,
           jobNumber: job.job_number,
           rugDetails,
+          pdfBase64,
           businessName: branding?.business_name,
           businessEmail: branding?.business_email,
           businessPhone: branding?.business_phone,
