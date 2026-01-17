@@ -614,3 +614,203 @@ export const generateJobPDF = async (
   const fileName = `job-report-${job.job_number}-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
   doc.save(fileName);
 };
+
+// Generate PDF and return as base64 string (for email attachments)
+export const generateJobPDFBase64 = async (
+  job: Job,
+  rugs: Inspection[],
+  branding?: BusinessBranding | null
+): Promise<string> => {
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 20;
+
+  // Cache logo for subsequent pages
+  let cachedLogoBase64: string | null = null;
+  if (branding?.logo_url) {
+    cachedLogoBase64 = await loadImageAsBase64(branding.logo_url);
+  }
+
+  const businessName = branding?.business_name || 'RugBoost';
+
+  // Add logo header
+  let yPos = await addLogoHeader(doc, pageWidth, branding);
+  yPos += 5;
+
+  // Title Page
+  doc.setFontSize(28);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Complete Job Report', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 15;
+
+  doc.setFontSize(16);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Job #${job.job_number}`, pageWidth / 2, yPos, { align: 'center' });
+  yPos += 20;
+
+  // Job Details
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Job Information', margin, yPos);
+  yPos += 8;
+
+  const jobInfo = [
+    ['Job Number', job.job_number],
+    ['Status', job.status.charAt(0).toUpperCase() + job.status.slice(1)],
+    ['Date Created', format(new Date(job.created_at), 'MMMM d, yyyy')],
+    ['Total Rugs', rugs.length.toString()],
+  ];
+
+  autoTable(doc, {
+    startY: yPos,
+    head: [],
+    body: jobInfo,
+    theme: 'plain',
+    styles: { fontSize: 10 },
+    columnStyles: {
+      0: { fontStyle: 'bold', cellWidth: 50 },
+      1: { cellWidth: 'auto' },
+    },
+    margin: { left: margin },
+  });
+
+  yPos = (doc as any).lastAutoTable.finalY + 15;
+
+  // Client Information
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Client Information', margin, yPos);
+  yPos += 8;
+
+  const clientInfo = [
+    ['Name', job.client_name],
+    ['Email', job.client_email || '—'],
+    ['Phone', job.client_phone || '—'],
+  ];
+
+  autoTable(doc, {
+    startY: yPos,
+    head: [],
+    body: clientInfo,
+    theme: 'plain',
+    styles: { fontSize: 10 },
+    columnStyles: {
+      0: { fontStyle: 'bold', cellWidth: 50 },
+      1: { cellWidth: 'auto' },
+    },
+    margin: { left: margin },
+  });
+
+  yPos = (doc as any).lastAutoTable.finalY + 15;
+
+  // Rugs Summary Table
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Rugs Summary', margin, yPos);
+  yPos += 8;
+
+  const rugsSummary = rugs.map((rug, index) => [
+    (index + 1).toString(),
+    rug.rug_number,
+    rug.rug_type,
+    rug.length && rug.width ? `${rug.length}' × ${rug.width}'` : '—',
+    rug.analysis_report ? '✓' : '—',
+  ]);
+
+  autoTable(doc, {
+    startY: yPos,
+    head: [['#', 'Rug Number', 'Type', 'Dimensions', 'Analyzed']],
+    body: rugsSummary,
+    theme: 'striped',
+    styles: { fontSize: 9 },
+    headStyles: { fillColor: [33, 116, 198] },
+    margin: { left: margin, right: margin },
+  });
+
+  // Individual Rug Reports
+  for (const rug of rugs) {
+    doc.addPage();
+    
+    // Add header to new page
+    addLogoHeaderSync(doc, pageWidth, branding, cachedLogoBase64);
+    yPos = 45;
+
+    // Rug Title
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Rug: ${rug.rug_number}`, margin, yPos);
+    yPos += 12;
+
+    // Rug Details
+    const rugDetails = [
+      ['Rug Number', rug.rug_number],
+      ['Type', rug.rug_type],
+      ['Dimensions', rug.length && rug.width ? `${rug.length}' × ${rug.width}'` : '—'],
+      ['Notes', rug.notes || '—'],
+    ];
+
+    autoTable(doc, {
+      startY: yPos,
+      head: [],
+      body: rugDetails,
+      theme: 'plain',
+      styles: { fontSize: 10 },
+      columnStyles: {
+        0: { fontStyle: 'bold', cellWidth: 50 },
+        1: { cellWidth: 'auto' },
+      },
+      margin: { left: margin },
+    });
+
+    yPos = (doc as any).lastAutoTable.finalY + 10;
+
+    // Analysis Report
+    if (rug.analysis_report) {
+      if (yPos > pageHeight - 100) {
+        doc.addPage();
+        addLogoHeaderSync(doc, pageWidth, branding, cachedLogoBase64);
+        yPos = 45;
+      }
+
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Analysis Report', margin, yPos);
+      yPos += 8;
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+
+      const maxWidth = pageWidth - 2 * margin;
+      const lines = doc.splitTextToSize(rug.analysis_report, maxWidth);
+
+      for (const line of lines) {
+        if (yPos > pageHeight - 30) {
+          doc.addPage();
+          addLogoHeaderSync(doc, pageWidth, branding, cachedLogoBase64);
+          yPos = 45;
+        }
+        doc.text(line, margin, yPos);
+        yPos += 5;
+      }
+    }
+  }
+
+  // Footer on all pages
+  const totalPages = doc.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0, 0, 0);
+    doc.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+    doc.text(`Generated by ${businessName}`, margin, pageHeight - 10);
+    doc.text(`Job #${job.job_number}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+  }
+
+  // Return as base64 (without the data:application/pdf;base64, prefix)
+  const pdfOutput = doc.output('datauristring');
+  // Extract just the base64 part
+  const base64 = pdfOutput.split(',')[1];
+  return base64;
+};
