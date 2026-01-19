@@ -58,38 +58,75 @@ const AnalysisReport: React.FC<AnalysisReportProps> = ({
 
   // Parse the report into sections for better display
   const formatReport = (text: string) => {
-    return text.split('\n').map((line, index) => {
-      if (line.startsWith('##')) {
+    // Clean up any remaining markdown artifacts
+    const cleanText = text
+      .replace(/^#{1,3}\s*/gm, '') // Remove heading markers
+      .replace(/\*\*/g, '') // Remove bold markers
+      .replace(/^\* /gm, '• ') // Convert asterisk bullets to proper bullets
+      .replace(/^- /gm, '• '); // Convert dash bullets to proper bullets
+
+    return cleanText.split('\n').map((line, index) => {
+      const trimmedLine = line.trim();
+      
+      // Empty lines become breaks
+      if (trimmedLine === '') {
+        return <br key={index} />;
+      }
+      
+      // Lines that look like section headers (ALL CAPS or ending with colon)
+      if (/^[A-Z][A-Z\s&]+:?$/.test(trimmedLine) || /^[A-Z][A-Z\s&]+$/.test(trimmedLine)) {
         return (
           <h3 key={index} className="font-display text-lg font-semibold text-foreground mt-6 mb-3 first:mt-0">
-            {line.replace(/^##\s*/, '')}
+            {trimmedLine}
           </h3>
         );
       }
-      if (line.startsWith('#')) {
+      
+      // Lines starting with "Dear" or "Sincerely" - greeting/closing
+      if (trimmedLine.startsWith('Dear ') || trimmedLine.startsWith('Sincerely')) {
         return (
-          <h2 key={index} className="font-display text-xl font-bold text-foreground mt-6 mb-3 first:mt-0">
-            {line.replace(/^#\s*/, '')}
-          </h2>
-        );
-      }
-      if (line.startsWith('- ') || line.startsWith('* ')) {
-        return (
-          <li key={index} className="ml-4 text-foreground/90 mb-1">
-            {line.replace(/^[-*]\s*/, '')}
-          </li>
-        );
-      }
-      if (line.startsWith('**') && line.endsWith('**')) {
-        return (
-          <p key={index} className="font-semibold text-foreground mt-3 mb-2">
-            {line.replace(/\*\*/g, '')}
+          <p key={index} className="text-foreground font-medium mt-4 mb-2">
+            {trimmedLine}
           </p>
         );
       }
-      if (line.trim() === '') {
-        return <br key={index} />;
+      
+      // Lines that look like rug headers (Rug #...)
+      if (/^Rug\s*#/i.test(trimmedLine)) {
+        return (
+          <h4 key={index} className="font-display font-semibold text-foreground mt-4 mb-2">
+            {trimmedLine}
+          </h4>
+        );
       }
+      
+      // Lines with dollar amounts (service line items)
+      if (/\$[\d,]+(\.\d{2})?/.test(trimmedLine)) {
+        // Check if it's a total line
+        if (/total|subtotal/i.test(trimmedLine)) {
+          return (
+            <p key={index} className="font-semibold text-foreground border-t border-border pt-2 mt-2">
+              {trimmedLine}
+            </p>
+          );
+        }
+        return (
+          <p key={index} className="text-foreground/90 font-mono text-sm pl-4">
+            {trimmedLine}
+          </p>
+        );
+      }
+      
+      // Bullet points
+      if (trimmedLine.startsWith('•')) {
+        return (
+          <li key={index} className="ml-4 text-foreground/90 mb-1 list-none">
+            {trimmedLine}
+          </li>
+        );
+      }
+      
+      // Regular paragraphs
       return (
         <p key={index} className="text-foreground/80 mb-2">
           {line}
