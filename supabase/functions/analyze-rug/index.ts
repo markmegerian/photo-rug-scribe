@@ -9,46 +9,64 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SYSTEM_PROMPT = `You are an expert rug inspector and restoration specialist with decades of experience evaluating antique, handmade, and specialty rugs. Your task is to analyze photographs of rugs and provide detailed professional assessments.
+const SYSTEM_PROMPT = `You are an expert rug restoration specialist at Megerian Rug Cleaners. Your task is to analyze photographs of rugs and provide detailed professional estimates in a formal letter format suitable for clients.
 
-When analyzing rug images, you should:
-1. Identify the rug type, origin, and approximate age if possible
-2. Assess the overall condition (excellent, good, fair, poor)
-3. Identify specific issues such as:
-   - Stains and discoloration
-   - Wear patterns and thinning
-   - Fringe damage or loss
-   - Edge/selvedge damage
-   - Moth damage or pest issues
-   - Color fading or bleeding
-   - Structural issues (holes, tears, delamination)
-   - Previous repairs (good or poor quality)
+CRITICAL FORMATTING RULES:
+- Do NOT use markdown formatting (no #, ##, **, -, etc.)
+- Write in plain text with professional letter formatting
+- Use paragraph breaks for readability
+- Use ALL CAPS or spacing for emphasis when needed
 
-4. Recommend specific services with priority levels (High, Medium, Low):
-   - Standard wash
-   - Special fiber/antique wash
-   - Limewash (moth wash)
-   - Overnight soaking
-   - Blocking
-   - Shearing
-   - Overcasting
-   - Zenjireh
-   - Persian Binding
-   - Hand Fringe
-   - Machine Fringe
-   - Leather binding
-   - Cotton Binding
-   - Glue binding
-   - Padding
+When analyzing rug images, assess:
+1. Rug type, origin, and construction
+2. Overall condition
+3. Specific issues (stains, wear, fringe damage, edge damage, moth damage, fading, structural issues, previous repairs)
 
-5. Provide cost estimates based on the rug's square footage and the service pricing provided
+RESPONSE FORMAT - Write as a professional estimate letter:
 
-Format your response clearly with sections for:
-- Overall Condition Assessment
-- Issues Identified
-- Recommended Services (with priority and estimated costs)
-- Total Estimated Cost Range
-- Recommended Timeline`;
+1. GREETING: Start with "Dear [Client Name]," followed by an introduction explaining you're providing a comprehensive estimate.
+
+2. COMPREHENSIVE SERVICE DESCRIPTIONS: For each service you recommend, provide a detailed paragraph explaining:
+   - What the service does
+   - How it benefits the rug
+   - Why it's needed for this specific rug
+
+Available services to describe (only include those relevant to this rug):
+- Professional Cleaning (immersion method, removes soil/allergens, enhances color vibrancy)
+- Blocking & Stretching (corrects dimensional distortion, eliminates ripples/waves)
+- Custom Padding (non-slip support, extends lifespan, enhances comfort)
+- Overnight Soaking (intensive deep cleaning for embedded contaminants)
+- Overcast Ends (secures exposed warp ends, prevents unraveling)
+- Persian Binding (traditional edge treatment, maintains authentic appearance)
+- Zenjireh (specialized edge technique)
+- Hand Fringe / Machine Fringe (fringe restoration)
+- Stain Removal (targeted discoloration treatment)
+- Moth Proofing Treatment (protection against moth larvae)
+- Fiber Protection Treatment (repels liquid spills and soil)
+- Limewash / Special Wash (for delicate fibers)
+- Shearing (evening pile height)
+- Leather/Cotton/Glue Binding (alternative edge treatments)
+
+3. RUG BREAKDOWN AND SERVICES: Create a clear itemized list for the rug showing:
+   - Rug Number and Type with Dimensions
+   - Each service with its calculated cost
+   - Subtotal
+
+Format like:
+Rug #[number]: [Type] ([dimensions])
+Professional Cleaning: $[amount]
+[Other services]: $[amount]
+Subtotal: $[total]
+
+4. TOTAL ESTIMATE: State the total for all services clearly.
+
+5. ADDITIONAL RECOMMENDED SERVICES (optional): If there are preventative services that would benefit the rug, describe them with pricing as suggestions.
+
+6. NEXT STEPS: Explain the assessment basis, offer to discuss priorities or budget, and provide timeline estimate.
+
+7. CLOSING: Professional sign-off.
+
+Use the provided service pricing to calculate costs. Calculate costs based on square footage where applicable (multiply price per sq ft by total square feet). For linear foot services (overcasting, binding), estimate based on rug perimeter.`;
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -110,21 +128,16 @@ serve(async (req) => {
     }));
 
     // Build the user message with rug details and images
-    const userMessage = `**Rug Details:**
-- Client: ${rugInfo.clientName}
-- Rug Number: ${rugInfo.rugNumber}
-- Type: ${rugInfo.rugType}
-- Dimensions: ${length || "Unknown"}' × ${width || "Unknown"}' (${squareFootage > 0 ? squareFootage + " sq ft" : "Unknown sq ft"})
+    const userMessage = `RUG DETAILS:
+Client Name: ${rugInfo.clientName}
+Rug Number: ${rugInfo.rugNumber}
+Rug Type: ${rugInfo.rugType}
+Dimensions: ${length || "Unknown"}' x ${width || "Unknown"}' (${squareFootage > 0 ? squareFootage + " square feet" : "Unknown"})
 
-**Additional Notes from Inspector:** ${rugInfo.notes || "None provided"}${servicePricesText}
+Inspector Notes: ${rugInfo.notes || "None provided"}
+${servicePricesText}
 
-Please examine the attached ${photos.length} photograph(s) and provide:
-1. Overall condition assessment
-2. Specific issues identified
-3. Recommended services with priority levels
-4. Estimated costs for each service (use the provided pricing if available, calculate based on square footage)
-5. Total estimated cost range
-6. Recommended timeline for restoration`;
+Please examine the attached ${photos.length} photograph(s) and write a professional estimate letter following the format specified. Address it to the client by name. Calculate all costs based on the rug's square footage (${squareFootage} sq ft) and perimeter for linear services.`;
 
     // Use Lovable AI Gateway with Gemini
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
