@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import PhotoCapture from './PhotoCapture';
+import GuidedPhotoCapture from './GuidedPhotoCapture';
 
 const RUG_TYPES = [
   'Persian',
@@ -159,7 +159,7 @@ const RugForm: React.FC<RugFormProps> = ({ onSubmit, isLoading, rugIndex }) => {
         </div>
       </section>
 
-      {/* Photo Capture */}
+      {/* Guided Photo Capture */}
       <section className="space-y-4">
         <div className="flex items-center gap-2">
           <div className="rounded-lg bg-primary/10 p-2">
@@ -170,7 +170,7 @@ const RugForm: React.FC<RugFormProps> = ({ onSubmit, isLoading, rugIndex }) => {
           </h2>
         </div>
 
-        <PhotoCapture photos={photos} onPhotosChange={setPhotos} maxPhotos={10} />
+        <GuidedPhotoCapture photos={photos} onPhotosChange={setPhotos} maxPhotos={10} />
       </section>
 
       {/* Additional Notes */}
