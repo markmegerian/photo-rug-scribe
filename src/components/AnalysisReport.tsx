@@ -72,83 +72,154 @@ const AnalysisReport: React.FC<AnalysisReportProps> = ({
     }
   };
 
-  // Parse the report into sections for better display
+  // Parse the report into structured sections for elegant display
   const formatReport = (text: string) => {
     // Clean up any remaining markdown artifacts
     const cleanText = text
-      .replace(/^#{1,3}\s*/gm, '') // Remove heading markers
-      .replace(/\*\*/g, '') // Remove bold markers
-      .replace(/^\* /gm, '• ') // Convert asterisk bullets to proper bullets
-      .replace(/^- /gm, '• '); // Convert dash bullets to proper bullets
+      .replace(/^#{1,3}\s*/gm, '')
+      .replace(/\*\*/g, '')
+      .replace(/^\* /gm, '• ')
+      .replace(/^- /gm, '• ');
 
-    return cleanText.split('\n').map((line, index) => {
+    const lines = cleanText.split('\n');
+    const elements: React.ReactNode[] = [];
+    let currentSection: string | null = null;
+    let lineItemsBuffer: string[] = [];
+
+    const flushLineItems = () => {
+      if (lineItemsBuffer.length > 0) {
+        elements.push(
+          <div key={`items-${elements.length}`} className="bg-muted/30 rounded-lg p-4 my-3 space-y-1">
+            {lineItemsBuffer.map((item, idx) => {
+              const isTotal = /total|subtotal/i.test(item);
+              return (
+                <div
+                  key={idx}
+                  className={`flex justify-between items-center ${
+                    isTotal 
+                      ? 'border-t border-border pt-2 mt-2 font-semibold text-foreground' 
+                      : 'text-foreground/80'
+                  }`}
+                >
+                  <span className="flex-1">{item.replace(/:\s*\$[\d,.]+$/, '')}</span>
+                  <span className={`font-mono ${isTotal ? 'text-lg text-primary' : 'text-sm'}`}>
+                    {item.match(/\$[\d,.]+/)?.[0] || ''}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        );
+        lineItemsBuffer = [];
+      }
+    };
+
+    lines.forEach((line, index) => {
       const trimmedLine = line.trim();
-      
-      // Empty lines become breaks
+
+      // Skip empty lines but flush any pending items
       if (trimmedLine === '') {
-        return <br key={index} />;
+        flushLineItems();
+        return;
       }
-      
-      // Lines that look like section headers (ALL CAPS or ending with colon)
-      if (/^[A-Z][A-Z\s&]+:?$/.test(trimmedLine) || /^[A-Z][A-Z\s&]+$/.test(trimmedLine)) {
-        return (
-          <h3 key={index} className="font-display text-lg font-semibold text-foreground mt-6 mb-3 first:mt-0">
-            {trimmedLine}
-          </h3>
+
+      // Section headers (ALL CAPS)
+      if (/^[A-Z][A-Z\s&]+:?$/.test(trimmedLine) && trimmedLine.length > 3) {
+        flushLineItems();
+        currentSection = trimmedLine;
+        elements.push(
+          <div key={index} className="mt-8 first:mt-0">
+            <h3 className="font-display text-lg font-semibold text-foreground border-b border-primary/20 pb-2 mb-4">
+              {trimmedLine.replace(/:$/, '')}
+            </h3>
+          </div>
         );
+        return;
       }
-      
-      // Lines starting with "Dear" or "Sincerely" - greeting/closing
-      if (trimmedLine.startsWith('Dear ') || trimmedLine.startsWith('Sincerely')) {
-        return (
-          <p key={index} className="text-foreground font-medium mt-4 mb-2">
+
+      // Greeting/Closing lines
+      if (trimmedLine.startsWith('Dear ')) {
+        flushLineItems();
+        elements.push(
+          <p key={index} className="text-foreground text-lg mb-4">
             {trimmedLine}
           </p>
         );
+        return;
       }
-      
-      // Lines that look like rug headers (Rug #...)
-      if (/^Rug\s*#/i.test(trimmedLine)) {
-        return (
-          <h4 key={index} className="font-display font-semibold text-foreground mt-4 mb-2">
-            {trimmedLine}
-          </h4>
+
+      if (trimmedLine.startsWith('Sincerely') || trimmedLine.startsWith('Best regards')) {
+        flushLineItems();
+        elements.push(
+          <div key={index} className="mt-8 pt-4 border-t border-border">
+            <p className="text-foreground font-medium">{trimmedLine}</p>
+          </div>
         );
+        return;
       }
-      
-      // Lines with dollar amounts (service line items)
-      if (/\$[\d,]+(\.\d{2})?/.test(trimmedLine)) {
-        // Check if it's a total line
-        if (/total|subtotal/i.test(trimmedLine)) {
-          return (
-            <p key={index} className="font-semibold text-foreground border-t border-border pt-2 mt-2">
-              {trimmedLine}
-            </p>
-          );
+
+      // Business name after signature
+      if (elements.length > 0 && /^[A-Z]/.test(trimmedLine) && !trimmedLine.includes(':') && !trimmedLine.includes('$') && trimmedLine.length < 50) {
+        const lastElement = elements[elements.length - 1];
+        if (lastElement && typeof lastElement === 'object' && 'props' in lastElement) {
+          const lastProps = (lastElement as React.ReactElement).props;
+          if (lastProps?.children?.props?.children?.toString().includes('Sincerely')) {
+            elements.push(
+              <p key={index} className="text-primary font-display font-semibold text-lg">
+                {trimmedLine}
+              </p>
+            );
+            return;
+          }
         }
-        return (
-          <p key={index} className="text-foreground/90 font-mono text-sm pl-4">
-            {trimmedLine}
-          </p>
-        );
       }
-      
+
+      // Rug headers (Rug #...)
+      if (/^Rug\s*#/i.test(trimmedLine)) {
+        flushLineItems();
+        elements.push(
+          <div key={index} className="mt-6 mb-3 p-3 bg-primary/5 rounded-lg border-l-4 border-primary">
+            <h4 className="font-display font-semibold text-foreground">
+              {trimmedLine}
+            </h4>
+          </div>
+        );
+        return;
+      }
+
+      // Lines with dollar amounts - collect them for grouped display
+      if (/\$[\d,]+(\.\d{2})?/.test(trimmedLine)) {
+        lineItemsBuffer.push(trimmedLine);
+        return;
+      }
+
       // Bullet points
       if (trimmedLine.startsWith('•')) {
-        return (
-          <li key={index} className="ml-4 text-foreground/90 mb-1 list-none">
-            {trimmedLine}
-          </li>
+        flushLineItems();
+        elements.push(
+          <div key={index} className="flex items-start gap-3 ml-2 mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+            <span className="text-foreground/80 leading-relaxed">
+              {trimmedLine.replace(/^•\s*/, '')}
+            </span>
+          </div>
         );
+        return;
       }
-      
+
       // Regular paragraphs
-      return (
-        <p key={index} className="text-foreground/80 mb-2">
+      flushLineItems();
+      elements.push(
+        <p key={index} className="text-foreground/80 leading-relaxed mb-3">
           {line}
         </p>
       );
     });
+
+    // Flush any remaining items
+    flushLineItems();
+
+    return elements;
   };
 
   return (
@@ -295,14 +366,14 @@ const AnalysisReport: React.FC<AnalysisReportProps> = ({
 
       {/* Analysis Report */}
       <Card className="shadow-medium">
-        <CardHeader className="border-b border-border">
+        <CardHeader className="border-b border-border bg-gradient-to-r from-primary/5 to-transparent">
           <CardTitle className="flex items-center gap-2 font-display">
             <Wrench className="h-5 w-5 text-primary" />
-            AI Analysis & Recommendations
+            Professional Estimate
           </CardTitle>
         </CardHeader>
-        <CardContent className="pt-6">
-          <div className="prose prose-sm max-w-none">
+        <CardContent className="pt-6 px-6 md:px-8">
+          <div className="max-w-none space-y-1">
             {formatReport(report)}
           </div>
         </CardContent>

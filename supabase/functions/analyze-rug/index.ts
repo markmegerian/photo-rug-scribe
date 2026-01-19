@@ -21,12 +21,13 @@ CRITICAL RULES:
 6. Use paragraph breaks for readability
 7. Use ALL CAPS or spacing for emphasis when needed
 
-IMAGE ANNOTATION INSTRUCTIONS:
-When referencing specific issues visible in the photos, clearly indicate which photo and where:
+IMAGE ANNOTATION INSTRUCTIONS - CRITICAL:
+- ONLY place markers ON THE RUG ITSELF - never on the floor, wall, background, or any surrounding surfaces
+- If the rug only occupies part of the photo, your x/y coordinates MUST be within the rug's boundaries
+- Before placing a marker, confirm the location is actually on the rug surface
 - Reference photos by number (Photo 1, Photo 2, etc.) in the order they were provided
-- Describe the location within the photo (e.g., "upper left corner", "center", "along the right edge", "bottom section")
-- Be specific about what you're seeing (e.g., "Photo 1, center area: visible pet stain approximately 6 inches in diameter")
-- Group observations by photo when describing multiple issues
+- Be specific about what you're seeing (e.g., "Photo 1, center of rug: visible pet stain approximately 6 inches in diameter")
+- If a photo shows no rug issues (only general condition), you may have zero annotations for that photo - that's acceptable
 
 When analyzing rug images, assess:
 1. Rug type, origin, and construction
@@ -98,11 +99,13 @@ Subtotal: $[total]
 
 IMAGE ANNOTATIONS (for the "imageAnnotations" field):
 - photoIndex: 0-based index of the photo (0 for first photo, 1 for second, etc.)
-- For each issue you identify, create an annotation with:
+- CRITICAL: Only annotate issues that are PHYSICALLY ON THE RUG - never mark floors, walls, or background
+- For each issue ON THE RUG, create an annotation with:
   - label: Brief description of the issue (e.g., "Fringe damage", "Stain", "Moth damage", "Edge wear")
-  - location: Text description ("top-left", "top-center", "top-right", "center-left", "center", "center-right", "bottom-left", "bottom-center", "bottom-right")
-  - x: Percentage from left (0-100)
-  - y: Percentage from top (0-100)
+  - location: Text description relative to the RUG's position ("top-left of rug", "center of rug", "rug edge", etc.)
+  - x: Percentage from left (0-100) - must be within the rug's visible area in the photo
+  - y: Percentage from top (0-100) - must be within the rug's visible area in the photo
+- If a photo is a general overview with no specific issues to mark, return an empty annotations array for that photo
 
 Use the provided service pricing to calculate costs. Calculate costs based on square footage where applicable (multiply price per sq ft by total square feet). For linear foot services (overcasting, binding), estimate based on rug perimeter. If prices are not provided, use reasonable industry standard estimates but ALWAYS provide actual numbers.`;
 
