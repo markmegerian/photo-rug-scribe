@@ -366,6 +366,7 @@ Please examine the attached ${photos.length} photograph(s) and write a professio
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-pro",
+        max_tokens: 8000,
         messages: [
           {
             role: "system",
@@ -425,9 +426,35 @@ Please examine the attached ${photos.length} photograph(s) and write a professio
       imageAnnotations = parsed.imageAnnotations || [];
       console.log(`Parsed structured response with ${imageAnnotations.length} image annotations`);
     } catch (parseError) {
-      // If JSON parsing fails, use the raw content as the report
-      console.log("Response is not JSON, using raw text");
-      analysisReport = rawContent;
+      // Check if response was truncated (ends with incomplete JSON)
+      const isTruncated = rawContent.includes('"letter"') && 
+        (!rawContent.includes('"imageAnnotations"') || !rawContent.trim().endsWith('}'));
+      
+      if (isTruncated) {
+        console.log("Response appears truncated, extracting letter content");
+        // Try to extract the letter content from truncated JSON
+        const letterMatch = rawContent.match(/"letter"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"imageAnnotations"|"\s*}|$)/);
+        if (letterMatch && letterMatch[1]) {
+          // Unescape JSON string
+          analysisReport = letterMatch[1]
+            .replace(/\\n/g, '\n')
+            .replace(/\\"/g, '"')
+            .replace(/\\\\/g, '\\');
+        } else {
+          // Clean up any JSON formatting from raw content
+          analysisReport = rawContent
+            .replace(/^[\s\S]*?"letter"\s*:\s*"/i, '')
+            .replace(/"\s*,?\s*"imageAnnotations"[\s\S]*$/i, '')
+            .replace(/\\n/g, '\n')
+            .replace(/\\"/g, '"')
+            .replace(/\\\\/g, '\\');
+        }
+        console.log("Extracted letter from truncated response");
+      } else {
+        // If not truncated JSON, use the raw content as the report
+        console.log("Response is not JSON, using raw text");
+        analysisReport = rawContent;
+      }
     }
 
     return new Response(JSON.stringify({ 
