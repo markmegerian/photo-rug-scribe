@@ -97,18 +97,32 @@ CRITICAL RULES:
 6. Use paragraph breaks for readability
 7. Use ALL CAPS or spacing for emphasis when needed
 
+PHOTO SEQUENCE - Photos are captured in a structured order for complete rug coverage:
+- Photo 1: OVERALL FRONT - Full rug from above showing the front/top surface
+- Photo 2: OVERALL BACK - Full back side of the rug (construction and hidden damage)
+- Photo 3: FRINGE END A - Close-up of fringe on one end
+- Photo 4: FRINGE END B - Close-up of fringe on the opposite end
+- Photo 5: EDGE/BINDING SIDE A - Close-up of one side edge/binding
+- Photo 6: EDGE/BINDING SIDE B - Close-up of the opposite side edge/binding
+- Photos 7-10 (if provided): ISSUE CLOSE-UPS - Client-identified problem areas (stains, damage, wear)
+
+Use this photo sequence knowledge when referencing photos in your analysis and annotations.
+
 IMAGE ANNOTATION INSTRUCTIONS - CRITICAL:
 - ONLY place markers ON THE RUG ITSELF - never on the floor, wall, background, or any surrounding surfaces
 - If the rug only occupies part of the photo, your x/y coordinates MUST be within the rug's boundaries
 - Before placing a marker, confirm the location is actually on the rug surface
-- Reference photos by number (Photo 1, Photo 2, etc.) in the order they were provided
-- Be specific about what you're seeing (e.g., "Photo 1, center of rug: visible pet stain approximately 6 inches in diameter")
+- Reference photos by their purpose AND number (e.g., "Photo 1 (Overall Front): visible pet stain in center")
+- Be specific about what you're seeing (e.g., "Photo 3 (Fringe End A): fringe loss approximately 2 inches, discoloration")
 - If a photo shows no rug issues (only general condition), you may have zero annotations for that photo - that's acceptable
+- Pay special attention to Photos 7-10 as the client specifically captured these to highlight concerns
 
 When analyzing rug images, assess:
-1. Rug type, origin, and construction
-2. Overall condition
-3. Specific issues (stains, wear, fringe damage, edge damage, moth damage, fading, structural issues, previous repairs)
+1. Rug type, origin, and construction (primarily from Photos 1-2)
+2. Fringe condition (Photos 3-4)
+3. Edge/binding condition (Photos 5-6)
+4. Client-identified issues (Photos 7-10)
+5. Overall condition and any additional issues visible
 
 RESPONSE FORMAT - Your response must be valid JSON with this structure:
 {
