@@ -23,6 +23,7 @@ import EditRugDialog from '@/components/EditRugDialog';
 import AnalysisReport from '@/components/AnalysisReport';
 import EmailPreviewDialog from '@/components/EmailPreviewDialog';
 import EstimateReview from '@/components/EstimateReview';
+import AnalysisProgress, { AnalysisStage } from '@/components/AnalysisProgress';
 
 interface Job {
   id: string;
@@ -78,6 +79,10 @@ const JobDetail = () => {
   const [showEmailPreview, setShowEmailPreview] = useState(false);
   const [servicePrices, setServicePrices] = useState<{ name: string; unitPrice: number }[]>([]);
   const [imageAnnotations, setImageAnnotations] = useState<any[]>([]);
+  const [analysisStage, setAnalysisStage] = useState<AnalysisStage>('idle');
+  const [analysisRugNumber, setAnalysisRugNumber] = useState<string>('');
+  const [analysisCurrent, setAnalysisCurrent] = useState<number>(0);
+  const [analysisTotal, setAnalysisTotal] = useState<number>(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -330,9 +335,13 @@ const JobDetail = () => {
     if (!job) return;
 
     setAnalyzingRugId(rug.id);
+    setAnalysisRugNumber(rug.rug_number);
+    setAnalysisStage('preparing');
     
     try {
-      toast.info(`Analyzing ${rug.rug_number}...`);
+      // Stage 1: Preparing
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setAnalysisStage('analyzing');
       
       const { data, error } = await supabase.functions.invoke('analyze-rug', {
         body: {
@@ -352,6 +361,9 @@ const JobDetail = () => {
       if (error) throw error;
       if (data.error) throw new Error(data.error);
 
+      // Stage 3: Generating report
+      setAnalysisStage('generating');
+      
       // Store image annotations if provided
       const annotations = data.imageAnnotations || [];
       setImageAnnotations(annotations);
@@ -367,6 +379,9 @@ const JobDetail = () => {
 
       if (updateError) throw updateError;
 
+      setAnalysisStage('complete');
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
       toast.success(`${rug.rug_number} analyzed!`);
       fetchJobDetails();
     } catch (error) {
@@ -374,6 +389,8 @@ const JobDetail = () => {
       toast.error(error instanceof Error ? error.message : `Failed to analyze ${rug.rug_number}`);
     } finally {
       setAnalyzingRugId(null);
+      setAnalysisStage('idle');
+      setAnalysisRugNumber('');
     }
   };
 
@@ -381,15 +398,17 @@ const JobDetail = () => {
     if (!job) return;
 
     setReanalyzingRugId(rug.id);
+    setAnalysisRugNumber(rug.rug_number);
+    setAnalysisStage('preparing');
     
     try {
-      toast.info(`Re-analyzing ${rug.rug_number}...`);
-      
       // Clear existing analysis first
       await supabase
         .from('inspections')
         .update({ analysis_report: null })
         .eq('id', rug.id);
+
+      setAnalysisStage('analyzing');
 
       const { data, error } = await supabase.functions.invoke('analyze-rug', {
         body: {
@@ -408,6 +427,8 @@ const JobDetail = () => {
 
       if (error) throw error;
       if (data.error) throw new Error(data.error);
+
+      setAnalysisStage('generating');
 
       // Store image annotations if provided
       const annotations = data.imageAnnotations || [];
@@ -431,6 +452,9 @@ const JobDetail = () => {
         image_annotations: annotations
       } : null);
 
+      setAnalysisStage('complete');
+      await new Promise(resolve => setTimeout(resolve, 800));
+
       toast.success(`${rug.rug_number} re-analyzed!`);
       fetchJobDetails();
     } catch (error) {
@@ -438,6 +462,8 @@ const JobDetail = () => {
       toast.error(error instanceof Error ? error.message : `Failed to re-analyze ${rug.rug_number}`);
     } finally {
       setReanalyzingRugId(null);
+      setAnalysisStage('idle');
+      setAnalysisRugNumber('');
     }
   };
 
@@ -451,12 +477,18 @@ const JobDetail = () => {
     }
 
     setAnalyzingAll(true);
+    setAnalysisTotal(pendingRugs.length);
     let successCount = 0;
     let errorCount = 0;
 
     for (const rug of pendingRugs) {
       try {
-        toast.info(`Analyzing ${rug.rug_number} (${successCount + errorCount + 1}/${pendingRugs.length})...`);
+        setAnalysisCurrent(successCount + errorCount + 1);
+        setAnalysisRugNumber(rug.rug_number);
+        setAnalysisStage('preparing');
+        
+        await new Promise(resolve => setTimeout(resolve, 300));
+        setAnalysisStage('analyzing');
         
         const { data, error } = await supabase.functions.invoke('analyze-rug', {
           body: {
@@ -476,6 +508,8 @@ const JobDetail = () => {
         if (error) throw error;
         if (data.error) throw new Error(data.error);
 
+        setAnalysisStage('generating');
+
         await supabase
           .from('inspections')
           .update({ analysis_report: data.report })
@@ -488,7 +522,14 @@ const JobDetail = () => {
       }
     }
 
+    setAnalysisStage('complete');
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
     setAnalyzingAll(false);
+    setAnalysisStage('idle');
+    setAnalysisRugNumber('');
+    setAnalysisCurrent(0);
+    setAnalysisTotal(0);
     fetchJobDetails();
 
     if (errorCount === 0) {
@@ -787,7 +828,14 @@ const JobDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <AnalysisProgress 
+        stage={analysisStage}
+        rugNumber={analysisRugNumber}
+        current={analysisCurrent}
+        total={analysisTotal}
+      />
+      <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
@@ -1100,7 +1148,8 @@ const JobDetail = () => {
           isSending={sendingEmail}
         />
       )}
-    </div>
+      </div>
+    </>
   );
 };
 
