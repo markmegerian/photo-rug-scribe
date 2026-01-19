@@ -2,6 +2,18 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
 
+interface ImageAnnotation {
+  label: string;
+  location: string;
+  x: number;
+  y: number;
+}
+
+interface PhotoAnnotations {
+  photoIndex: number;
+  annotations: ImageAnnotation[];
+}
+
 interface Inspection {
   id: string;
   client_name: string;
@@ -14,6 +26,7 @@ interface Inspection {
   notes: string | null;
   photo_urls: string[] | null;
   analysis_report: string | null;
+  image_annotations?: PhotoAnnotations[] | unknown;
   created_at: string;
 }
 
@@ -396,7 +409,7 @@ const addFormattedAnalysis = (
   return yPos;
 };
 
-// Helper to add photos to PDF
+// Helper to add photos with markers to PDF
 const addPhotosToPDF = async (
   doc: jsPDF,
   photoUrls: string[],
@@ -405,7 +418,8 @@ const addPhotosToPDF = async (
   pageWidth: number,
   pageHeight: number,
   branding?: BusinessBranding | null,
-  cachedLogoBase64?: string | null
+  cachedLogoBase64?: string | null,
+  imageAnnotations?: PhotoAnnotations[]
 ): Promise<number> => {
   let yPos = startY;
   
@@ -420,8 +434,10 @@ const addPhotosToPDF = async (
   let currentX = margin;
   let photosInRow = 0;
   
-  for (const url of photoUrls) {
-    if (yPos + photoHeight > pageHeight - 30) {
+  for (let photoIndex = 0; photoIndex < photoUrls.length; photoIndex++) {
+    const url = photoUrls[photoIndex];
+    
+    if (yPos + photoHeight + 25 > pageHeight - 30) {
       doc.addPage();
       yPos = addProfessionalHeaderSync(doc, pageWidth, branding, cachedLogoBase64);
       currentX = margin;
@@ -438,9 +454,61 @@ const addPhotosToPDF = async (
         
         doc.addImage(base64, 'JPEG', currentX, yPos, photoWidth, photoHeight);
         
+        // Draw markers on photo if annotations exist
+        const photoAnnotation = imageAnnotations?.find(a => a.photoIndex === photoIndex);
+        if (photoAnnotation && photoAnnotation.annotations.length > 0) {
+          photoAnnotation.annotations.forEach((annotation, annIndex) => {
+            // Calculate marker position on the PDF photo
+            const markerX = currentX + (annotation.x / 100) * photoWidth;
+            const markerY = yPos + (annotation.y / 100) * photoHeight;
+            
+            // Draw marker circle
+            doc.setFillColor(239, 68, 68); // Red color for markers
+            doc.circle(markerX, markerY, 3, 'F');
+            
+            // Draw marker number
+            doc.setFontSize(6);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text((annIndex + 1).toString(), markerX, markerY + 1, { align: 'center' });
+          });
+        }
+        
+        // Add annotation legend below photo if there are annotations
+        let legendHeight = 0;
+        if (photoAnnotation && photoAnnotation.annotations.length > 0) {
+          legendHeight = Math.min(photoAnnotation.annotations.length * 4 + 2, 20);
+          let legendY = yPos + photoHeight + 3;
+          
+          doc.setFontSize(6);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(...COLORS.text);
+          
+          photoAnnotation.annotations.slice(0, 4).forEach((annotation, annIndex) => {
+            // Marker number
+            doc.setFillColor(239, 68, 68);
+            doc.circle(currentX + 2, legendY - 1, 2, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(5);
+            doc.text((annIndex + 1).toString(), currentX + 2, legendY, { align: 'center' });
+            
+            // Label text
+            doc.setTextColor(...COLORS.text);
+            doc.setFontSize(6);
+            const labelText = annotation.label.length > 35 ? annotation.label.substring(0, 35) + '...' : annotation.label;
+            doc.text(labelText, currentX + 6, legendY);
+            legendY += 4;
+          });
+          
+          if (photoAnnotation.annotations.length > 4) {
+            doc.setTextColor(...COLORS.textMuted);
+            doc.text(`+${photoAnnotation.annotations.length - 4} more issues`, currentX + 6, legendY);
+          }
+        }
+        
         photosInRow++;
         if (photosInRow >= photosPerRow) {
-          yPos += photoHeight + spacing;
+          yPos += photoHeight + legendHeight + spacing;
           currentX = margin;
           photosInRow = 0;
         } else {
@@ -535,9 +603,12 @@ export const generatePDF = async (
     yPos += noteHeight + 10;
   }
   
-  // Photos
+  // Photos with markers
   if (inspection.photo_urls && inspection.photo_urls.length > 0) {
-    yPos = await addPhotosToPDF(doc, inspection.photo_urls, yPos, margin, pageWidth, pageHeight, branding, cachedLogoBase64);
+    const annotations = Array.isArray(inspection.image_annotations) 
+      ? inspection.image_annotations as PhotoAnnotations[]
+      : [];
+    yPos = await addPhotosToPDF(doc, inspection.photo_urls, yPos, margin, pageWidth, pageHeight, branding, cachedLogoBase64, annotations);
   }
   
   // AI Analysis
@@ -699,9 +770,12 @@ export const generateJobPDF = async (
     
     yPos += 5;
     
-    // Photos
+    // Photos with markers
     if (rug.photo_urls && rug.photo_urls.length > 0) {
-      yPos = await addPhotosToPDF(doc, rug.photo_urls, yPos, margin, pageWidth, pageHeight, branding, cachedLogoBase64);
+      const annotations = Array.isArray(rug.image_annotations) 
+        ? rug.image_annotations as PhotoAnnotations[]
+        : [];
+      yPos = await addPhotosToPDF(doc, rug.photo_urls, yPos, margin, pageWidth, pageHeight, branding, cachedLogoBase64, annotations);
     }
     
     // Analysis
@@ -849,7 +923,10 @@ export const generateJobPDFBase64 = async (
     yPos += 5;
     
     if (rug.photo_urls && rug.photo_urls.length > 0) {
-      yPos = await addPhotosToPDF(doc, rug.photo_urls, yPos, margin, pageWidth, pageHeight, branding, cachedLogoBase64);
+      const annotations = Array.isArray(rug.image_annotations) 
+        ? rug.image_annotations as PhotoAnnotations[]
+        : [];
+      yPos = await addPhotosToPDF(doc, rug.photo_urls, yPos, margin, pageWidth, pageHeight, branding, cachedLogoBase64, annotations);
     }
     
     if (rug.analysis_report) {
