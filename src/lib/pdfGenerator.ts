@@ -334,7 +334,7 @@ const addSectionHeader = (
   return yPos + 14;
 };
 
-// Executive Summary Card - NEW
+// Executive Summary Card - displays key findings and cost estimate
 const addExecutiveSummary = (
   doc: jsPDF,
   inspection: Inspection,
@@ -348,11 +348,13 @@ const addExecutiveSummary = (
   const analysis = inspection.analysis_report || '';
   const findings = extractKeyFindings(analysis);
   const estimatedCost = extractTotalCost(analysis);
-  const condition = assessCondition(analysis);
+  
+  // Calculate card height based on findings
+  const findingsToShow = findings.slice(0, 3);
+  const cardHeight = 45 + (findingsToShow.length * 5);
   
   // Card background
   doc.setFillColor(...COLORS.cardBg);
-  const cardHeight = 50;
   drawRoundedRect(doc, margin, yPos, cardWidth, cardHeight, 4);
   
   // Subtle border
@@ -387,71 +389,91 @@ const addExecutiveSummary = (
     : 'Size not specified';
   doc.text(`Rug #${inspection.rug_number} • ${size}`, col1X, innerY + 5);
   
-  // Condition badge
-  const conditionColors = {
-    'Excellent': COLORS.success,
-    'Good': [100, 140, 80] as [number, number, number],
-    'Fair': COLORS.warning,
-    'Needs Attention': COLORS.danger,
-  };
-  const conditionColor = conditionColors[condition as keyof typeof conditionColors] || COLORS.textMuted;
-  
-  doc.setFillColor(...conditionColor);
-  const badgeWidth = doc.getTextWidth(condition) + 8;
-  drawRoundedRect(doc, col1X, innerY + 9, badgeWidth, 7, 2);
-  doc.setFontSize(7);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.white);
-  doc.text(condition, col1X + 4, innerY + 14);
-  
-  // Right column - Key findings and cost
+  // Right column - Key findings
   innerY = yPos + 14;
   doc.setFontSize(8);
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('helvetica', 'bold');
   doc.setTextColor(...COLORS.textMuted);
   doc.text('Key Findings:', col2X, innerY);
   
   innerY += 5;
+  doc.setFont('helvetica', 'normal');
   doc.setTextColor(...COLORS.text);
-  findings.slice(0, 2).forEach((finding, idx) => {
-    const truncated = finding.length > 35 ? finding.substring(0, 32) + '...' : finding;
-    doc.text(`• ${truncated}`, col2X, innerY + (idx * 4));
+  findingsToShow.forEach((finding, idx) => {
+    const truncated = finding.length > 40 ? finding.substring(0, 37) + '...' : finding;
+    doc.text(`• ${truncated}`, col2X, innerY + (idx * 5));
   });
   
-  // Cost estimate - prominent
+  // Cost estimate - prominent at bottom right
   if (estimatedCost) {
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(...COLORS.primary);
-    doc.text(estimatedCost, pageWidth - margin - 6, yPos + 38, { align: 'right' });
+    doc.text(estimatedCost, pageWidth - margin - 6, yPos + cardHeight - 8, { align: 'right' });
     
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...COLORS.textMuted);
-    doc.text('Estimated Total', pageWidth - margin - 6, yPos + 43, { align: 'right' });
+    doc.text('Estimated Total', pageWidth - margin - 6, yPos + cardHeight - 3, { align: 'right' });
   }
   
   return yPos + cardHeight + 8;
 };
 
-// Helper to extract key findings from analysis
+// Helper to extract key findings from analysis - looks for actual observations
 const extractKeyFindings = (analysis: string): string[] => {
   const findings: string[] = [];
   const lines = analysis.split('\n');
   
+  // Skip generic phrases
+  const genericPhrases = [
+    'professional inspection', 'inspected by', 'carpet is', 'rug is', 
+    'based on', 'we recommend', 'please note', 'thank you'
+  ];
+  
   for (const line of lines) {
     const trimmed = line.trim();
+    const lowerTrimmed = trimmed.toLowerCase();
+    
+    // Skip lines with costs or generic phrases
+    if (trimmed.includes('$') || genericPhrases.some(p => lowerTrimmed.includes(p))) {
+      continue;
+    }
+    
     if ((trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('*')) && 
-        !trimmed.includes('$') && 
-        findings.length < 4) {
+        findings.length < 5) {
       const cleaned = trimmed.replace(/^[•\-*]\s*/, '').trim();
-      if (cleaned.length > 10 && cleaned.length < 80) {
+      // Look for substantive findings (conditions, issues, materials)
+      if (cleaned.length > 15 && cleaned.length < 100) {
         findings.push(cleaned);
       }
     }
   }
   
-  return findings.length > 0 ? findings : ['Professional inspection completed'];
+  // Also look for condition-related sentences in paragraphs
+  if (findings.length < 3) {
+    const conditionKeywords = ['wear', 'stain', 'fringe', 'edge', 'moth', 'damage', 'fading', 'discoloration', 'pile', 'fiber', 'foundation', 'binding'];
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith('•') && !trimmed.startsWith('-') && trimmed.length > 20 && trimmed.length < 100) {
+        const lowerLine = trimmed.toLowerCase();
+        if (conditionKeywords.some(kw => lowerLine.includes(kw)) && !trimmed.includes('$')) {
+          // Extract a meaningful portion
+          const sentences = trimmed.split(/[.!]/);
+          for (const sentence of sentences) {
+            const s = sentence.trim();
+            if (s.length > 15 && s.length < 80 && conditionKeywords.some(kw => s.toLowerCase().includes(kw))) {
+              if (!findings.includes(s) && findings.length < 5) {
+                findings.push(s);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  return findings.length > 0 ? findings : [];
 };
 
 // Helper to extract total cost from analysis
@@ -471,7 +493,7 @@ const extractTotalCost = (analysis: string): string | null => {
   return null;
 };
 
-// Helper to assess condition from analysis
+// Helper to assess condition from analysis (kept for internal use but not displayed as badge)
 const assessCondition = (analysis: string): string => {
   const lowerAnalysis = analysis.toLowerCase();
   
@@ -892,11 +914,12 @@ const addPhotosToPDF = async (
               doc.setFont('helvetica', 'bold');
               doc.text((k + 1).toString(), xPos + 5, legendY + 1.7, { align: 'center' });
               
-              // Label
+              // Label - show full text, wrapping if needed
               doc.setTextColor(...COLORS.text);
               doc.setFont('helvetica', 'normal');
-              const labelText = marker.label.length > 30 ? marker.label.substring(0, 27) + '...' : marker.label;
-              doc.text(labelText, xPos + 9, legendY + 2);
+              const maxLabelWidth = photoWidth - 14;
+              const labelLines = doc.splitTextToSize(marker.label, maxLabelWidth);
+              doc.text(labelLines[0], xPos + 9, legendY + 2);
               
               legendY += 4;
             }
@@ -1059,10 +1082,10 @@ export const generateJobPDF = async (
   const businessName = branding?.business_name || 'RugBoost';
   
   // Title
-  doc.setFontSize(22);
+  doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...COLORS.text);
-  doc.text('Complete Job Report', pageWidth / 2, yPos, { align: 'center' });
+  doc.text('Comprehensive Inspection Report and Estimate', pageWidth / 2, yPos, { align: 'center' });
   yPos += 8;
   
   // Job number badge
@@ -1091,39 +1114,58 @@ export const generateJobPDF = async (
     ['Status', statusDisplay],
     ['Date', format(new Date(job.created_at), 'MMM d, yyyy')],
     ['Total Rugs', rugs.length.toString()],
-    ['Analyzed', rugs.filter(r => r.analysis_report).length.toString()],
   ], yPos, margin, cardWidth);
   
-  addSectionHeader(doc, 'Client Information', jobCardY - 14, margin + cardWidth + 10, pageWidth);
-  addInfoCard(doc, [
+  // Client info card - only show Notes if present
+  const clientInfoData: [string, string][] = [
     ['Name', job.client_name],
     ['Email', job.client_email || '—'],
     ['Phone', job.client_phone || '—'],
-    ['Notes', job.notes ? (job.notes.length > 25 ? job.notes.substring(0, 22) + '...' : job.notes) : '—'],
-  ], jobCardY, margin + cardWidth + 10, cardWidth);
+  ];
+  if (job.notes && job.notes.trim()) {
+    clientInfoData.push(['Notes', job.notes.length > 25 ? job.notes.substring(0, 22) + '...' : job.notes]);
+  }
+  
+  addSectionHeader(doc, 'Client Information', jobCardY - 14, margin + cardWidth + 10, pageWidth);
+  addInfoCard(doc, clientInfoData, jobCardY, margin + cardWidth + 10, cardWidth);
   
   yPos += 5;
   
-  // Rugs summary table
+  // Rugs summary table - with thumbnail column
   yPos = addSectionHeader(doc, 'Rugs Summary', yPos, margin, pageWidth);
   
-  const rugsSummary = rugs.map((rug, index) => [
-    (index + 1).toString(),
+  // Pre-load thumbnails before rendering table
+  const thumbnails: (string | null)[] = await Promise.all(
+    rugs.map(async (rug) => {
+      if (rug.photo_urls && rug.photo_urls.length > 0) {
+        try {
+          return await loadImageAsBase64(rug.photo_urls[0], true);
+        } catch {
+          return null;
+        }
+      }
+      return null;
+    })
+  );
+  
+  // Prepare rug data
+  const rugsSummary = rugs.map((rug) => [
+    '', // Thumbnail placeholder
     rug.rug_number,
     rug.rug_type,
     rug.length && rug.width ? `${rug.length}' × ${rug.width}'` : '—',
-    rug.analysis_report ? '✓ Analyzed' : 'Pending',
   ]);
   
   autoTable(doc, {
     startY: yPos,
-    head: [['#', 'Rug Number', 'Type', 'Dimensions', 'Status']],
+    head: [['', 'Rug Number', 'Type', 'Dimensions']],
     body: rugsSummary,
     theme: 'plain',
     styles: { 
       fontSize: 8,
       cellPadding: 3,
       textColor: COLORS.text,
+      minCellHeight: 12,
     },
     headStyles: { 
       fillColor: COLORS.primary,
@@ -1135,10 +1177,25 @@ export const generateJobPDF = async (
       fillColor: COLORS.background,
     },
     columnStyles: {
-      0: { cellWidth: 12, halign: 'center' },
-      4: { halign: 'center' },
+      0: { cellWidth: 16, halign: 'center' },
     },
     margin: { left: margin, right: margin },
+    didDrawCell: (data) => {
+      // Add thumbnail in first column for body rows
+      if (data.column.index === 0 && data.section === 'body') {
+        const thumbBase64 = thumbnails[data.row.index];
+        if (thumbBase64) {
+          try {
+            const thumbSize = 10;
+            const cellX = data.cell.x + (data.cell.width - thumbSize) / 2;
+            const cellY = data.cell.y + (data.cell.height - thumbSize) / 2;
+            doc.addImage(thumbBase64, 'JPEG', cellX, cellY, thumbSize, thumbSize);
+          } catch {
+            // Thumbnail failed, leave empty
+          }
+        }
+      }
+    },
   });
   
   // Individual rug reports
@@ -1168,12 +1225,15 @@ export const generateJobPDF = async (
       yPos = addExecutiveSummary(doc, rug, yPos, margin, pageWidth);
     }
     
-    // Rug details card
-    yPos = addInfoCard(doc, [
+    // Rug details card - only show notes if present
+    const rugInfoData: [string, string][] = [
       ['Type', rug.rug_type],
       ['Dimensions', rug.length && rug.width ? `${rug.length}' × ${rug.width}'` : '—'],
-      ['Notes', rug.notes || '—'],
-    ], yPos, margin, pageWidth - margin * 2);
+    ];
+    if (rug.notes && rug.notes.trim()) {
+      rugInfoData.push(['Notes', rug.notes]);
+    }
+    yPos = addInfoCard(doc, rugInfoData, yPos, margin, pageWidth - margin * 2);
     
     yPos += 3;
     
@@ -1239,10 +1299,10 @@ export const generateJobPDFBase64 = async (
   const businessName = branding?.business_name || 'RugBoost';
   
   // Title
-  doc.setFontSize(22);
+  doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...COLORS.text);
-  doc.text('Complete Job Report', pageWidth / 2, yPos, { align: 'center' });
+  doc.text('Comprehensive Inspection Report and Estimate', pageWidth / 2, yPos, { align: 'center' });
   yPos += 8;
   
   // Job number badge
@@ -1264,46 +1324,78 @@ export const generateJobPDFBase64 = async (
   const cardWidth = (pageWidth - margin * 2 - 10) / 2;
   
   yPos = addSectionHeader(doc, 'Job Information', yPos, margin, pageWidth);
-  const statusDisplay = job.status.charAt(0).toUpperCase() + job.status.slice(1).replace('-', ' ');
-  const jobCardY = yPos;
+  const statusDisplay2 = job.status.charAt(0).toUpperCase() + job.status.slice(1).replace('-', ' ');
+  const jobCardY2 = yPos;
   yPos = addInfoCard(doc, [
-    ['Status', statusDisplay],
+    ['Status', statusDisplay2],
     ['Date', format(new Date(job.created_at), 'MMM d, yyyy')],
     ['Total Rugs', rugs.length.toString()],
-    ['Analyzed', rugs.filter(r => r.analysis_report).length.toString()],
   ], yPos, margin, cardWidth);
   
-  addSectionHeader(doc, 'Client Information', jobCardY - 14, margin + cardWidth + 10, pageWidth);
-  addInfoCard(doc, [
+  // Client info card - only show Notes if present
+  const clientInfoData2: [string, string][] = [
     ['Name', job.client_name],
     ['Email', job.client_email || '—'],
     ['Phone', job.client_phone || '—'],
-    ['Notes', job.notes ? (job.notes.length > 25 ? job.notes.substring(0, 22) + '...' : job.notes) : '—'],
-  ], jobCardY, margin + cardWidth + 10, cardWidth);
+  ];
+  if (job.notes && job.notes.trim()) {
+    clientInfoData2.push(['Notes', job.notes.length > 25 ? job.notes.substring(0, 22) + '...' : job.notes]);
+  }
+  
+  addSectionHeader(doc, 'Client Information', jobCardY2 - 14, margin + cardWidth + 10, pageWidth);
+  addInfoCard(doc, clientInfoData2, jobCardY2, margin + cardWidth + 10, cardWidth);
   
   yPos += 5;
   
-  // Rugs summary
+  // Rugs summary - with thumbnail column
   yPos = addSectionHeader(doc, 'Rugs Summary', yPos, margin, pageWidth);
   
-  const rugsSummary = rugs.map((rug, index) => [
-    (index + 1).toString(),
+  // Pre-load thumbnails before rendering table
+  const thumbnails2: (string | null)[] = await Promise.all(
+    rugs.map(async (rug) => {
+      if (rug.photo_urls && rug.photo_urls.length > 0) {
+        try {
+          return await loadImageAsBase64(rug.photo_urls[0], true);
+        } catch {
+          return null;
+        }
+      }
+      return null;
+    })
+  );
+  
+  const rugsSummary2 = rugs.map((rug) => [
+    '', // Thumbnail placeholder
     rug.rug_number,
     rug.rug_type,
     rug.length && rug.width ? `${rug.length}' × ${rug.width}'` : '—',
-    rug.analysis_report ? '✓ Analyzed' : 'Pending',
   ]);
   
   autoTable(doc, {
     startY: yPos,
-    head: [['#', 'Rug Number', 'Type', 'Dimensions', 'Status']],
-    body: rugsSummary,
+    head: [['', 'Rug Number', 'Type', 'Dimensions']],
+    body: rugsSummary2,
     theme: 'plain',
-    styles: { fontSize: 8, cellPadding: 3, textColor: COLORS.text },
+    styles: { fontSize: 8, cellPadding: 3, textColor: COLORS.text, minCellHeight: 12 },
     headStyles: { fillColor: COLORS.primary, textColor: COLORS.white, fontStyle: 'bold', fontSize: 8 },
     alternateRowStyles: { fillColor: COLORS.background },
-    columnStyles: { 0: { cellWidth: 12, halign: 'center' }, 4: { halign: 'center' } },
+    columnStyles: { 0: { cellWidth: 16, halign: 'center' } },
     margin: { left: margin, right: margin },
+    didDrawCell: (data) => {
+      if (data.column.index === 0 && data.section === 'body') {
+        const thumbBase64 = thumbnails2[data.row.index];
+        if (thumbBase64) {
+          try {
+            const thumbSize = 10;
+            const cellX = data.cell.x + (data.cell.width - thumbSize) / 2;
+            const cellY = data.cell.y + (data.cell.height - thumbSize) / 2;
+            doc.addImage(thumbBase64, 'JPEG', cellX, cellY, thumbSize, thumbSize);
+          } catch {
+            // Thumbnail failed
+          }
+        }
+      }
+    },
   });
   
   // Individual rug reports
@@ -1330,11 +1422,15 @@ export const generateJobPDFBase64 = async (
       yPos = addExecutiveSummary(doc, rug, yPos, margin, pageWidth);
     }
     
-    yPos = addInfoCard(doc, [
+    // Rug details - only show notes if present
+    const rugInfoData2: [string, string][] = [
       ['Type', rug.rug_type],
       ['Dimensions', rug.length && rug.width ? `${rug.length}' × ${rug.width}'` : '—'],
-      ['Notes', rug.notes || '—'],
-    ], yPos, margin, pageWidth - margin * 2);
+    ];
+    if (rug.notes && rug.notes.trim()) {
+      rugInfoData2.push(['Notes', rug.notes]);
+    }
+    yPos = addInfoCard(doc, rugInfoData2, yPos, margin, pageWidth - margin * 2);
     
     yPos += 3;
     
