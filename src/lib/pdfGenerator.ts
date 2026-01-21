@@ -54,41 +54,38 @@ export interface UpsellService {
   description?: string;
 }
 
-// Refined color palette - soft elegance with professional tones
+// ========================
+// LUXURY MEGERIAN COLOR PALETTE
+// ========================
 const COLORS = {
-  // Primary - Soft navy for elevated feel
-  primary: [30, 58, 95] as [number, number, number],
-  primaryLight: [51, 85, 127] as [number, number, number],
+  // Primary - Navy for headers and text
+  navy: [26, 61, 92] as [number, number, number],
   
-  // Accent - Warm bronze/gold for elegance
-  accent: [166, 134, 89] as [number, number, number],
-  accentLight: [201, 177, 140] as [number, number, number],
+  // Accent - Teal for secondary elements
+  teal: [44, 95, 124] as [number, number, number],
   
-  // Neutrals - Warm grays
-  text: [35, 35, 40] as [number, number, number],
-  textMuted: [120, 120, 125] as [number, number, number],
-  textLight: [160, 160, 165] as [number, number, number],
+  // Decorative - Gold/Bronze for accents
+  gold: [139, 115, 85] as [number, number, number],
+  goldLight: [178, 156, 121] as [number, number, number],
   
-  // Backgrounds - Very subtle warm tones
-  background: [249, 249, 247] as [number, number, number],
-  backgroundWarm: [252, 250, 245] as [number, number, number],
-  cardBg: [255, 255, 253] as [number, number, number],
-  
-  // Borders and dividers
-  border: [230, 228, 222] as [number, number, number],
-  borderLight: [240, 238, 232] as [number, number, number],
-  
-  // Standard colors
+  // Backgrounds
+  cream: [250, 248, 245] as [number, number, number],
+  lightBlue: [232, 241, 245] as [number, number, number],
   white: [255, 255, 255] as [number, number, number],
-  success: [76, 140, 100] as [number, number, number],
-  warning: [180, 130, 50] as [number, number, number],
-  danger: [180, 70, 70] as [number, number, number],
+  
+  // Text
+  text: [45, 45, 50] as [number, number, number],
+  textMuted: [100, 100, 105] as [number, number, number],
+  
+  // Borders
+  border: [200, 200, 195] as [number, number, number],
+  borderLight: [220, 220, 215] as [number, number, number],
 };
 
-// Default RugBoost logo as base64 PNG (fallback when no custom logo)
-const RUGBOOST_LOGO_BASE64 = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgODkwIiBmaWxsPSJub25lIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZCIgeDE9IjAlIiB5MT0iMjAlIiB4Mj0iMTAwJSIgeTI9IjgwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMyMTc0QzYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNkU1NEQxIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMTIwIDQ0NUMxMjAgMzY4IDI2My41NyAyNDMuNTcgMzAwIDE2MCAzNTQuMjMgMjIzLjkgNDc0IDM2MiA0ODAgNDQ1IDQ4MCA1MjAgNDIwIDY5MCAzMDAgNjkwIDE4MCA2OTAgMTIwIDUyMCAxMjAgNDQ1WiIgZmlsbD0idXJsKCNncmFkKSIvPgogIDxwYXRoIGQ9Ik0yMDAgNDYwQzIwMCAzNjAgMzQwIDMwMCAzMDAgMjIwIDI2MCAzMDAgNDAwIDM2MCA0MDAgNDYwIDQwMCA1NjAgMzIwIDYyMCAzMDAgNjIwIDI4MCA2MjAgMjAwIDU2MCAyMDAgNDYwWiIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4zIi8+Cjwvc3ZnPg==`;
+// ========================
+// HELPER FUNCTIONS
+// ========================
 
-// Helper function to compress and convert image to base64
 const compressImage = (
   img: HTMLImageElement,
   maxWidth: number = 600,
@@ -117,7 +114,6 @@ const compressImage = (
   return canvas.toDataURL('image/jpeg', quality);
 };
 
-// Helper function to load image, compress it, and convert to base64
 const loadImageAsBase64 = async (url: string, forEmail: boolean = false): Promise<string | null> => {
   try {
     const response = await fetch(url);
@@ -133,7 +129,7 @@ const loadImageAsBase64 = async (url: string, forEmail: boolean = false): Promis
           const compressed = compressImage(img, maxW, maxH, quality);
           resolve(compressed || null);
         } catch (e) {
-          console.error('Compression failed, using original:', e);
+          console.error('Compression failed:', e);
           const reader = new FileReader();
           reader.onloadend = () => resolve(reader.result as string);
           reader.onerror = () => resolve(null);
@@ -149,231 +145,109 @@ const loadImageAsBase64 = async (url: string, forEmail: boolean = false): Promis
   }
 };
 
-// Draw a rounded rectangle
-const drawRoundedRect = (
+// ========================
+// ELEGANT BORDER SYSTEM
+// ========================
+
+const drawElegantBorder = (doc: jsPDF, pageWidth: number, pageHeight: number) => {
+  const outerMargin = 12;
+  const innerMargin = 15;
+  const cornerSize = 20;
+  
+  // Outer border line (light)
+  doc.setDrawColor(...COLORS.borderLight);
+  doc.setLineWidth(0.5);
+  doc.rect(outerMargin, outerMargin, pageWidth - outerMargin * 2, pageHeight - outerMargin * 2);
+  
+  // Inner border line (teal)
+  doc.setDrawColor(...COLORS.teal);
+  doc.setLineWidth(0.3);
+  doc.rect(innerMargin, innerMargin, pageWidth - innerMargin * 2, pageHeight - innerMargin * 2);
+  
+  // Gold corner accents - Top Left
+  doc.setDrawColor(...COLORS.gold);
+  doc.setLineWidth(1.5);
+  doc.line(outerMargin - 2, outerMargin + cornerSize, outerMargin - 2, outerMargin - 2);
+  doc.line(outerMargin - 2, outerMargin - 2, outerMargin + cornerSize, outerMargin - 2);
+  
+  // Top Right
+  doc.line(pageWidth - outerMargin - cornerSize, outerMargin - 2, pageWidth - outerMargin + 2, outerMargin - 2);
+  doc.line(pageWidth - outerMargin + 2, outerMargin - 2, pageWidth - outerMargin + 2, outerMargin + cornerSize);
+  
+  // Bottom Left
+  doc.line(outerMargin - 2, pageHeight - outerMargin - cornerSize, outerMargin - 2, pageHeight - outerMargin + 2);
+  doc.line(outerMargin - 2, pageHeight - outerMargin + 2, outerMargin + cornerSize, pageHeight - outerMargin + 2);
+  
+  // Bottom Right
+  doc.line(pageWidth - outerMargin - cornerSize, pageHeight - outerMargin + 2, pageWidth - outerMargin + 2, pageHeight - outerMargin + 2);
+  doc.line(pageWidth - outerMargin + 2, pageHeight - outerMargin - cornerSize, pageWidth - outerMargin + 2, pageHeight - outerMargin + 2);
+};
+
+// Section header with gold underline
+const drawSectionHeader = (
   doc: jsPDF,
+  text: string,
   x: number,
   y: number,
-  width: number,
-  height: number,
-  radius: number,
-  fill: boolean = true,
-  stroke: boolean = false
-) => {
-  doc.roundedRect(x, y, width, height, radius, radius, fill ? 'F' : stroke ? 'S' : '');
+  width: number
+): number => {
+  // Light blue background
+  doc.setFillColor(...COLORS.lightBlue);
+  doc.rect(x, y - 6, width, 14, 'F');
+  
+  // Left teal bar
+  doc.setFillColor(...COLORS.teal);
+  doc.rect(x, y - 6, 4, 14, 'F');
+  
+  // Section title
+  doc.setFontSize(13);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text(text, x + 10, y + 2);
+  
+  // Gold underline
+  doc.setDrawColor(...COLORS.gold);
+  doc.setLineWidth(0.8);
+  doc.line(x + 10, y + 5, x + 10 + doc.getTextWidth(text), y + 5);
+  
+  return y + 16;
 };
 
-// Professional footer - refined
-const addProfessionalFooter = (
+// Rug entry box with cream background and teal border
+const drawRugEntryHeader = (
   doc: jsPDF,
-  pageWidth: number,
-  pageHeight: number,
-  pageNum: number,
-  totalPages: number,
-  businessName: string,
-  jobNumber?: string
-) => {
-  const footerY = pageHeight - 12;
-  const margin = 15;
+  text: string,
+  x: number,
+  y: number,
+  width: number
+): number => {
+  // Cream background with teal border
+  doc.setFillColor(...COLORS.cream);
+  doc.setDrawColor(...COLORS.teal);
+  doc.setLineWidth(0.5);
+  doc.rect(x, y - 4, width, 12, 'FD');
   
-  // Thin divider line
+  // Rug title
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text(text, x + 6, y + 3);
+  
+  return y + 14;
+};
+
+// Gold horizontal rule
+const drawGoldRule = (doc: jsPDF, x: number, y: number, width: number): void => {
+  doc.setDrawColor(...COLORS.gold);
+  doc.setLineWidth(0.5);
+  doc.line(x, y, x + width, y);
+};
+
+// Thin divider line
+const drawThinDivider = (doc: jsPDF, x: number, y: number, width: number): void => {
   doc.setDrawColor(...COLORS.borderLight);
   doc.setLineWidth(0.2);
-  doc.line(margin, footerY - 4, pageWidth - margin, footerY - 4);
-  
-  doc.setFontSize(7);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...COLORS.textLight);
-  
-  // Left: Generated by
-  doc.text(`Generated by ${businessName}`, margin, footerY);
-  
-  // Center: Page number
-  doc.text(`Page ${pageNum} of ${totalPages}`, pageWidth / 2, footerY, { align: 'center' });
-  
-  // Right: Job number or date
-  if (jobNumber) {
-    doc.text(`Job #${jobNumber}`, pageWidth - margin, footerY, { align: 'right' });
-  } else {
-    doc.text(format(new Date(), 'MMM d, yyyy'), pageWidth - margin, footerY, { align: 'right' });
-  }
-};
-
-// Simple page header for subsequent pages
-const addSimplePageHeader = (
-  doc: jsPDF,
-  pageWidth: number,
-  branding?: BusinessBranding | null
-): number => {
-  const margin = 15;
-  const headerY = 15;
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text(branding?.business_name || 'RugBoost', margin, headerY);
-  
-  // Thin line
-  doc.setDrawColor(...COLORS.borderLight);
-  doc.setLineWidth(0.3);
-  doc.line(margin, headerY + 4, pageWidth - margin, headerY + 4);
-  
-  return headerY + 12;
-};
-
-// Photo labels for guided capture
-const PHOTO_LABELS = [
-  'Overall Front',
-  'Overall Back', 
-  'Detail - Fringe',
-  'Detail - Edge',
-  'Issue Area'
-];
-
-// Photos in 2-up layout with legends below
-const addPhotosToPDF = async (
-  doc: jsPDF,
-  photoUrls: string[],
-  startY: number,
-  margin: number,
-  pageWidth: number,
-  pageHeight: number,
-  branding?: BusinessBranding | null,
-  imageAnnotations?: PhotoAnnotations[] | unknown | null,
-  forEmail: boolean = false,
-  skipHeader: boolean = false
-): Promise<number> => {
-  let yPos = startY;
-  
-  const annotations: PhotoAnnotations[] = Array.isArray(imageAnnotations) ? imageAnnotations : [];
-  
-  if (!skipHeader) {
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text('Inspection Photos', margin, yPos);
-    yPos += 8;
-  }
-  
-  // 2-up layout dimensions
-  const photoWidth = (pageWidth - margin * 2 - 10) / 2;
-  const photoHeight = photoWidth * 0.75; // 4:3 aspect ratio
-  const spacing = 10;
-  
-  for (let i = 0; i < photoUrls.length; i += 2) {
-    // Calculate space needed for this row (photos + legends)
-    const maxLegendHeight = 25;
-    const rowHeight = photoHeight + maxLegendHeight + 8;
-    
-    if (yPos + rowHeight > pageHeight - 25) {
-      doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
-    }
-    
-    // Process up to 2 photos per row
-    for (let j = 0; j < 2 && (i + j) < photoUrls.length; j++) {
-      const photoIndex = i + j;
-      const url = photoUrls[photoIndex];
-      const xPos = margin + j * (photoWidth + spacing);
-      
-      const photoAnnotation = annotations.find(a => a.photoIndex === photoIndex);
-      const photoMarkers = photoAnnotation?.annotations || [];
-      
-      try {
-        const base64 = await loadImageAsBase64(url, forEmail);
-        if (base64) {
-          // Photo label
-          const photoLabel = PHOTO_LABELS[photoIndex] || `Photo ${photoIndex + 1}`;
-          doc.setFontSize(8);
-          doc.setFont('helvetica', 'bold');
-          doc.setTextColor(...COLORS.textMuted);
-          doc.text(photoLabel, xPos, yPos);
-          
-          const photoY = yPos + 3;
-          
-          // Photo frame with subtle shadow effect
-          doc.setFillColor(...COLORS.border);
-          doc.rect(xPos + 1, photoY + 1, photoWidth, photoHeight, 'F');
-          
-          // Photo
-          doc.addImage(base64, 'JPEG', xPos, photoY, photoWidth, photoHeight);
-          
-          // Frame border
-          doc.setDrawColor(...COLORS.border);
-          doc.setLineWidth(0.3);
-          doc.rect(xPos, photoY, photoWidth, photoHeight, 'S');
-          
-          // Draw markers on the photo
-          if (photoMarkers.length > 0) {
-            for (let k = 0; k < photoMarkers.length; k++) {
-              const marker = photoMarkers[k];
-              const markerX = xPos + (marker.x / 100) * photoWidth;
-              const markerY = photoY + (marker.y / 100) * photoHeight;
-              
-              // Marker with white outline for visibility
-              doc.setFillColor(...COLORS.danger);
-              doc.circle(markerX, markerY, 2.5, 'F');
-              doc.setDrawColor(...COLORS.white);
-              doc.setLineWidth(0.6);
-              doc.circle(markerX, markerY, 2.5, 'S');
-              
-              // Number
-              doc.setFontSize(6);
-              doc.setFont('helvetica', 'bold');
-              doc.setTextColor(...COLORS.white);
-              doc.text((k + 1).toString(), markerX, markerY + 0.7, { align: 'center' });
-            }
-          }
-          
-          // Legend below photo
-          if (photoMarkers.length > 0) {
-            let legendY = photoY + photoHeight + 4;
-            
-            doc.setFontSize(7);
-            const maxLabelWidth = photoWidth - 14;
-            
-            // Calculate total height needed for all markers with wrapped text
-            let totalLegendHeight = 4;
-            const markerLineInfo: { lines: string[]; lineCount: number }[] = [];
-            for (const marker of photoMarkers) {
-              const labelLines = doc.splitTextToSize(marker.label, maxLabelWidth);
-              markerLineInfo.push({ lines: labelLines, lineCount: labelLines.length });
-              totalLegendHeight += labelLines.length * 3.5 + 2;
-            }
-            
-            doc.setFillColor(...COLORS.background);
-            drawRoundedRect(doc, xPos, legendY - 2, photoWidth, totalLegendHeight, 2);
-            
-            for (let k = 0; k < photoMarkers.length; k++) {
-              const labelLines = markerLineInfo[k].lines;
-              
-              // Number badge
-              doc.setFillColor(...COLORS.danger);
-              doc.circle(xPos + 5, legendY + 1, 2, 'F');
-              doc.setTextColor(...COLORS.white);
-              doc.setFont('helvetica', 'bold');
-              doc.text((k + 1).toString(), xPos + 5, legendY + 1.7, { align: 'center' });
-              
-              // Label
-              doc.setTextColor(...COLORS.text);
-              doc.setFont('helvetica', 'normal');
-              labelLines.forEach((labelLine: string, lineIdx: number) => {
-                doc.text(labelLine, xPos + 9, legendY + 2 + (lineIdx * 3.5));
-              });
-              
-              legendY += labelLines.length * 3.5 + 2;
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error adding image to PDF:', error);
-      }
-    }
-    
-    yPos += photoHeight + 28;
-  }
-  
-  return yPos;
+  doc.line(x, y, x + width, y);
 };
 
 // ========================
@@ -385,11 +259,6 @@ interface ServiceDescription {
   description: string;
 }
 
-/**
- * Extract service descriptions from the "COMPREHENSIVE SERVICE DESCRIPTIONS" section
- * of each rug's analysis report. The AI generates these as paragraphs with:
- * "Service Name: Description text..."
- */
 const extractAllServiceDescriptions = (rugs: Inspection[]): ServiceDescription[] => {
   const serviceMap = new Map<string, ServiceDescription>();
   
@@ -397,91 +266,29 @@ const extractAllServiceDescriptions = (rugs: Inspection[]): ServiceDescription[]
     if (!rug.analysis_report) continue;
     
     const report = rug.analysis_report;
-    
-    // Find the COMPREHENSIVE SERVICE DESCRIPTIONS section
-    // It ends at RUG BREAKDOWN, ESTIMATED SERVICES, or similar section headers
     const servicesSectionMatch = report.match(
       /(?:COMPREHENSIVE\s+SERVICE\s+DESCRIPTIONS?|RECOMMENDED\s+SERVICES?|SERVICE\s+DESCRIPTIONS?)\s*\n+([\s\S]*?)(?=\n\s*(?:RUG\s+BREAKDOWN|ESTIMATED\s+SERVICES|RUG\s+#|TOTAL\s+ESTIMATE|ADDITIONAL\s+RECOMMENDED|NEXT\s+STEPS|Sincerely)|$)/i
     );
     
     if (servicesSectionMatch) {
       const servicesText = servicesSectionMatch[1].trim();
-      
-      // Parse service paragraphs - format is "Service Name: Description text"
-      // Services are typically separated by double newlines
       const serviceParagraphs = servicesText.split(/\n\n+/).filter(p => p.trim());
       
       for (const para of serviceParagraphs) {
         const trimmedPara = para.trim();
         if (!trimmedPara || trimmedPara.length < 20) continue;
         
-        // Pattern 1: "Service Name: Description..."
         const colonMatch = trimmedPara.match(/^([A-Z][A-Za-z\s&\/\-]+?):\s*(.+)/s);
         
         if (colonMatch) {
           const name = colonMatch[1].trim();
           const description = colonMatch[2].trim().replace(/\s+/g, ' ');
           
-          // Skip if it's just a header or too short
           if (name.length > 3 && description.length > 30) {
             const key = name.toLowerCase();
             if (!serviceMap.has(key)) {
               serviceMap.set(key, { name, description });
             }
-          }
-        } else {
-          // Pattern 2: First sentence is the title, rest is description
-          // Look for a capitalized phrase at the start followed by description
-          const firstSentenceMatch = trimmedPara.match(/^([A-Z][A-Za-z\s&\/\-]{3,40})[.:]?\s+(.{50,})/s);
-          
-          if (firstSentenceMatch) {
-            const potentialName = firstSentenceMatch[1].trim();
-            const potentialDesc = firstSentenceMatch[2].trim().replace(/\s+/g, ' ');
-            
-            // Check if it looks like a service name (not a full sentence)
-            if (potentialName.split(' ').length <= 6 && !potentialName.includes('.')) {
-              const key = potentialName.toLowerCase();
-              if (!serviceMap.has(key)) {
-                serviceMap.set(key, { 
-                  name: potentialName, 
-                  description: potentialDesc 
-                });
-              }
-            }
-          }
-        }
-      }
-    }
-    
-    // Also try to extract from intro paragraph if it describes the rug/services
-    // Look for sentences that describe specific services
-    const introMatch = report.match(/^([\s\S]*?)(?=COMPREHENSIVE|RECOMMENDED\s+SERVICES|RUG\s+BREAKDOWN|ESTIMATED\s+SERVICES)/i);
-    if (introMatch && introMatch[1].length > 100) {
-      // Extract service mentions from intro (these often have inline descriptions)
-      const introText = introMatch[1];
-      
-      // Pattern for inline service descriptions: "Service Name" or "service name" followed by description
-      const inlineServices = [
-        { pattern: /professional\s+(?:hand\s+)?clean(?:ing)?[^.]*(?:involves?|includes?|provides?|is\s+)[^.]+\./gi, name: 'Professional Cleaning' },
-        { pattern: /blocking\s+(?:&|and)\s+stretching[^.]*(?:involves?|corrects?|restores?|is\s+)[^.]+\./gi, name: 'Blocking & Stretching' },
-        { pattern: /overnight\s+soak(?:ing)?[^.]*(?:involves?|allows?|provides?|is\s+)[^.]+\./gi, name: 'Overnight Soaking' },
-        { pattern: /custom\s+pad(?:ding)?[^.]*(?:provides?|offers?|is\s+)[^.]+\./gi, name: 'Custom Padding' },
-        { pattern: /moth\s+proof(?:ing)?[^.]*(?:protects?|prevents?|is\s+)[^.]+\./gi, name: 'Moth Proofing Treatment' },
-        { pattern: /fiber\s+protection[^.]*(?:protects?|repels?|is\s+)[^.]+\./gi, name: 'Fiber Protection Treatment' },
-        { pattern: /stain\s+(?:removal|treatment)[^.]*(?:removes?|treats?|is\s+)[^.]+\./gi, name: 'Stain Treatment' },
-        { pattern: /edge\s+(?:repair|restoration|binding)[^.]*(?:repairs?|restores?|secures?|is\s+)[^.]+\./gi, name: 'Edge Repair' },
-        { pattern: /fringe\s+(?:repair|restoration|securing)[^.]*(?:repairs?|secures?|is\s+)[^.]+\./gi, name: 'Fringe Repair' },
-      ];
-      
-      for (const { pattern, name } of inlineServices) {
-        const matches = introText.match(pattern);
-        if (matches && matches.length > 0) {
-          const key = name.toLowerCase();
-          if (!serviceMap.has(key)) {
-            serviceMap.set(key, {
-              name,
-              description: matches[0].replace(/\s+/g, ' ').trim()
-            });
           }
         }
       }
@@ -509,7 +316,6 @@ interface RugCostBreakdown {
   specialNote?: string;
 }
 
-// Extract cost breakdown from a single rug's analysis
 const extractRugCosts = (rug: Inspection): RugCostBreakdown | null => {
   if (!rug.analysis_report) return null;
   
@@ -526,14 +332,12 @@ const extractRugCosts = (rug: Inspection): RugCostBreakdown | null => {
       const cost = parseFloat(costMatch[0].replace(/[$,]/g, ''));
       const lowerLine = trimmed.toLowerCase();
       
-      // Check if this is a total line
       if (lowerLine.includes('total estimate') || 
           (lowerLine.includes('total') && !lowerLine.includes('subtotal'))) {
         subtotal = cost;
-        break; // Stop processing after total
+        break;
       }
       
-      // Extract service name (everything before the price)
       let serviceName = trimmed.replace(/[:.]?\s*\$[\d,]+(?:\.\d{2})?.*$/, '').trim();
       serviceName = serviceName.replace(/^[-•*]\s*/, '').replace(/\*\*/g, '').trim();
       
@@ -542,19 +346,17 @@ const extractRugCosts = (rug: Inspection): RugCostBreakdown | null => {
       }
     }
     
-    // Look for special notes
     if (trimmed.toLowerCase().startsWith('note:') || trimmed.toLowerCase().startsWith('special note:')) {
       specialNote = trimmed.replace(/^(?:special\s+)?note:\s*/i, '');
     }
   }
   
-  // Calculate subtotal if not found
   if (subtotal === 0 && items.length > 0) {
     subtotal = items.reduce((sum, item) => sum + item.cost, 0);
   }
   
   const dimensions = rug.length && rug.width 
-    ? `${rug.length}'${rug.length % 1 !== 0 ? '' : ''} × ${rug.width}'`
+    ? `${rug.length}' × ${rug.width}'`
     : '';
   
   return {
@@ -567,128 +369,156 @@ const extractRugCosts = (rug: Inspection): RugCostBreakdown | null => {
   };
 };
 
+// Photo labels
+const PHOTO_LABELS = [
+  'Overall Front',
+  'Overall Back', 
+  'Detail - Fringe',
+  'Detail - Edge',
+  'Issue Area'
+];
+
 // ========================
-// ADDITIONAL SERVICES EXTRACTION
+// PHOTO SECTION
 // ========================
 
-interface AdditionalService {
-  name: string;
-  estimatedCost?: string;
-  description: string;
-}
-
-/**
- * Extract additional/recommended services from the "ADDITIONAL RECOMMENDED SERVICES" section
- * of each rug's analysis report. Format is typically:
- * 
- * ADDITIONAL RECOMMENDED SERVICES
- * 
- * Service Name: Description paragraph...
- * 
- * Service Name: $XXX.XX
- */
-const extractAdditionalServices = (rugs: Inspection[]): AdditionalService[] => {
-  const services: AdditionalService[] = [];
-  const seenServices = new Set<string>();
+const addPhotosToPDF = async (
+  doc: jsPDF,
+  photoUrls: string[],
+  startY: number,
+  margin: number,
+  pageWidth: number,
+  pageHeight: number,
+  branding?: BusinessBranding | null,
+  imageAnnotations?: PhotoAnnotations[] | unknown | null,
+  forEmail: boolean = false,
+  skipHeader: boolean = false
+): Promise<number> => {
+  let yPos = startY;
   
-  for (const rug of rugs) {
-    if (!rug.analysis_report) continue;
+  const annotations: PhotoAnnotations[] = Array.isArray(imageAnnotations) ? imageAnnotations : [];
+  
+  if (!skipHeader) {
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...COLORS.navy);
+    doc.text('Inspection Photos', margin, yPos);
+    yPos += 8;
+  }
+  
+  const photoWidth = (pageWidth - margin * 2 - 10) / 2;
+  const photoHeight = photoWidth * 0.75;
+  const spacing = 10;
+  
+  for (let i = 0; i < photoUrls.length; i += 2) {
+    const maxLegendHeight = 25;
+    const rowHeight = photoHeight + maxLegendHeight + 8;
     
-    const report = rug.analysis_report;
+    if (yPos + rowHeight > pageHeight - 30) {
+      doc.addPage();
+      drawElegantBorder(doc, pageWidth, pageHeight);
+      yPos = 30;
+    }
     
-    // Find the ADDITIONAL RECOMMENDED SERVICES section
-    // It ends at NEXT STEPS or Sincerely
-    const additionalMatch = report.match(
-      /(?:ADDITIONAL\s+(?:RECOMMENDED\s+)?SERVICES?|STRONGLY\s+RECOMMENDED|OPTIONAL\s+SERVICES?)\s*\n+([\s\S]*?)(?=\n\s*(?:NEXT\s+STEPS|Sincerely|$))/i
-    );
-    
-    if (additionalMatch) {
-      const additionalText = additionalMatch[1].trim();
+    for (let j = 0; j < 2 && (i + j) < photoUrls.length; j++) {
+      const photoIndex = i + j;
+      const url = photoUrls[photoIndex];
+      const xPos = margin + j * (photoWidth + spacing);
       
-      // Parse service paragraphs - services are separated by double newlines
-      // or by cost lines that stand alone
-      const serviceParagraphs = additionalText.split(/\n\n+/).filter(p => p.trim());
+      const photoAnnotation = annotations.find(a => a.photoIndex === photoIndex);
+      const photoMarkers = photoAnnotation?.annotations || [];
       
-      let currentService: { name: string; description: string; cost?: string } | null = null;
-      
-      for (const para of serviceParagraphs) {
-        const trimmedPara = para.trim();
-        if (!trimmedPara) continue;
-        
-        // Check if this is a standalone cost line
-        const costOnlyMatch = trimmedPara.match(/^([A-Za-z][A-Za-z\s&\/\-\(\)]+?):\s*\$[\d,]+(?:\.\d{2})?$/);
-        if (costOnlyMatch) {
-          // This is a cost line for the previous service or a simple service listing
-          const costMatch = trimmedPara.match(/\$[\d,]+(?:\.\d{2})?/);
-          const name = costOnlyMatch[1].trim();
+      try {
+        const base64 = await loadImageAsBase64(url, forEmail);
+        if (base64) {
+          const photoLabel = PHOTO_LABELS[photoIndex] || `Photo ${photoIndex + 1}`;
+          doc.setFontSize(8);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(...COLORS.textMuted);
+          doc.text(photoLabel, xPos, yPos);
           
-          if (!seenServices.has(name.toLowerCase()) && name.length > 3) {
-            seenServices.add(name.toLowerCase());
-            services.push({
-              name,
-              estimatedCost: costMatch ? costMatch[0] : undefined,
-              description: ''
-            });
+          const photoY = yPos + 3;
+          
+          // Shadow effect
+          doc.setFillColor(...COLORS.border);
+          doc.rect(xPos + 1, photoY + 1, photoWidth, photoHeight, 'F');
+          
+          doc.addImage(base64, 'JPEG', xPos, photoY, photoWidth, photoHeight);
+          
+          // Teal border
+          doc.setDrawColor(...COLORS.teal);
+          doc.setLineWidth(0.5);
+          doc.rect(xPos, photoY, photoWidth, photoHeight, 'S');
+          
+          // Markers
+          if (photoMarkers.length > 0) {
+            for (let k = 0; k < photoMarkers.length; k++) {
+              const marker = photoMarkers[k];
+              const markerX = xPos + (marker.x / 100) * photoWidth;
+              const markerY = photoY + (marker.y / 100) * photoHeight;
+              
+              doc.setFillColor(...COLORS.gold);
+              doc.circle(markerX, markerY, 2.5, 'F');
+              doc.setDrawColor(...COLORS.white);
+              doc.setLineWidth(0.6);
+              doc.circle(markerX, markerY, 2.5, 'S');
+              
+              doc.setFontSize(6);
+              doc.setFont('helvetica', 'bold');
+              doc.setTextColor(...COLORS.white);
+              doc.text((k + 1).toString(), markerX, markerY + 0.7, { align: 'center' });
+            }
           }
-          continue;
-        }
-        
-        // Pattern: "Service Name: Description..."
-        const colonMatch = trimmedPara.match(/^([A-Z][A-Za-z\s&\/\-]+?):\s*(.+)/s);
-        
-        if (colonMatch) {
-          const name = colonMatch[1].trim();
-          let description = colonMatch[2].trim().replace(/\s+/g, ' ');
           
-          // Extract cost if present in description
-          const costMatch = description.match(/\$[\d,]+(?:\.\d{2})?/);
-          
-          // Remove cost from description
-          description = description.replace(/\$[\d,]+(?:\.\d{2})?/, '').trim();
-          
-          if (!seenServices.has(name.toLowerCase()) && name.length > 3 && description.length > 20) {
-            seenServices.add(name.toLowerCase());
-            services.push({
-              name,
-              estimatedCost: costMatch ? costMatch[0] : undefined,
-              description
-            });
-          }
-        }
-      }
-      
-      // Also look for any cost lines that follow a description paragraph
-      const costLines = additionalText.match(/^[A-Za-z][A-Za-z\s&\/\-\(\)]+:\s*\$[\d,]+(?:\.\d{2})?$/gm);
-      if (costLines) {
-        for (const line of costLines) {
-          const match = line.match(/^([A-Za-z][A-Za-z\s&\/\-\(\)]+?):\s*(\$[\d,]+(?:\.\d{2})?)$/);
-          if (match) {
-            const name = match[1].trim();
-            const cost = match[2];
+          // Legend
+          if (photoMarkers.length > 0) {
+            let legendY = photoY + photoHeight + 4;
+            doc.setFontSize(7);
+            const maxLabelWidth = photoWidth - 14;
             
-            // Update existing service with cost or add new one
-            const existingService = services.find(s => s.name.toLowerCase() === name.toLowerCase());
-            if (existingService && !existingService.estimatedCost) {
-              existingService.estimatedCost = cost;
-            } else if (!seenServices.has(name.toLowerCase()) && name.length > 3) {
-              seenServices.add(name.toLowerCase());
-              services.push({
-                name,
-                estimatedCost: cost,
-                description: ''
+            let totalLegendHeight = 4;
+            const markerLineInfo: { lines: string[]; lineCount: number }[] = [];
+            for (const marker of photoMarkers) {
+              const labelLines = doc.splitTextToSize(marker.label, maxLabelWidth);
+              markerLineInfo.push({ lines: labelLines, lineCount: labelLines.length });
+              totalLegendHeight += labelLines.length * 3.5 + 2;
+            }
+            
+            doc.setFillColor(...COLORS.cream);
+            doc.roundedRect(xPos, legendY - 2, photoWidth, totalLegendHeight, 2, 2, 'F');
+            
+            for (let k = 0; k < photoMarkers.length; k++) {
+              const labelLines = markerLineInfo[k].lines;
+              
+              doc.setFillColor(...COLORS.gold);
+              doc.circle(xPos + 5, legendY + 1, 2, 'F');
+              doc.setTextColor(...COLORS.white);
+              doc.setFont('helvetica', 'bold');
+              doc.text((k + 1).toString(), xPos + 5, legendY + 1.7, { align: 'center' });
+              
+              doc.setTextColor(...COLORS.text);
+              doc.setFont('helvetica', 'normal');
+              labelLines.forEach((labelLine: string, lineIdx: number) => {
+                doc.text(labelLine, xPos + 9, legendY + 2 + (lineIdx * 3.5));
               });
+              
+              legendY += labelLines.length * 3.5 + 2;
             }
           }
         }
+      } catch (error) {
+        console.error('Error adding image to PDF:', error);
       }
     }
+    
+    yPos += photoHeight + 28;
   }
   
-  return services;
+  return yPos;
 };
 
 // ========================
-// PDF GENERATION - JOB REPORT (MAIN)
+// MAIN PDF GENERATION - LUXURY MEGERIAN FORMAT
 // ========================
 
 export const generateJobPDF = async (
@@ -700,134 +530,170 @@ export const generateJobPDF = async (
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 15;
+  const margin = 25;
+  const contentWidth = pageWidth - margin * 2;
   
   const businessName = branding?.business_name || 'RugBoost';
   
   // ============ PAGE 1: COVER PAGE ============
   
-  // Business header
-  let yPos = 20;
+  drawElegantBorder(doc, pageWidth, pageHeight);
   
-  doc.setFontSize(14);
+  let yPos = 45;
+  
+  // Business name - large, centered, navy with letter spacing
+  doc.setFontSize(28);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text(businessName, pageWidth / 2, yPos, { align: 'center' });
-  yPos += 6;
+  doc.setTextColor(...COLORS.navy);
+  doc.text(businessName.toUpperCase(), pageWidth / 2, yPos, { align: 'center' });
+  yPos += 8;
   
-  if (branding?.business_address) {
+  // Subtitle
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.teal);
+  doc.text('RUGS & CARPET CLEANERS', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 8;
+  
+  // Gold underline under business name
+  const businessNameWidth = 80;
+  drawGoldRule(doc, (pageWidth - businessNameWidth) / 2, yPos, businessNameWidth);
+  yPos += 10;
+  
+  // Address with dot separator
+  if (branding?.business_address || branding?.business_phone) {
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...COLORS.text);
-    doc.text(branding.business_address, pageWidth / 2, yPos, { align: 'center' });
+    
+    const addressParts = [];
+    if (branding?.business_address) addressParts.push(branding.business_address);
+    const addressLine = addressParts.join(' · ');
+    doc.text(addressLine, pageWidth / 2, yPos, { align: 'center' });
     yPos += 5;
+    
+    if (branding?.business_phone) {
+      doc.text(`Telephone ${branding.business_phone}`, pageWidth / 2, yPos, { align: 'center' });
+      yPos += 5;
+    }
   }
   
-  if (branding?.business_phone) {
-    doc.setFontSize(9);
-    doc.text(`Tel: ${branding.business_phone}`, pageWidth / 2, yPos, { align: 'center' });
-    yPos += 8;
-  }
-  
-  // Thin divider
-  doc.setDrawColor(...COLORS.border);
-  doc.setLineWidth(0.3);
-  doc.line(margin, yPos, pageWidth - margin, yPos);
-  yPos += 10;
-  
-  // Estimate # and Date
-  doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text(`Estimate #: ${job.job_number}`, margin, yPos);
-  yPos += 8;
-  
-  doc.setFontSize(14);
-  doc.text(`Date: ${format(new Date(job.created_at), 'MMMM d, yyyy')}`, margin, yPos);
-  yPos += 14;
-  
-  // Prepared For section
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Prepared For:', margin, yPos);
-  yPos += 8;
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...COLORS.text);
-  doc.text(job.client_name, margin, yPos);
   yPos += 5;
   
+  // Thin divider
+  drawThinDivider(doc, margin, yPos, contentWidth);
+  yPos += 15;
+  
+  // RESTORATION ESTIMATE header box
+  yPos = drawSectionHeader(doc, 'RESTORATION ESTIMATE', margin, yPos, contentWidth);
+  yPos += 10;
+  
+  // Two-column layout: Estimate Number | Date Prepared
+  const colWidth = contentWidth / 2;
+  
+  // Left column - Estimate Number
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text('● ESTIMATE NUMBER', margin, yPos);
+  yPos += 6;
+  
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.text);
+  doc.text(job.job_number, margin, yPos);
+  
+  // Right column - Date Prepared
+  const rightCol = margin + colWidth;
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text('● DATE PREPARED', rightCol, yPos - 6);
+  
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.text);
+  doc.text(format(new Date(job.created_at), 'MMMM d, yyyy'), rightCol, yPos);
+  
+  yPos += 15;
+  
+  // Prepared For section
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text('● PREPARED FOR', margin, yPos);
+  yPos += 8;
+  
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.text);
+  doc.text(job.client_name, margin, yPos);
+  yPos += 6;
+  
+  doc.setFont('helvetica', 'normal');
   if (job.client_phone) {
-    doc.text(`Phone: ${job.client_phone}`, margin, yPos);
+    doc.text(`Telephone: ${job.client_phone}`, margin, yPos);
     yPos += 5;
   }
-  
   if (job.client_email) {
     doc.text(`Email: ${job.client_email}`, margin, yPos);
     yPos += 5;
   }
   
-  yPos += 8;
+  yPos += 12;
   
-  // Introduction paragraph
+  // Introduction letter
+  const firstName = job.client_name.split(' ')[0];
   doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  const introText = `Dear ${job.client_name.split(' ')[0]},\n\nI am writing to provide you with a detailed estimate for the cleaning and preservation services recommended for your collection of Oriental rugs. Our thorough assessment has identified specialized treatments to restore the beauty, structural integrity, and longevity of your valuable pieces.`;
+  doc.setFont('helvetica', 'italic');
+  doc.setTextColor(...COLORS.text);
+  doc.text(`Dear ${firstName},`, margin, yPos);
+  yPos += 10;
   
-  const introLines = doc.splitTextToSize(introText, pageWidth - margin * 2);
+  doc.setFont('helvetica', 'normal');
+  const introText = `We are honored to present this comprehensive estimate for the restoration and preservation of your distinguished collection of Oriental rugs. Our meticulous assessment has identified specialized treatments designed to restore the beauty, structural integrity, and longevity of each treasured piece.`;
+  
+  const introLines = doc.splitTextToSize(introText, contentWidth);
   introLines.forEach((line: string) => {
     doc.text(line, margin, yPos);
     yPos += 5;
   });
-  yPos += 10;
   
-  // ============ COMPREHENSIVE SERVICE DESCRIPTIONS ============
+  yPos += 5;
+  drawThinDivider(doc, margin, yPos, contentWidth);
   
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('COMPREHENSIVE SERVICE DESCRIPTIONS', margin, yPos);
-  yPos += 10;
+  // ============ PAGE 2+: COMPREHENSIVE SERVICE DESCRIPTIONS ============
   
-  // Get service descriptions from all rugs using improved extraction
+  doc.addPage();
+  drawElegantBorder(doc, pageWidth, pageHeight);
+  yPos = 30;
+  
+  yPos = drawSectionHeader(doc, 'COMPREHENSIVE SERVICE DESCRIPTIONS', margin, yPos, contentWidth);
+  yPos += 8;
+  
   const serviceDescriptions = extractAllServiceDescriptions(rugs);
   
-  // Default service descriptions as fallback
   const defaultServices: ServiceDescription[] = [
-    {
-      name: 'Professional Hand Cleaning',
-      description: 'Our specialized hand cleaning process utilizes an immersion method specifically designed for delicate Oriental rugs, safely removing embedded soil, allergens, and contaminants that accumulate over time. We carefully assess each rug\'s unique fiber composition, dye stability, and construction to determine the most appropriate cleaning agents and techniques.'
-    },
-    {
-      name: 'Overnight Soaking',
-      description: 'This intensive deep-cleaning treatment involves submerging your rug in a specially formulated solution for an extended period under careful monitoring. The process allows cleaning agents to penetrate deep into the foundation, dissolving contaminants, allergens, and odors that standard cleaning cannot reach.'
-    },
-    {
-      name: 'Blocking & Stretching',
-      description: 'This essential restoration process corrects dimensional distortion in handwoven rugs by carefully realigning warp and weft threads to restore proper shape. Using specialized equipment, we gradually stretch the rug to its correct dimensions while damp, then secure it until completely dry.'
-    },
-    {
-      name: 'Custom Padding',
-      description: 'Our premium custom padding provides crucial support between your rug and floor surface using high-density, non-slip materials precisely cut to your rug\'s dimensions. This specialized padding extends your rug\'s lifespan by reducing fiber compression while allowing proper airflow.'
-    }
+    { name: 'Professional Hand Cleaning', description: 'Our specialized hand cleaning process utilizes an immersion method specifically designed for delicate Oriental rugs, safely removing embedded soil, allergens, and contaminants that accumulate over time. We carefully assess each rug\'s unique fiber composition, dye stability, and construction to determine the most appropriate cleaning agents and techniques.' },
+    { name: 'Overnight Soaking', description: 'This intensive deep-cleaning treatment involves submerging your rug in a specially formulated solution for an extended period under careful monitoring. The process allows cleaning agents to penetrate deep into the foundation, dissolving contaminants, allergens, and odors that standard cleaning cannot reach.' },
+    { name: 'Blocking & Stretching', description: 'This essential restoration process corrects dimensional distortion in handwoven rugs by carefully realigning warp and weft threads to restore proper shape. Using specialized equipment, we gradually stretch the rug to its correct dimensions while damp, then secure it until completely dry.' },
+    { name: 'Custom Padding', description: 'Our premium custom padding provides crucial support between your rug and floor surface using high-density, non-slip materials precisely cut to your rug\'s dimensions. This specialized padding extends your rug\'s lifespan by reducing fiber compression while allowing proper airflow.' }
   ];
   
-  // Use extracted descriptions if we found any, otherwise use defaults
   const servicesToShow = serviceDescriptions.length > 0 ? serviceDescriptions : defaultServices;
   
   for (const service of servicesToShow) {
-    // Check for page break
-    if (yPos > pageHeight - 50) {
+    if (yPos > pageHeight - 60) {
       doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
+      drawElegantBorder(doc, pageWidth, pageHeight);
+      yPos = 30;
     }
     
-    // Service title (without price - prices are in the breakdown section)
+    // Diamond bullet + service name in teal
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text(service.name, margin, yPos);
+    doc.setTextColor(...COLORS.teal);
+    doc.text(`◆ ${service.name}`, margin, yPos);
     yPos += 7;
     
     // Description
@@ -835,31 +701,29 @@ export const generateJobPDF = async (
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(...COLORS.text);
-      const descLines = doc.splitTextToSize(service.description, pageWidth - margin * 2);
+      const descLines = doc.splitTextToSize(service.description, contentWidth - 5);
       descLines.forEach((line: string) => {
-        if (yPos > pageHeight - 25) {
+        if (yPos > pageHeight - 30) {
           doc.addPage();
-          yPos = addSimplePageHeader(doc, pageWidth, branding);
+          drawElegantBorder(doc, pageWidth, pageHeight);
+          yPos = 30;
         }
-        doc.text(line, margin, yPos);
+        doc.text(line, margin + 5, yPos);
         yPos += 4.5;
       });
     }
     
-    yPos += 6;
+    yPos += 8;
   }
   
-  // ============ PAGE BREAK - RUG BREAKDOWN ============
+  // ============ RUG BREAKDOWN & SERVICES ============
+  
   doc.addPage();
-  yPos = addSimplePageHeader(doc, pageWidth, branding);
+  drawElegantBorder(doc, pageWidth, pageHeight);
+  yPos = 30;
   
-  // ============ RUG BREAKDOWN AND SERVICES ============
-  
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('RUG BREAKDOWN AND SERVICES', margin, yPos);
-  yPos += 12;
+  yPos = drawSectionHeader(doc, 'RUG BREAKDOWN & SERVICES', margin, yPos, contentWidth);
+  yPos += 8;
   
   let grandTotal = 0;
   
@@ -867,214 +731,157 @@ export const generateJobPDF = async (
     const costs = extractRugCosts(rug);
     if (!costs || costs.items.length === 0) continue;
     
-    // Check for page break
-    if (yPos > pageHeight - 70) {
+    if (yPos > pageHeight - 80) {
       doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
+      drawElegantBorder(doc, pageWidth, pageHeight);
+      yPos = 30;
     }
     
-    // Rug header
+    // Rug header in cream box
     const dimensionStr = costs.dimensions ? ` (${costs.dimensions})` : '';
-    doc.setFontSize(12);
+    yPos = drawRugEntryHeader(doc, `Rug #${costs.rugNumber}: ${costs.rugType}${dimensionStr}`, margin, yPos, contentWidth);
+    yPos += 4;
+    
+    // Service items with dot leader and price
+    for (const item of costs.items) {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...COLORS.text);
+      doc.text(`· ${item.service}`, margin + 8, yPos);
+      
+      // Price in gold, italic, right-aligned
+      doc.setFont('helvetica', 'italic');
+      doc.setTextColor(...COLORS.gold);
+      doc.text(`$${item.cost.toFixed(2)}`, pageWidth - margin, yPos, { align: 'right' });
+      yPos += 5;
+    }
+    
+    // Subtotal with gold accent line
+    yPos += 2;
+    drawGoldRule(doc, margin + 8, yPos, contentWidth - 16);
+    yPos += 6;
+    
+    doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text(`Rug #${costs.rugNumber}: ${costs.rugType}${dimensionStr}`, margin, yPos);
+    doc.setTextColor(...COLORS.navy);
+    doc.text('Subtotal', margin + 8, yPos);
+    
+    doc.setTextColor(...COLORS.gold);
+    doc.text(`$${costs.subtotal.toFixed(2)}`, pageWidth - margin, yPos, { align: 'right' });
     yPos += 8;
-    
-    // Cost table for this rug
-    const tableData = costs.items.map(item => [
-      item.service,
-      `$${item.cost.toFixed(2)}`
-    ]);
-    
-    // Add subtotal row
-    tableData.push(['Subtotal', `$${costs.subtotal.toFixed(2)}`]);
-    
-    autoTable(doc, {
-      startY: yPos,
-      body: tableData,
-      theme: 'plain',
-      styles: {
-        fontSize: 9,
-        cellPadding: { top: 2, bottom: 2, left: 4, right: 4 },
-        textColor: COLORS.text,
-      },
-      columnStyles: {
-        0: { cellWidth: pageWidth - margin * 2 - 40 },
-        1: { cellWidth: 35, halign: 'right' },
-      },
-      didParseCell: (data) => {
-        const text = data.row.raw?.[0] as string || '';
-        if (text === 'Subtotal') {
-          data.cell.styles.fontStyle = 'bold';
-          if (data.column.index === 1) {
-            data.cell.styles.textColor = COLORS.primary;
-          }
-        }
-      },
-      margin: { left: margin, right: margin },
-    });
-    
-    yPos = (doc as any).lastAutoTable.finalY + 4;
-    grandTotal += costs.subtotal;
     
     // Special note if present
     if (costs.specialNote) {
       doc.setFontSize(8);
       doc.setFont('helvetica', 'italic');
       doc.setTextColor(...COLORS.textMuted);
-      const noteLines = doc.splitTextToSize(`Special Note: ${costs.specialNote}`, pageWidth - margin * 2);
+      const noteLines = doc.splitTextToSize(`■ ${costs.specialNote}`, contentWidth - 16);
       noteLines.forEach((line: string) => {
-        doc.text(line, margin, yPos);
+        doc.text(line, margin + 8, yPos);
         yPos += 4;
       });
     }
     
+    grandTotal += costs.subtotal;
     yPos += 10;
   }
   
-  // ============ TOTAL ESTIMATE ============
+  // ============ TOTAL INVESTMENT ============
   
-  if (yPos > pageHeight - 40) {
+  if (yPos > pageHeight - 50) {
     doc.addPage();
-    yPos = addSimplePageHeader(doc, pageWidth, branding);
+    drawElegantBorder(doc, pageWidth, pageHeight);
+    yPos = 30;
   }
   
-  // Total estimate box
-  doc.setFillColor(...COLORS.background);
-  drawRoundedRect(doc, margin, yPos - 2, pageWidth - margin * 2, 16, 3);
+  yPos += 10;
   
-  doc.setFontSize(13);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('TOTAL ESTIMATE FOR ALL SERVICES', margin + 6, yPos + 8);
-  doc.text(`$${grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, pageWidth - margin - 6, yPos + 8, { align: 'right' });
-  yPos += 24;
-  
-  // ============ ADDITIONAL RECOMMENDED SERVICES (from user settings) ============
-  
-  if (upsellServices && upsellServices.length > 0) {
-    if (yPos > pageHeight - 60) {
-      doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
-    }
-    
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text('STRONGLY RECOMMENDED ADDITIONAL PROTECTION', margin, yPos);
-    yPos += 8;
-    
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...COLORS.text);
-    const additionalIntro = 'To further protect your investment, we recommend the following additional services:';
-    const introLinesAdditional = doc.splitTextToSize(additionalIntro, pageWidth - margin * 2);
-    introLinesAdditional.forEach((line: string) => {
-      doc.text(line, margin, yPos);
-      yPos += 5;
-    });
-    yPos += 6;
-    
-    // Calculate total rug area for price estimation
-    const totalArea = rugs.reduce((sum, rug) => {
-      const area = (rug.length || 0) * (rug.width || 0);
-      return sum + area;
-    }, 0);
-    
-    for (const service of upsellServices) {
-      if (yPos > pageHeight - 40) {
-        doc.addPage();
-        yPos = addSimplePageHeader(doc, pageWidth, branding);
-      }
-      
-      // Calculate estimated cost based on total area
-      const estimatedCost = totalArea > 0 
-        ? `$${(service.unitPrice * totalArea).toFixed(2)}` 
-        : `$${service.unitPrice.toFixed(2)}/sq ft`;
-      
-      // Service title with cost
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(...COLORS.primary);
-      doc.text(`${service.name} (${estimatedCost})`, margin, yPos);
-      yPos += 7;
-      
-      // Description if provided
-      if (service.description) {
-        doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(...COLORS.text);
-        const descLines = doc.splitTextToSize(service.description, pageWidth - margin * 2);
-        descLines.forEach((line: string) => {
-          if (yPos > pageHeight - 25) {
-            doc.addPage();
-            yPos = addSimplePageHeader(doc, pageWidth, branding);
-          }
-          doc.text(line, margin, yPos);
-          yPos += 4.5;
-        });
-      }
-      yPos += 6;
-    }
-  }
-  
-  // ============ NEXT STEPS / CLOSING ============
-  
-  if (yPos > pageHeight - 60) {
-    doc.addPage();
-    yPos = addSimplePageHeader(doc, pageWidth, branding);
-  }
+  // Gold-bordered total box
+  doc.setFillColor(...COLORS.cream);
+  doc.setDrawColor(...COLORS.gold);
+  doc.setLineWidth(1.5);
+  doc.roundedRect(margin, yPos - 4, contentWidth, 20, 3, 3, 'FD');
   
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('NEXT STEPS', margin, yPos);
+  doc.setTextColor(...COLORS.navy);
+  doc.text('TOTAL INVESTMENT', margin + 10, yPos + 8);
+  
+  doc.setTextColor(...COLORS.gold);
+  doc.text(`$${grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, pageWidth - margin - 10, yPos + 8, { align: 'right' });
+  
+  yPos += 30;
+  
+  // ============ NEXT STEPS ============
+  
+  if (yPos > pageHeight - 80) {
+    doc.addPage();
+    drawElegantBorder(doc, pageWidth, pageHeight);
+    yPos = 30;
+  }
+  
+  yPos = drawSectionHeader(doc, 'NEXT STEPS', margin, yPos, contentWidth);
   yPos += 8;
   
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...COLORS.text);
   
-  const closingText = `These recommendations are based on a thorough professional assessment of your rugs' conditions. We understand the significant investment this collection represents and are committed to providing the highest level of care.
+  const nextStepsText = `These recommendations reflect our thorough professional assessment of your collection's condition. We understand the significant investment these distinguished pieces represent and remain committed to providing the highest caliber of care.
 
-Would you like to proceed with all recommended services, or would you prefer to discuss a prioritized approach? We are happy to work with you to develop a preservation plan that meets your specific needs and budget.
-
-Please contact us${branding?.business_phone ? ` at ${branding.business_phone}` : ''} to discuss these recommendations or to schedule a consultation.`;
-
-  const closingLines = doc.splitTextToSize(closingText, pageWidth - margin * 2);
-  closingLines.forEach((line: string) => {
-    if (yPos > pageHeight - 25) {
+We invite you to proceed with all recommended services, or we would be pleased to discuss a prioritized approach. Our team is prepared to work with you to develop a preservation plan that aligns with your specific preferences and requirements.`;
+  
+  const nextStepsLines = doc.splitTextToSize(nextStepsText, contentWidth);
+  nextStepsLines.forEach((line: string) => {
+    if (yPos > pageHeight - 30) {
       doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
+      drawElegantBorder(doc, pageWidth, pageHeight);
+      yPos = 30;
     }
     doc.text(line, margin, yPos);
     yPos += 5;
   });
   
-  yPos += 10;
-  
-  // Signature
-  doc.text('Sincerely,', margin, yPos);
   yPos += 8;
   
-  doc.setFont('helvetica', 'bold');
-  doc.text(businessName, margin, yPos);
-  yPos += 5;
-  
-  if (branding?.business_address) {
-    doc.setFont('helvetica', 'normal');
-    const addrLines = doc.splitTextToSize(branding.business_address, 80);
-    addrLines.forEach((line: string) => {
-      doc.text(line, margin, yPos);
-      yPos += 4;
-    });
-  }
-  
+  // Contact information
   if (branding?.business_phone) {
-    doc.text(`Tel: ${branding.business_phone}`, margin, yPos);
-    yPos += 4;
+    doc.text(`Please contact us at ${branding.business_phone} to discuss these recommendations or to arrange a consultation.`, margin, yPos);
+    yPos += 10;
   }
+  
+  yPos += 10;
+  
+  // Gold divider before closing
+  drawGoldRule(doc, pageWidth / 2 - 30, yPos, 60);
+  yPos += 15;
+  
+  // Distinguished closing
+  doc.setFont('helvetica', 'italic');
+  doc.text('With distinguished regards,', margin, yPos);
+  yPos += 12;
+  
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text(businessName.toUpperCase(), margin, yPos);
+  yPos += 6;
+  
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.text);
+  if (branding?.business_address) {
+    doc.text(branding.business_address, margin, yPos);
+    yPos += 5;
+  }
+  if (branding?.business_phone) {
+    doc.text(`Telephone ${branding.business_phone}`, margin, yPos);
+    yPos += 10;
+  }
+  
+  // Heritage tagline
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'italic');
+  doc.setTextColor(...COLORS.textMuted);
+  doc.text('Heritage restoration specialists', pageWidth / 2, yPos, { align: 'center' });
   
   // ============ INSPECTION PHOTOS ============
   
@@ -1082,38 +889,26 @@ Please contact us${branding?.business_phone ? ` at ${branding.business_phone}` :
   
   if (hasAnyPhotos) {
     doc.addPage();
-    yPos = addSimplePageHeader(doc, pageWidth, branding);
+    drawElegantBorder(doc, pageWidth, pageHeight);
+    yPos = 30;
     
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text('INSPECTION PHOTOS', margin, yPos);
-    yPos += 12;
+    yPos = drawSectionHeader(doc, 'INSPECTION PHOTOS', margin, yPos, contentWidth);
+    yPos += 8;
     
     for (const rug of rugs) {
       if (!rug.photo_urls || rug.photo_urls.length === 0) continue;
       
-      // Check for page break
-      if (yPos > pageHeight - 80) {
+      if (yPos > pageHeight - 100) {
         doc.addPage();
-        yPos = addSimplePageHeader(doc, pageWidth, branding);
+        drawElegantBorder(doc, pageWidth, pageHeight);
+        yPos = 30;
       }
       
-      // Rug header for photos
+      // Rug photo section header
       const sizeStr = rug.length && rug.width ? ` (${rug.length}' × ${rug.width}')` : '';
+      yPos = drawRugEntryHeader(doc, `Rug #${rug.rug_number}: ${rug.rug_type}${sizeStr}`, margin, yPos, contentWidth);
+      yPos += 4;
       
-      doc.setFillColor(...COLORS.primary);
-      const rugLabel = `Rug #${rug.rug_number}: ${rug.rug_type}${sizeStr}`;
-      const labelWidth = Math.min(doc.getTextWidth(rugLabel) + 16, pageWidth - margin * 2);
-      drawRoundedRect(doc, margin, yPos - 3, labelWidth, 10, 2);
-      
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(...COLORS.white);
-      doc.text(rugLabel, margin + 6, yPos + 4);
-      yPos += 14;
-      
-      // Photos for this rug
       yPos = await addPhotosToPDF(
         doc,
         rug.photo_urls,
@@ -1124,25 +919,33 @@ Please contact us${branding?.business_phone ? ` at ${branding.business_phone}` :
         branding,
         rug.image_annotations,
         false,
-        true // skip header
+        true
       );
       
-      yPos += 8;
+      yPos += 10;
     }
   }
   
-  // Add footers to all pages
+  // Add elegant borders to all pages
   const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
-    addProfessionalFooter(doc, pageWidth, pageHeight, i, totalPages, businessName, job.job_number);
+    
+    // Page number in footer
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...COLORS.textMuted);
+    doc.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
   }
   
-  const fileName = `job-report-${job.job_number}-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
+  const fileName = `restoration-estimate-${job.job_number}-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
   doc.save(fileName);
 };
 
-// Generate PDF and return as base64 string (for email attachments)
+// ========================
+// PDF BASE64 GENERATION (for email)
+// ========================
+
 export const generateJobPDFBase64 = async (
   job: Job,
   rugs: Inspection[],
@@ -1152,169 +955,155 @@ export const generateJobPDFBase64 = async (
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 15;
+  const margin = 25;
+  const contentWidth = pageWidth - margin * 2;
   
   const businessName = branding?.business_name || 'RugBoost';
   
-  // ============ PAGE 1: COVER PAGE ============
+  // Same structure as generateJobPDF but returns base64
+  drawElegantBorder(doc, pageWidth, pageHeight);
   
-  let yPos = 20;
+  let yPos = 45;
   
-  doc.setFontSize(14);
+  // Business header
+  doc.setFontSize(28);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text(businessName, pageWidth / 2, yPos, { align: 'center' });
-  yPos += 6;
+  doc.setTextColor(...COLORS.navy);
+  doc.text(businessName.toUpperCase(), pageWidth / 2, yPos, { align: 'center' });
+  yPos += 8;
   
-  if (branding?.business_address) {
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...COLORS.text);
-    doc.text(branding.business_address, pageWidth / 2, yPos, { align: 'center' });
-    yPos += 5;
-  }
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.teal);
+  doc.text('RUGS & CARPET CLEANERS', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 8;
   
-  if (branding?.business_phone) {
-    doc.setFontSize(9);
-    doc.text(`Tel: ${branding.business_phone}`, pageWidth / 2, yPos, { align: 'center' });
-    yPos += 8;
-  }
-  
-  doc.setDrawColor(...COLORS.border);
-  doc.setLineWidth(0.3);
-  doc.line(margin, yPos, pageWidth - margin, yPos);
+  const businessNameWidth = 80;
+  drawGoldRule(doc, (pageWidth - businessNameWidth) / 2, yPos, businessNameWidth);
   yPos += 10;
   
-  doc.setFontSize(16);
+  if (branding?.business_address || branding?.business_phone) {
+    doc.setFontSize(9);
+    doc.setTextColor(...COLORS.text);
+    if (branding?.business_address) {
+      doc.text(branding.business_address, pageWidth / 2, yPos, { align: 'center' });
+      yPos += 5;
+    }
+    if (branding?.business_phone) {
+      doc.text(`Telephone ${branding.business_phone}`, pageWidth / 2, yPos, { align: 'center' });
+      yPos += 5;
+    }
+  }
+  
+  yPos += 5;
+  drawThinDivider(doc, margin, yPos, contentWidth);
+  yPos += 15;
+  
+  yPos = drawSectionHeader(doc, 'RESTORATION ESTIMATE', margin, yPos, contentWidth);
+  yPos += 10;
+  
+  // Estimate info
+  doc.setFontSize(9);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text(`Estimate #: ${job.job_number}`, margin, yPos);
-  yPos += 8;
+  doc.setTextColor(...COLORS.navy);
+  doc.text('● ESTIMATE NUMBER', margin, yPos);
+  doc.text('● DATE PREPARED', margin + contentWidth / 2, yPos);
+  yPos += 6;
   
-  doc.setFontSize(14);
-  doc.text(`Date: ${format(new Date(job.created_at), 'MMMM d, yyyy')}`, margin, yPos);
-  yPos += 14;
-  
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Prepared For:', margin, yPos);
-  yPos += 8;
-  
-  doc.setFontSize(10);
+  doc.setFontSize(11);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...COLORS.text);
-  doc.text(job.client_name, margin, yPos);
-  yPos += 5;
+  doc.text(job.job_number, margin, yPos);
+  doc.text(format(new Date(job.created_at), 'MMMM d, yyyy'), margin + contentWidth / 2, yPos);
+  yPos += 15;
   
-  if (job.client_phone) {
-    doc.text(`Phone: ${job.client_phone}`, margin, yPos);
-    yPos += 5;
-  }
-  
-  if (job.client_email) {
-    doc.text(`Email: ${job.client_email}`, margin, yPos);
-    yPos += 5;
-  }
-  
+  // Client info
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text('● PREPARED FOR', margin, yPos);
   yPos += 8;
   
-  const introText = `Dear ${job.client_name.split(' ')[0]},\n\nI am writing to provide you with a detailed estimate for the cleaning and preservation services recommended for your collection of Oriental rugs. Our thorough assessment has identified specialized treatments to restore the beauty, structural integrity, and longevity of your valuable pieces.`;
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.text);
+  doc.text(job.client_name, margin, yPos);
+  yPos += 6;
   
-  doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  const introLines = doc.splitTextToSize(introText, pageWidth - margin * 2);
+  if (job.client_phone) {
+    doc.text(`Telephone: ${job.client_phone}`, margin, yPos);
+    yPos += 5;
+  }
+  
+  yPos += 12;
+  
+  // Intro
+  const firstName = job.client_name.split(' ')[0];
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'italic');
+  doc.text(`Dear ${firstName},`, margin, yPos);
+  yPos += 10;
+  
+  doc.setFont('helvetica', 'normal');
+  const introText = `We are honored to present this comprehensive estimate for the restoration and preservation of your distinguished collection of Oriental rugs.`;
+  const introLines = doc.splitTextToSize(introText, contentWidth);
   introLines.forEach((line: string) => {
     doc.text(line, margin, yPos);
     yPos += 5;
   });
-  yPos += 10;
   
   // Service descriptions
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('COMPREHENSIVE SERVICE DESCRIPTIONS', margin, yPos);
-  yPos += 10;
+  doc.addPage();
+  drawElegantBorder(doc, pageWidth, pageHeight);
+  yPos = 30;
   
-  const allDescriptions: { title: string; price: string; text: string }[] = [];
+  yPos = drawSectionHeader(doc, 'COMPREHENSIVE SERVICE DESCRIPTIONS', margin, yPos, contentWidth);
+  yPos += 8;
   
-  for (const rug of rugs) {
-    if (!rug.analysis_report) continue;
-    const sections = rug.analysis_report.split(/\n(?=\*\*|(?:[A-Z][a-z]+\s+){1,3}(?:\([^)]+\))?:?\s*\$)/);
-    
-    for (const section of sections) {
-      const lines = section.trim().split('\n');
-      if (lines.length === 0) continue;
-      
-      const firstLine = lines[0].trim();
-      const priceMatch = firstLine.match(/\$[\d,]+(?:\.\d{2})?(?:\s*[-–]\s*\$[\d,]+(?:\.\d{2})?)?/);
-      
-      if (priceMatch) {
-        let title = firstLine.replace(/\*\*/g, '').replace(/\([^)]+\)/g, '').replace(/\$[\d,]+(?:\.\d{2})?(?:\s*[-–]\s*\$[\d,]+(?:\.\d{2})?)?/g, '').replace(/[:.]?\s*$/, '').trim();
-        
-        let description = '';
-        for (let i = 1; i < lines.length; i++) {
-          const descLine = lines[i].trim();
-          if (descLine && !descLine.includes('$') && descLine.length > 20) {
-            description = descLine.replace(/^[-•*]\s*/, '');
-            break;
-          }
-        }
-        
-        if (title && !allDescriptions.find(d => d.title.toLowerCase() === title.toLowerCase())) {
-          allDescriptions.push({ title, price: priceMatch[0], text: description });
-        }
-      }
-    }
-  }
-  
-  const defaultServices = [
-    { title: 'Professional Hand Cleaning', price: '$100.00-$275.00 per rug', text: 'Our specialized hand cleaning process utilizes an immersion method specifically designed for delicate Oriental rugs.' },
-    { title: 'Overnight Soaking', price: '$50.00-$100.00 per rug', text: 'This intensive deep-cleaning treatment involves submerging your rug in a specially formulated solution.' },
-    { title: 'Blocking & Stretching', price: 'Complimentary with soaking', text: 'This essential restoration process corrects dimensional distortion in handwoven rugs.' },
-    { title: 'Custom Padding', price: '$25.00-$100.00 per rug', text: 'Our premium custom padding provides crucial support between your rug and floor surface.' }
+  const serviceDescriptions = extractAllServiceDescriptions(rugs);
+  const defaultServices: ServiceDescription[] = [
+    { name: 'Professional Hand Cleaning', description: 'Our specialized hand cleaning process utilizes an immersion method specifically designed for delicate Oriental rugs.' },
+    { name: 'Overnight Soaking', description: 'This intensive deep-cleaning treatment involves submerging your rug in a specially formulated solution.' },
+    { name: 'Blocking & Stretching', description: 'This essential restoration process corrects dimensional distortion in handwoven rugs.' },
+    { name: 'Custom Padding', description: 'Our premium custom padding provides crucial support between your rug and floor surface.' }
   ];
   
-  const servicesToShow = allDescriptions.length > 0 ? allDescriptions : defaultServices;
+  const servicesToShow = serviceDescriptions.length > 0 ? serviceDescriptions : defaultServices;
   
   for (const service of servicesToShow) {
     if (yPos > pageHeight - 50) {
       doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
+      drawElegantBorder(doc, pageWidth, pageHeight);
+      yPos = 30;
     }
     
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text(`${service.title} (${service.price})`, margin, yPos);
+    doc.setTextColor(...COLORS.teal);
+    doc.text(`◆ ${service.name}`, margin, yPos);
     yPos += 7;
     
-    if (service.text) {
+    if (service.description) {
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(...COLORS.text);
-      const descLines = doc.splitTextToSize(service.text, pageWidth - margin * 2);
+      const descLines = doc.splitTextToSize(service.description, contentWidth - 5);
       descLines.forEach((line: string) => {
-        if (yPos > pageHeight - 25) {
-          doc.addPage();
-          yPos = addSimplePageHeader(doc, pageWidth, branding);
-        }
-        doc.text(line, margin, yPos);
+        doc.text(line, margin + 5, yPos);
         yPos += 4.5;
       });
     }
-    yPos += 6;
+    yPos += 8;
   }
   
   // Rug breakdown
   doc.addPage();
-  yPos = addSimplePageHeader(doc, pageWidth, branding);
+  drawElegantBorder(doc, pageWidth, pageHeight);
+  yPos = 30;
   
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('RUG BREAKDOWN AND SERVICES', margin, yPos);
-  yPos += 12;
+  yPos = drawSectionHeader(doc, 'RUG BREAKDOWN & SERVICES', margin, yPos, contentWidth);
+  yPos += 8;
   
   let grandTotal = 0;
   
@@ -1324,340 +1113,225 @@ export const generateJobPDFBase64 = async (
     
     if (yPos > pageHeight - 70) {
       doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
+      drawElegantBorder(doc, pageWidth, pageHeight);
+      yPos = 30;
     }
     
     const dimensionStr = costs.dimensions ? ` (${costs.dimensions})` : '';
-    doc.setFontSize(12);
+    yPos = drawRugEntryHeader(doc, `Rug #${costs.rugNumber}: ${costs.rugType}${dimensionStr}`, margin, yPos, contentWidth);
+    yPos += 4;
+    
+    for (const item of costs.items) {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...COLORS.text);
+      doc.text(`· ${item.service}`, margin + 8, yPos);
+      
+      doc.setFont('helvetica', 'italic');
+      doc.setTextColor(...COLORS.gold);
+      doc.text(`$${item.cost.toFixed(2)}`, pageWidth - margin, yPos, { align: 'right' });
+      yPos += 5;
+    }
+    
+    yPos += 2;
+    drawGoldRule(doc, margin + 8, yPos, contentWidth - 16);
+    yPos += 6;
+    
+    doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text(`Rug #${costs.rugNumber}: ${costs.rugType}${dimensionStr}`, margin, yPos);
+    doc.setTextColor(...COLORS.navy);
+    doc.text('Subtotal', margin + 8, yPos);
+    doc.setTextColor(...COLORS.gold);
+    doc.text(`$${costs.subtotal.toFixed(2)}`, pageWidth - margin, yPos, { align: 'right' });
     yPos += 8;
-    
-    const tableData = costs.items.map(item => [item.service, `$${item.cost.toFixed(2)}`]);
-    tableData.push(['Subtotal', `$${costs.subtotal.toFixed(2)}`]);
-    
-    autoTable(doc, {
-      startY: yPos,
-      body: tableData,
-      theme: 'plain',
-      styles: { fontSize: 9, cellPadding: { top: 2, bottom: 2, left: 4, right: 4 }, textColor: COLORS.text },
-      columnStyles: { 0: { cellWidth: pageWidth - margin * 2 - 40 }, 1: { cellWidth: 35, halign: 'right' } },
-      didParseCell: (data) => {
-        const text = data.row.raw?.[0] as string || '';
-        if (text === 'Subtotal') {
-          data.cell.styles.fontStyle = 'bold';
-          if (data.column.index === 1) data.cell.styles.textColor = COLORS.primary;
-        }
-      },
-      margin: { left: margin, right: margin },
-    });
-    
-    yPos = (doc as any).lastAutoTable.finalY + 4;
-    grandTotal += costs.subtotal;
     
     if (costs.specialNote) {
       doc.setFontSize(8);
       doc.setFont('helvetica', 'italic');
       doc.setTextColor(...COLORS.textMuted);
-      const noteLines = doc.splitTextToSize(`Special Note: ${costs.specialNote}`, pageWidth - margin * 2);
-      noteLines.forEach((line: string) => { doc.text(line, margin, yPos); yPos += 4; });
+      doc.text(`■ ${costs.specialNote}`, margin + 8, yPos);
+      yPos += 4;
     }
+    
+    grandTotal += costs.subtotal;
     yPos += 10;
   }
   
   // Total
-  if (yPos > pageHeight - 40) {
-    doc.addPage();
-    yPos = addSimplePageHeader(doc, pageWidth, branding);
-  }
-  
-  doc.setFillColor(...COLORS.background);
-  drawRoundedRect(doc, margin, yPos - 2, pageWidth - margin * 2, 16, 3);
-  
-  doc.setFontSize(13);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('TOTAL ESTIMATE FOR ALL SERVICES', margin + 6, yPos + 8);
-  doc.text(`$${grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, pageWidth - margin - 6, yPos + 8, { align: 'right' });
-  yPos += 24;
-  
-  // ============ ADDITIONAL RECOMMENDED SERVICES (from user settings) ============
-  
-  if (upsellServices && upsellServices.length > 0) {
-    if (yPos > pageHeight - 60) {
-      doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
-    }
-    
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text('STRONGLY RECOMMENDED ADDITIONAL PROTECTION', margin, yPos);
-    yPos += 8;
-    
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...COLORS.text);
-    const additionalIntro = 'To further protect your investment, we recommend the following additional services:';
-    const introLinesAdditional = doc.splitTextToSize(additionalIntro, pageWidth - margin * 2);
-    introLinesAdditional.forEach((line: string) => { doc.text(line, margin, yPos); yPos += 5; });
-    yPos += 6;
-    
-    // Calculate total rug area for price estimation
-    const totalArea = rugs.reduce((sum, rug) => {
-      const area = (rug.length || 0) * (rug.width || 0);
-      return sum + area;
-    }, 0);
-    
-    for (const service of upsellServices) {
-      if (yPos > pageHeight - 40) {
-        doc.addPage();
-        yPos = addSimplePageHeader(doc, pageWidth, branding);
-      }
-      
-      // Calculate estimated cost based on total area
-      const estimatedCost = totalArea > 0 
-        ? `$${(service.unitPrice * totalArea).toFixed(2)}` 
-        : `$${service.unitPrice.toFixed(2)}/sq ft`;
-      
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(...COLORS.primary);
-      doc.text(`${service.name} (${estimatedCost})`, margin, yPos);
-      yPos += 7;
-      
-      if (service.description) {
-        doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(...COLORS.text);
-        const descLines = doc.splitTextToSize(service.description, pageWidth - margin * 2);
-        descLines.forEach((line: string) => { doc.text(line, margin, yPos); yPos += 4.5; });
-      }
-      yPos += 6;
-    }
-  }
-  
-  // Closing
   if (yPos > pageHeight - 50) {
     doc.addPage();
-    yPos = addSimplePageHeader(doc, pageWidth, branding);
+    drawElegantBorder(doc, pageWidth, pageHeight);
+    yPos = 30;
   }
+  
+  yPos += 10;
+  
+  doc.setFillColor(...COLORS.cream);
+  doc.setDrawColor(...COLORS.gold);
+  doc.setLineWidth(1.5);
+  doc.roundedRect(margin, yPos - 4, contentWidth, 20, 3, 3, 'FD');
   
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('NEXT STEPS', margin, yPos);
-  yPos += 8;
+  doc.setTextColor(...COLORS.navy);
+  doc.text('TOTAL INVESTMENT', margin + 10, yPos + 8);
+  doc.setTextColor(...COLORS.gold);
+  doc.text(`$${grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, pageWidth - margin - 10, yPos + 8, { align: 'right' });
   
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
+  yPos += 30;
+  
+  // Closing
+  drawGoldRule(doc, pageWidth / 2 - 30, yPos, 60);
+  yPos += 15;
+  
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'italic');
   doc.setTextColor(...COLORS.text);
-  const closingText = `Would you like to proceed with all recommended services? Please contact us${branding?.business_phone ? ` at ${branding.business_phone}` : ''} to discuss.\n\nSincerely,\n${businessName}`;
-  const closingLines = doc.splitTextToSize(closingText, pageWidth - margin * 2);
-  closingLines.forEach((line: string) => { doc.text(line, margin, yPos); yPos += 5; });
+  doc.text('With distinguished regards,', margin, yPos);
+  yPos += 12;
+  
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...COLORS.navy);
+  doc.text(businessName.toUpperCase(), margin, yPos);
   
   // Photos
   const hasAnyPhotos = rugs.some(r => r.photo_urls && r.photo_urls.length > 0);
   
   if (hasAnyPhotos) {
     doc.addPage();
-    yPos = addSimplePageHeader(doc, pageWidth, branding);
+    drawElegantBorder(doc, pageWidth, pageHeight);
+    yPos = 30;
     
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text('INSPECTION PHOTOS', margin, yPos);
-    yPos += 12;
+    yPos = drawSectionHeader(doc, 'INSPECTION PHOTOS', margin, yPos, contentWidth);
+    yPos += 8;
     
     for (const rug of rugs) {
       if (!rug.photo_urls || rug.photo_urls.length === 0) continue;
       
-      if (yPos > pageHeight - 80) {
+      if (yPos > pageHeight - 100) {
         doc.addPage();
-        yPos = addSimplePageHeader(doc, pageWidth, branding);
+        drawElegantBorder(doc, pageWidth, pageHeight);
+        yPos = 30;
       }
       
       const sizeStr = rug.length && rug.width ? ` (${rug.length}' × ${rug.width}')` : '';
-      doc.setFillColor(...COLORS.primary);
-      const rugLabel = `Rug #${rug.rug_number}: ${rug.rug_type}${sizeStr}`;
-      const labelWidth = Math.min(doc.getTextWidth(rugLabel) + 16, pageWidth - margin * 2);
-      drawRoundedRect(doc, margin, yPos - 3, labelWidth, 10, 2);
+      yPos = drawRugEntryHeader(doc, `Rug #${rug.rug_number}: ${rug.rug_type}${sizeStr}`, margin, yPos, contentWidth);
+      yPos += 4;
       
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(...COLORS.white);
-      doc.text(rugLabel, margin + 6, yPos + 4);
-      yPos += 14;
+      yPos = await addPhotosToPDF(
+        doc, rug.photo_urls, yPos, margin, pageWidth, pageHeight,
+        branding, rug.image_annotations, true, true
+      );
       
-      yPos = await addPhotosToPDF(doc, rug.photo_urls, yPos, margin, pageWidth, pageHeight, branding, rug.image_annotations, true, true);
-      yPos += 8;
+      yPos += 10;
     }
   }
   
-  // Footers
+  // Page numbers
   const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
-    addProfessionalFooter(doc, pageWidth, pageHeight, i, totalPages, businessName, job.job_number);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...COLORS.textMuted);
+    doc.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
   }
   
   return doc.output('datauristring').split(',')[1];
 };
 
 // ========================
-// SINGLE RUG PDF (kept for individual reports)
+// SINGLE RUG PDF (Legacy support)
 // ========================
 
 export const generatePDF = async (
-  inspection: Inspection,
+  rug: Inspection,
   branding?: BusinessBranding | null
 ): Promise<void> => {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 15;
+  const margin = 25;
+  const contentWidth = pageWidth - margin * 2;
   
   const businessName = branding?.business_name || 'RugBoost';
   
+  drawElegantBorder(doc, pageWidth, pageHeight);
+  
+  let yPos = 45;
+  
   // Header
-  let yPos = 20;
-  
-  doc.setFontSize(14);
+  doc.setFontSize(28);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text(businessName, pageWidth / 2, yPos, { align: 'center' });
-  yPos += 6;
+  doc.setTextColor(...COLORS.navy);
+  doc.text(businessName.toUpperCase(), pageWidth / 2, yPos, { align: 'center' });
+  yPos += 8;
   
-  if (branding?.business_address) {
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...COLORS.text);
-    doc.text(branding.business_address, pageWidth / 2, yPos, { align: 'center' });
-    yPos += 5;
-  }
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...COLORS.teal);
+  doc.text('RUGS & CARPET CLEANERS', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 15;
   
-  if (branding?.business_phone) {
-    doc.setFontSize(9);
-    doc.text(`Tel: ${branding.business_phone}`, pageWidth / 2, yPos, { align: 'center' });
-    yPos += 8;
-  }
+  drawGoldRule(doc, (pageWidth - 80) / 2, yPos, 80);
+  yPos += 15;
   
-  doc.setDrawColor(...COLORS.border);
-  doc.setLineWidth(0.3);
-  doc.line(margin, yPos, pageWidth - margin, yPos);
+  yPos = drawSectionHeader(doc, 'INSPECTION REPORT', margin, yPos, contentWidth);
   yPos += 10;
   
-  // Title
-  doc.setFontSize(18);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Rug Inspection Report', pageWidth / 2, yPos, { align: 'center' });
-  yPos += 8;
-  
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...COLORS.textMuted);
-  doc.text(format(new Date(inspection.created_at), 'MMMM d, yyyy'), pageWidth / 2, yPos, { align: 'center' });
-  yPos += 12;
-  
-  // Client & Rug info
+  // Rug info
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('Client Information', margin, yPos);
-  yPos += 7;
+  doc.setTextColor(...COLORS.navy);
+  doc.text(`Rug #${rug.rug_number}: ${rug.rug_type}`, margin, yPos);
+  yPos += 6;
   
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...COLORS.text);
-  doc.text(`Name: ${inspection.client_name}`, margin, yPos);
-  yPos += 5;
-  if (inspection.client_email) {
-    doc.text(`Email: ${inspection.client_email}`, margin, yPos);
-    yPos += 5;
-  }
-  if (inspection.client_phone) {
-    doc.text(`Phone: ${inspection.client_phone}`, margin, yPos);
-    yPos += 5;
-  }
-  yPos += 5;
-  
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...COLORS.primary);
-  doc.text('Rug Details', margin, yPos);
-  yPos += 7;
-  
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...COLORS.text);
-  doc.text(`Rug Number: ${inspection.rug_number}`, margin, yPos);
-  yPos += 5;
-  doc.text(`Type: ${inspection.rug_type}`, margin, yPos);
-  yPos += 5;
-  if (inspection.length && inspection.width) {
-    doc.text(`Dimensions: ${inspection.length}' × ${inspection.width}'`, margin, yPos);
-    yPos += 5;
-  }
-  if (inspection.notes) {
-    yPos += 3;
-    doc.text(`Notes: ${inspection.notes}`, margin, yPos);
-    yPos += 5;
-  }
-  yPos += 8;
-  
-  // Analysis
-  if (inspection.analysis_report) {
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...COLORS.primary);
-    doc.text('Professional Analysis', margin, yPos);
-    yPos += 7;
-    
-    doc.setFontSize(9);
+  if (rug.length && rug.width) {
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...COLORS.text);
+    doc.text(`Dimensions: ${rug.length}' × ${rug.width}'`, margin, yPos);
+    yPos += 10;
+  }
+  
+  // Report content
+  if (rug.analysis_report) {
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    const reportLines = doc.splitTextToSize(rug.analysis_report, contentWidth);
     
-    const analysisLines = doc.splitTextToSize(inspection.analysis_report, pageWidth - margin * 2);
-    for (const line of analysisLines) {
-      if (yPos > pageHeight - 25) {
+    for (const line of reportLines) {
+      if (yPos > pageHeight - 30) {
         doc.addPage();
-        yPos = addSimplePageHeader(doc, pageWidth, branding);
+        drawElegantBorder(doc, pageWidth, pageHeight);
+        yPos = 30;
       }
       doc.text(line, margin, yPos);
       yPos += 4.5;
     }
-    yPos += 8;
   }
   
   // Photos
-  if (inspection.photo_urls && inspection.photo_urls.length > 0) {
-    if (yPos > pageHeight - 80) {
-      doc.addPage();
-      yPos = addSimplePageHeader(doc, pageWidth, branding);
-    }
+  if (rug.photo_urls && rug.photo_urls.length > 0) {
+    doc.addPage();
+    drawElegantBorder(doc, pageWidth, pageHeight);
+    yPos = 30;
     
-    yPos = await addPhotosToPDF(
-      doc,
-      inspection.photo_urls,
-      yPos,
-      margin,
-      pageWidth,
-      pageHeight,
-      branding,
-      inspection.image_annotations,
-      false,
-      false
-    );
+    yPos = drawSectionHeader(doc, 'INSPECTION PHOTOS', margin, yPos, contentWidth);
+    yPos += 8;
+    
+    await addPhotosToPDF(doc, rug.photo_urls, yPos, margin, pageWidth, pageHeight, branding, rug.image_annotations, false, true);
   }
   
-  // Footers
+  // Page numbers
   const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
-    addProfessionalFooter(doc, pageWidth, pageHeight, i, totalPages, businessName);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...COLORS.textMuted);
+    doc.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
   }
   
-  const fileName = `rug-inspection-${inspection.rug_number}-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
+  const fileName = `inspection-report-${rug.rug_number}-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
   doc.save(fileName);
 };
