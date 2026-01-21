@@ -7,6 +7,56 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Rate limiting: 10 verification requests per minute per session ID
+// This prevents brute-force attempts to guess session IDs
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(identifier: string): { allowed: boolean; retryAfter?: number } {
+  const now = Date.now();
+  const limit = rateLimitStore.get(identifier);
+
+  // Clean up expired entries periodically
+  if (rateLimitStore.size > 1000) {
+    for (const [key, value] of rateLimitStore.entries()) {
+      if (now > value.resetTime) {
+        rateLimitStore.delete(key);
+      }
+    }
+  }
+
+  if (!limit || now > limit.resetTime) {
+    // First request or window expired - reset counter
+    rateLimitStore.set(identifier, {
+      count: 1,
+      resetTime: now + RATE_LIMIT_WINDOW_MS,
+    });
+    return { allowed: true };
+  }
+
+  if (limit.count >= RATE_LIMIT_MAX_REQUESTS) {
+    // Rate limit exceeded
+    const retryAfter = Math.ceil((limit.resetTime - now) / 1000);
+    return { allowed: false, retryAfter };
+  }
+
+  // Increment counter
+  limit.count++;
+  return { allowed: true };
+}
+
+// Get client IP for rate limiting (fallback to session prefix if no IP)
+function getClientIdentifier(req: Request, sessionId?: string): string {
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  const realIp = req.headers.get("x-real-ip");
+  const ip = forwardedFor?.split(",")[0]?.trim() || realIp || "unknown";
+  
+  // Combine IP with session prefix for more precise rate limiting
+  const sessionPrefix = sessionId?.substring(0, 20) || "no-session";
+  return `${ip}:${sessionPrefix}`;
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -23,6 +73,28 @@ serve(async (req) => {
     // Validate sessionId format to prevent injection
     if (typeof sessionId !== 'string' || !sessionId.startsWith('cs_')) {
       throw new Error("Invalid session ID format");
+    }
+
+    // RATE LIMITING: Check if client has exceeded verification attempts
+    const clientIdentifier = getClientIdentifier(req, sessionId);
+    const rateLimitResult = checkRateLimit(clientIdentifier);
+    if (!rateLimitResult.allowed) {
+      console.warn(`Rate limit exceeded for client ${clientIdentifier}`);
+      return new Response(
+        JSON.stringify({ 
+          error: "Too many verification attempts. Please try again later.",
+          success: false,
+          retryAfter: rateLimitResult.retryAfter
+        }),
+        { 
+          status: 429, 
+          headers: { 
+            ...corsHeaders, 
+            "Content-Type": "application/json",
+            "Retry-After": String(rateLimitResult.retryAfter)
+          } 
+        }
+      );
     }
 
     // Initialize Stripe
