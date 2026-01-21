@@ -189,9 +189,14 @@ const ClientPortal = () => {
       if (rugsError) throw rugsError;
 
       const processedRugs: RugData[] = (rugsData || [])
-        .filter(r => r.approved_estimates && r.approved_estimates.length > 0)
+        .filter(r => {
+          // Cast to array since Supabase returns array for one-to-many relations
+          const estimates = r.approved_estimates as unknown as Array<{ id: string; services: unknown; total_amount: number }>;
+          return estimates && estimates.length > 0;
+        })
         .map(r => {
-          const estimate = r.approved_estimates[0];
+          const estimates = r.approved_estimates as unknown as Array<{ id: string; services: unknown; total_amount: number }>;
+          const estimate = estimates[0];
           return {
             id: r.id,
             rug_number: r.rug_number,
