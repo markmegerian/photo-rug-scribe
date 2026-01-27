@@ -324,7 +324,8 @@ const JobDetail = () => {
     
     setResendingInvite(true);
     try {
-      const portalUrl = `https://app.rugboost.com/client/${clientPortalStatus.accessToken}`;
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+      const portalUrl = `${baseUrl}/client/${clientPortalStatus.accessToken}`;
       
       const { error: inviteError } = await supabase.functions.invoke('invite-client', {
         body: {
@@ -403,7 +404,8 @@ const JobDetail = () => {
       if (error) throw error;
 
       // Generate the portal URL
-      const portalUrl = `https://app.rugboost.com/client/${accessToken}`;
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+      const portalUrl = `${baseUrl}/client/${accessToken}`;
 
       // Invite the client (creates user account, links to job, and sends email)
       const { data: inviteData, error: inviteError } = await supabase.functions.invoke('invite-client', {
@@ -431,7 +433,7 @@ const JobDetail = () => {
         })
         .eq('id', jobId);
 
-      const link = `https://app.rugboost.com/client/${accessToken}`;
+      const link = `${baseUrl}/client/${accessToken}`;
       setClientPortalLink(link);
       
       // Copy to clipboard

@@ -47,6 +47,65 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_analysis_feedback: {
+        Row: {
+          corrected_identification: string | null
+          corrected_price: number | null
+          corrected_service_name: string | null
+          created_at: string | null
+          feedback_type: string
+          id: string
+          inspection_id: string | null
+          notes: string | null
+          original_price: number | null
+          original_rug_identification: string | null
+          original_service_name: string | null
+          rug_origin: string | null
+          rug_type: string | null
+          user_id: string
+        }
+        Insert: {
+          corrected_identification?: string | null
+          corrected_price?: number | null
+          corrected_service_name?: string | null
+          created_at?: string | null
+          feedback_type: string
+          id?: string
+          inspection_id?: string | null
+          notes?: string | null
+          original_price?: number | null
+          original_rug_identification?: string | null
+          original_service_name?: string | null
+          rug_origin?: string | null
+          rug_type?: string | null
+          user_id: string
+        }
+        Update: {
+          corrected_identification?: string | null
+          corrected_price?: number | null
+          corrected_service_name?: string | null
+          created_at?: string | null
+          feedback_type?: string
+          id?: string
+          inspection_id?: string | null
+          notes?: string | null
+          original_price?: number | null
+          original_rug_identification?: string | null
+          original_service_name?: string | null
+          rug_origin?: string | null
+          rug_type?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_analysis_feedback_inspection_id_fkey"
+            columns: ["inspection_id"]
+            isOneToOne: false
+            referencedRelation: "inspections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       approved_estimates: {
         Row: {
           approved_by_staff_at: string | null

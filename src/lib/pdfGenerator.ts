@@ -55,6 +55,18 @@ export interface UpsellService {
 }
 
 // ========================
+// FONT CONFIGURATION
+// ========================
+// Using Helvetica (sans-serif) for modern, clean appearance
+const FONT = {
+  family: 'helvetica' as const,
+  bold: 'bold' as const,
+  normal: 'normal' as const,
+  italic: 'oblique' as const, // Helvetica uses 'oblique' not 'italic'
+  boldItalic: 'boldoblique' as const,
+};
+
+// ========================
 // LUXURY MEGERIAN COLOR PALETTE
 // ========================
 const COLORS = {
@@ -201,7 +213,7 @@ const drawSectionHeader = (
   
   // Section title
   doc.setFontSize(13);
-  doc.setFont('times', 'bold');
+  doc.setFont(FONT.family, FONT.bold);
   doc.setTextColor(...COLORS.navy);
   doc.text(text, x + 10, y + 2);
   
@@ -229,7 +241,7 @@ const drawRugEntryHeader = (
   
   // Rug title
   doc.setFontSize(11);
-  doc.setFont('times', 'bold');
+  doc.setFont(FONT.family, FONT.bold);
   doc.setTextColor(...COLORS.navy);
   doc.text(text, x + 6, y + 3);
   
@@ -400,7 +412,7 @@ const addPhotosToPDF = async (
   
   if (!skipHeader) {
     doc.setFontSize(12);
-    doc.setFont('times', 'bold');
+    doc.setFont(FONT.family, FONT.bold);
     doc.setTextColor(...COLORS.navy);
     doc.text('Inspection Photos', margin, yPos);
     yPos += 8;
@@ -433,7 +445,7 @@ const addPhotosToPDF = async (
         if (base64) {
           const photoLabel = PHOTO_LABELS[photoIndex] || `Photo ${photoIndex + 1}`;
           doc.setFontSize(8);
-          doc.setFont('times', 'bold');
+          doc.setFont(FONT.family, FONT.bold);
           doc.setTextColor(...COLORS.textMuted);
           doc.text(photoLabel, xPos, yPos);
           
@@ -464,7 +476,7 @@ const addPhotosToPDF = async (
               doc.circle(markerX, markerY, 2.5, 'S');
               
               doc.setFontSize(6);
-              doc.setFont('times', 'bold');
+              doc.setFont(FONT.family, FONT.bold);
               doc.setTextColor(...COLORS.white);
               doc.text((k + 1).toString(), markerX, markerY + 0.7, { align: 'center' });
             }
@@ -493,11 +505,11 @@ const addPhotosToPDF = async (
               doc.setFillColor(...COLORS.gold);
               doc.circle(xPos + 5, legendY + 1, 2, 'F');
               doc.setTextColor(...COLORS.white);
-              doc.setFont('times', 'bold');
+              doc.setFont(FONT.family, FONT.bold);
               doc.text((k + 1).toString(), xPos + 5, legendY + 1.7, { align: 'center' });
               
               doc.setTextColor(...COLORS.text);
-              doc.setFont('times', 'normal');
+              doc.setFont(FONT.family, FONT.normal);
               labelLines.forEach((labelLine: string, lineIdx: number) => {
                 doc.text(labelLine, xPos + 9, legendY + 2 + (lineIdx * 3.5));
               });

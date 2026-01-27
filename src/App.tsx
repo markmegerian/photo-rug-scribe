@@ -38,6 +38,10 @@ const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
 const ScreenshotGenerator = lazy(() => import("./pages/ScreenshotGenerator"));
 const AdminAuditLog = lazy(() => import("./pages/admin/AdminAuditLog"));
 
+// Legal Pages
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+
 const queryClient = new QueryClient();
 
 // Loading fallback component
@@ -85,6 +89,10 @@ const App = () => (
                 
                 {/* Utility Routes */}
                 <Route path="/screenshots" element={<ScreenshotGenerator />} />
+                
+                {/* Legal Routes */}
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
                 
                 <Route path="*" element={<NotFound />} />
               </Routes>
