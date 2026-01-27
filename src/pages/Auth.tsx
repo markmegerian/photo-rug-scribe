@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, User, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -240,6 +240,18 @@ const Auth = () => {
                 </form>
               </TabsContent>
             </Tabs>
+
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              By continuing, you agree to our{' '}
+              <Link to="/terms-of-service" className="text-primary hover:underline">
+                Terms of Service
+              </Link>{' '}
+              and{' '}
+              <Link to="/privacy-policy" className="text-primary hover:underline">
+                Privacy Policy
+              </Link>
+              .
+            </p>
           </CardContent>
         </Card>
       </main>
