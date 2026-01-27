@@ -3,29 +3,29 @@ import { LogOut, Settings, LayoutDashboard, Shield, History } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
-
 interface AdminHeaderProps {
   title?: string;
   subtitle?: string;
 }
-
-export const AdminHeader = ({ title = 'Platform Admin', subtitle = 'Manage businesses and payouts' }: AdminHeaderProps) => {
+export const AdminHeader = ({
+  title = 'Platform Admin',
+  subtitle = 'Manage businesses and payouts'
+}: AdminHeaderProps) => {
   const navigate = useNavigate();
-  const { signOut } = useAuth();
-
+  const {
+    signOut
+  } = useAuth();
   const handleSignOut = async () => {
     await signOut();
     navigate('/auth');
   };
-
-  return (
-    <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
+  return <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <div className="flex items-center gap-3">
           <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display text-xl font-bold text-foreground">{title}</h1>
+              <h1 className="text-xl font-bold text-foreground font-sans">{title}</h1>
               <Shield className="h-4 w-4 text-primary" />
             </div>
             <p className="text-xs text-muted-foreground">{subtitle}</p>
@@ -57,6 +57,5 @@ export const AdminHeader = ({ title = 'Platform Admin', subtitle = 'Manage busin
           </Button>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
