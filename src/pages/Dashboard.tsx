@@ -14,33 +14,25 @@ import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { format } from 'date-fns';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
 import NotificationBell from '@/components/NotificationBell';
-
 const getStatusBadge = (status: string) => {
   switch (status) {
     case 'completed':
-      return (
-        <Badge variant="outline" className="gap-1 border-green-500 text-green-600">
+      return <Badge variant="outline" className="gap-1 border-green-500 text-green-600">
           <CheckCircle className="h-3 w-3" />
           Completed
-        </Badge>
-      );
+        </Badge>;
     case 'in-progress':
-      return (
-        <Badge variant="outline" className="gap-1 border-yellow-500 text-yellow-600">
+      return <Badge variant="outline" className="gap-1 border-yellow-500 text-yellow-600">
           <Clock className="h-3 w-3" />
           In Progress
-        </Badge>
-      );
+        </Badge>;
     default:
-      return (
-        <Badge variant="outline" className="gap-1 border-blue-500 text-blue-600">
+      return <Badge variant="outline" className="gap-1 border-blue-500 text-blue-600">
           <PlayCircle className="h-3 w-3" />
           Active
-        </Badge>
-      );
+        </Badge>;
   }
 };
-
 interface Job {
   id: string;
   job_number: string;
@@ -52,52 +44,56 @@ interface Job {
   created_at: string;
   rug_count?: number;
 }
-
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, loading: authLoading, signOut } = useAuth();
-  const { isAdmin } = useAdminAuth();
+  const {
+    user,
+    loading: authLoading,
+    signOut
+  } = useAuth();
+  const {
+    isAdmin
+  } = useAdminAuth();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('all');
-
   useEffect(() => {
     if (!authLoading && !user) {
       navigate('/auth');
     }
   }, [user, authLoading, navigate]);
-
   useEffect(() => {
     if (user) {
       fetchJobs();
     }
   }, [user]);
-
   const fetchJobs = async () => {
     setLoading(true);
     try {
       // Fetch jobs
-      const { data: jobsData, error: jobsError } = await supabase
-        .from('jobs')
-        .select('*')
-        .order('created_at', { ascending: false });
-
+      const {
+        data: jobsData,
+        error: jobsError
+      } = await supabase.from('jobs').select('*').order('created_at', {
+        ascending: false
+      });
       if (jobsError) throw jobsError;
 
       // Fetch rug counts for each job
-      const jobsWithCounts = await Promise.all(
-        (jobsData || []).map(async (job) => {
-          const { count } = await supabase
-            .from('inspections')
-            .select('*', { count: 'exact', head: true })
-            .eq('job_id', job.id);
-
-          return { ...job, rug_count: count || 0 };
-        })
-      );
-
+      const jobsWithCounts = await Promise.all((jobsData || []).map(async job => {
+        const {
+          count
+        } = await supabase.from('inspections').select('*', {
+          count: 'exact',
+          head: true
+        }).eq('job_id', job.id);
+        return {
+          ...job,
+          rug_count: count || 0
+        };
+      }));
       setJobs(jobsWithCounts);
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -106,17 +102,13 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
-
   const handleSignOut = async () => {
     await signOut();
     navigate('/auth');
   };
-
-  const filteredJobs = jobs.filter((job) => {
+  const filteredJobs = jobs.filter(job => {
     // Search filter
-    const matchesSearch =
-      job.client_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.job_number.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = job.client_name.toLowerCase().includes(searchQuery.toLowerCase()) || job.job_number.toLowerCase().includes(searchQuery.toLowerCase());
 
     // Status filter
     const matchesStatus = statusFilter === 'all' || job.status === statusFilter;
@@ -136,27 +128,21 @@ const Dashboard = () => {
         matchesDate = jobDate >= monthAgo;
       }
     }
-
     return matchesSearch && matchesStatus && matchesDate;
   });
-
   if (authLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+    return <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
             <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
             <div>
-              <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
+              <h1 className="text-xl font-bold text-foreground font-sans">RugBoost</h1>
               <p className="text-xs text-muted-foreground">Job Dashboard</p>
             </div>
           </div>
@@ -177,12 +163,10 @@ const Dashboard = () => {
               <DollarSign className="h-4 w-4" />
               A/R
             </Button>
-            {isAdmin && (
-              <Button onClick={() => navigate('/admin')} variant="outline" size="sm" className="gap-2 hidden sm:flex">
+            {isAdmin && <Button onClick={() => navigate('/admin')} variant="outline" size="sm" className="gap-2 hidden sm:flex">
                 <Shield className="h-4 w-4" />
                 Admin
-              </Button>
-            )}
+              </Button>}
             <NotificationBell />
             <Button onClick={() => navigate('/settings')} variant="ghost" size="icon">
               <Settings className="h-4 w-4" />
@@ -209,12 +193,7 @@ const Dashboard = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search by client or job number..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
+                  <Input placeholder="Search by client or job number..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger>
@@ -255,22 +234,15 @@ const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {loading ? (
-                <div className="flex items-center justify-center py-12">
+              {loading ? <div className="flex items-center justify-center py-12">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                </div>
-              ) : filteredJobs.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
+                </div> : filteredJobs.length === 0 ? <div className="text-center py-12 text-muted-foreground">
                   <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-50" />
                   <p>No jobs found</p>
-                  {jobs.length === 0 && (
-                    <Button onClick={() => navigate('/jobs/new')} className="mt-4">
+                  {jobs.length === 0 && <Button onClick={() => navigate('/jobs/new')} className="mt-4">
                       Create Your First Job
-                    </Button>
-                  )}
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
+                    </Button>}
+                </div> : <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -283,12 +255,7 @@ const Dashboard = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredJobs.map((job) => (
-                        <TableRow
-                          key={job.id}
-                          className="cursor-pointer hover:bg-muted/50"
-                          onClick={() => navigate(`/jobs/${job.id}`)}
-                        >
+                      {filteredJobs.map(job => <TableRow key={job.id} className="cursor-pointer hover:bg-muted/50" onClick={() => navigate(`/jobs/${job.id}`)}>
                           <TableCell className="font-medium">
                             {format(new Date(job.created_at), 'MMM d, yyyy')}
                           </TableCell>
@@ -307,18 +274,14 @@ const Dashboard = () => {
                               <ChevronRight className="h-4 w-4" />
                             </Button>
                           </TableCell>
-                        </TableRow>
-                      ))}
+                        </TableRow>)}
                     </TableBody>
                   </Table>
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
         </div>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Dashboard;
