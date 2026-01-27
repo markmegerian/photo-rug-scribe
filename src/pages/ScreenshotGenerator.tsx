@@ -86,7 +86,7 @@ const ScreenshotGenerator: React.FC = () => {
       const canvas = await html2canvas(slideRef, {
         scale: 3, // High resolution
         useCORS: true,
-        backgroundColor: null,
+        backgroundColor: '#FFFFFF', // Solid white base - no alpha channel for App Store
         width: specs.width / 3,
         height: specs.height / 3,
       });
