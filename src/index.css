@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:wght@400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=SF+Mono&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -55,13 +58,15 @@
     --navy: 210 50% 25%;
     --navy-light: 210 45% 35%;
     --warm-gray: 220 10% 45%;
-    
+
     --gradient-warm: linear-gradient(135deg, hsl(210 70% 45%) 0%, hsl(263 55% 58%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(220 30% 99%) 0%, hsl(220 25% 95%) 100%);
-    
+
     --shadow-soft: 0 4px 20px -4px hsl(20 15% 15% / 0.08);
     --shadow-medium: 0 8px 30px -8px hsl(20 15% 15% / 0.12);
     --shadow-card: 0 2px 12px -2px hsl(20 15% 15% / 0.06);
+    --font-serif: "Libre Baskerville", ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
+    --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   }
 
   .dark {
@@ -101,6 +106,8 @@
     --sidebar-accent-foreground: 220 20% 90%;
     --sidebar-border: 220 12% 20%;
     --sidebar-ring: 210 65% 55%;
+    --font-serif: "Libre Baskerville", ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
+    --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   }
 }
 
@@ -127,7 +134,7 @@
   .sticky-header {
     padding-top: max(env(safe-area-inset-top), 0px);
   }
-  
+
   /* Safe area aware fixed bottom elements */
   .fixed-bottom {
     padding-bottom: max(env(safe-area-inset-bottom), 0px);
@@ -136,14 +143,14 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'DM Serif Display', Georgia, serif;
   }
-  
+
   /* Disable text selection on native app UI elements */
   .no-select {
     -webkit-user-select: none;
     user-select: none;
     -webkit-touch-callout: none;
   }
-  
+
   /* Touch-friendly tap targets */
   button, a, [role="button"] {
     -webkit-tap-highlight-color: transparent;
@@ -154,58 +161,58 @@
   .font-display {
     font-family: 'DM Serif Display', Georgia, serif;
   }
-  
+
   .font-body {
     font-family: 'DM Sans', system-ui, sans-serif;
   }
-  
+
   .gradient-warm {
     background: var(--gradient-warm);
   }
-  
+
   .gradient-subtle {
     background: var(--gradient-subtle);
   }
-  
+
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
-  
+
   .shadow-medium {
     box-shadow: var(--shadow-medium);
   }
-  
+
   .shadow-card {
     box-shadow: var(--shadow-card);
   }
-  
+
   /* iOS safe area utilities */
   .safe-top {
     padding-top: env(safe-area-inset-top);
   }
-  
+
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
-  
+
   .safe-left {
     padding-left: env(safe-area-inset-left);
   }
-  
+
   .safe-right {
     padding-right: env(safe-area-inset-right);
   }
-  
+
   .safe-x {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
   }
-  
+
   .safe-y {
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
   }
-  
+
   .min-h-screen-safe {
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
