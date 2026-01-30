@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
+import RugPhoto from '@/components/RugPhoto';
 
 // Helper to check if a service is a mandatory cleaning service
 const isCleaningService = (serviceName: string): boolean => {
@@ -793,11 +794,12 @@ const ClientPortal = () => {
                             {rug.photo_urls && rug.photo_urls.length > 0 ? (
                               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                                 {rug.photo_urls.map((url, idx) => (
-                                  <img
+                                  <RugPhoto
                                     key={idx}
-                                    src={url}
+                                    filePath={url}
                                     alt={`${rug.rug_number} photo ${idx + 1}`}
                                     className="w-full h-32 object-cover rounded-lg border"
+                                    loadingClassName="w-full h-32"
                                   />
                                 ))}
                               </div>
