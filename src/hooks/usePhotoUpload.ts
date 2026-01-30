@@ -59,16 +59,9 @@ export const usePhotoUpload = (options: UsePhotoUploadOptions = {}): UsePhotoUpl
       throw new Error(`Failed to upload ${photo.name}`);
     }
 
-    const { data: signedUrlData, error: urlError } = await supabase.storage
-      .from(bucket)
-      .createSignedUrl(data.path, expirySeconds);
-
-    if (urlError) {
-      console.error('Signed URL error:', urlError);
-      throw new Error(`Failed to get URL for ${photo.name}`);
-    }
-
-    return signedUrlData.signedUrl;
+    // Return the storage path instead of a signed URL
+    // Signed URLs will be generated on-demand when displaying images
+    return data.path;
   };
 
   const uploadPhotos = useCallback(

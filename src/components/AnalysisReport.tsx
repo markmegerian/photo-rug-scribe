@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { generatePDF } from '@/lib/pdfGenerator';
 import { useCapacitor, ImpactStyle } from '@/hooks/useCapacitor';
+import RugPhoto from '@/components/RugPhoto';
 
 interface ImageAnnotation {
   label: string;
@@ -614,11 +615,10 @@ const AnalysisReportComponent: React.FC<AnalysisReportProps> = ({
                       className={`relative rounded-lg overflow-hidden border border-border ${editMode ? 'cursor-crosshair' : ''} select-none`}
                       onClick={(e) => handleImageClick(e, photoIndex)}
                     >
-                      <img
-                        src={url}
+                      <RugPhoto
+                        filePath={url}
                         alt={`Rug photo ${photoIndex + 1}`}
                         className="w-full h-auto object-cover pointer-events-none"
-                        draggable={false}
                       />
                       {/* Annotation markers */}
                       {annotations.map((annotation, annIndex) => {
