@@ -1,130 +1,31 @@
 /**
  * useUnsavedChanges Hook
- * Custom navigation blocking for BrowserRouter (works without data router)
+ * TEMPORARILY DISABLED - returning no-op to avoid confusion during job creation flow
+ * TODO: Re-enable once navigation blocking is properly integrated
  */
-import { useEffect, useCallback, useState, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 /**
  * Hook to track and warn about unsaved changes
- * Works with BrowserRouter - no data router required
+ * Currently disabled - returns no-op values
  */
-export function useUnsavedChanges(hasChanges: boolean) {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [pendingPath, setPendingPath] = useState<string | null>(null);
-  const hasChangesRef = useRef(hasChanges);
-
-  // Keep ref in sync
-  useEffect(() => {
-    hasChangesRef.current = hasChanges;
-  }, [hasChanges]);
-
-  // Handle browser refresh/close
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (hasChanges) {
-        e.preventDefault();
-        e.returnValue = '';
-        return '';
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [hasChanges]);
-
-  // Intercept pushState/replaceState for in-app navigation
-  useEffect(() => {
-    const originalPushState = window.history.pushState.bind(window.history);
-    const originalReplaceState = window.history.replaceState.bind(window.history);
-
-    const interceptNavigation = (url: string | URL | null | undefined): boolean => {
-      if (!hasChangesRef.current) return false;
-      
-      const targetPath = typeof url === 'string' ? url : url?.toString() || '';
-      // Only intercept if navigating to a different path
-      if (targetPath && targetPath !== location.pathname && !targetPath.startsWith('#')) {
-        setPendingPath(targetPath);
-        return true; // Block navigation
-      }
-      return false;
-    };
-
-    window.history.pushState = function (data, unused, url) {
-      if (interceptNavigation(url)) {
-        return; // Block the navigation
-      }
-      return originalPushState(data, unused, url);
-    };
-
-    window.history.replaceState = function (data, unused, url) {
-      if (interceptNavigation(url)) {
-        return; // Block the navigation
-      }
-      return originalReplaceState(data, unused, url);
-    };
-
-    // Handle popstate (back/forward buttons)
-    const handlePopState = () => {
-      if (hasChangesRef.current) {
-        // Push current state back to prevent navigation
-        window.history.pushState(null, '', location.pathname);
-        setPendingPath('__back__');
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.history.pushState = originalPushState;
-      window.history.replaceState = originalReplaceState;
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [location.pathname]);
-
-  const confirmNavigation = useCallback(() => {
-    if (pendingPath) {
-      const path = pendingPath;
-      setPendingPath(null);
-      if (path === '__back__') {
-        window.history.back();
-      } else {
-        navigate(path);
-      }
-    }
-  }, [pendingPath, navigate]);
-
-  const cancelNavigation = useCallback(() => {
-    setPendingPath(null);
-  }, []);
-
+export function useUnsavedChanges(_hasChanges: boolean) {
   return {
-    isBlocked: pendingPath !== null,
-    pendingPath,
-    confirmNavigation,
-    cancelNavigation,
+    isBlocked: false,
+    pendingPath: null,
+    confirmNavigation: () => {},
+    cancelNavigation: () => {},
   };
 }
 
 /**
  * Hook to track form dirty state
- * Compare initial values with current values
+ * Currently disabled - always returns false
  */
 export function useFormDirtyState<T extends Record<string, unknown>>(
-  initialValues: T,
-  currentValues: T
+  _initialValues: T,
+  _currentValues: T
 ): boolean {
-  const [isDirty, setIsDirty] = useState(false);
-
-  useEffect(() => {
-    const dirty = Object.keys(initialValues).some(
-      (key) => initialValues[key] !== currentValues[key]
-    );
-    setIsDirty(dirty);
-  }, [initialValues, currentValues]);
-
-  return isDirty;
+  return false;
 }
 
 export default useUnsavedChanges;
