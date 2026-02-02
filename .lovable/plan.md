@@ -1,43 +1,33 @@
 
-# Reset Analysis Data for Demo Jobs
+# Fix Capacitor Version Mismatch
 
-## Summary
-I'll clear the AI analysis data from the specified jobs so you can walk through the analysis process step-by-step with someone.
+## Problem
+The `@capacitor/cli` package is at version 8.x while all other Capacitor packages are at version 6.x. Mixing major versions can cause build failures and unexpected behavior.
 
-## Jobs to Reset
+## Solution
+Downgrade `@capacitor/cli` from `^8.0.2` to `^6.2.0` to match the rest of the Capacitor ecosystem in your project.
 
-| Job # | Client | Rugs | Action |
-|-------|--------|------|--------|
-| 123123 | mark | 1 rug | Clear analysis |
-| asda | Mark Megerian | 1 rug | Clear analysis |
-| Kaye | Annie kate | 1 rug | Clear analysis |
-| Julia | Julia Rega | 1 rug | Clear analysis |
-| Martha | Martha Parker | 2 rugs | Clear analysis |
+## Change
 
-**Total: 6 rugs across 5 jobs**
+**File: `package.json`**
 
-## What Will Be Reset
-For each rug (inspection):
-- `analysis_report` - Set to NULL (removes the AI-generated report)
-- `image_annotations` - Set to NULL (removes any damage markers)
-- `estimate_approved` - Set to false (allows re-approval)
+| Package | Before | After |
+|---------|--------|-------|
+| `@capacitor/cli` | `^8.0.2` | `^6.2.0` |
 
-Also need to remove any approved estimates for these jobs so the workflow starts fresh.
+Also, `@capacitor/cli` should be moved from `dependencies` to `devDependencies` since it's only used during development (for commands like `cap sync`, `cap build`, etc.).
 
-## Technical Details
+## After This Fix
+All Capacitor packages will be aligned at version 6.x:
+- `@capacitor/cli`: 6.2.0
+- `@capacitor/core`: 6.2.1
+- `@capacitor/android`: 6.2.1
+- `@capacitor/ios`: 6.2.1
+- All plugins: 6.x
 
-### Step 1: Clear Inspection Analysis Data
-Run SQL update to reset analysis fields on the 6 inspections identified.
-
-### Step 2: Remove Approved Estimates
-Delete any `approved_estimates` records linked to these jobs so the estimate approval step can be redone.
-
-### Step 3: Reset Job Status (Optional)
-If you want jobs to appear as "active" again, can also reset the `all_estimates_approved` flag on the jobs table.
-
-## After Reset
-You'll be able to:
-1. Open each job and see rugs without analysis
-2. Click "Analyze" to run the AI analysis fresh
-3. Review and approve estimates
-4. Walk through the complete workflow
+## Next Steps After Approval
+Once you pull the updated code locally:
+```bash
+npm install
+npx cap sync
+```
