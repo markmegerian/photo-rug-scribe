@@ -43,6 +43,8 @@ import StatusGatedButton from '@/components/StatusGatedButton';
 import { useJobActions } from '@/hooks/useJobActions';
 import RugPhoto from '@/components/RugPhoto';
 import JobBreadcrumb from '@/components/JobBreadcrumb';
+import MobileJobActionBar from '@/components/MobileJobActionBar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ClientPortalStatusData {
   accessToken: string;
@@ -1008,26 +1010,42 @@ const JobDetail = () => {
         current={analysisCurrent}
         total={analysisTotal}
       />
-      <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
-            <div>
-              <h1 className="font-display text-xl font-bold text-foreground">Job #{job.job_number}</h1>
-              <p className="text-xs text-muted-foreground">{job.client_name}</p>
+      <div className="min-h-screen bg-background pb-20 md:pb-0">
+      {/* Header - Mobile optimized with status visible */}
+      <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur-md">
+        <div className="container mx-auto px-4 py-3 md:py-4">
+          {/* Mobile: Compact header */}
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="shrink-0 md:hidden h-9 w-9"
+                onClick={() => navigate('/dashboard')}
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+              <img src={rugboostLogo} alt="RugBoost" className="h-8 w-8 md:h-10 md:w-10 shrink-0" />
+              <div className="min-w-0">
+                <h1 className="font-display text-lg md:text-xl font-bold text-foreground truncate">
+                  Job #{job.job_number}
+                </h1>
+                <p className="text-xs text-muted-foreground truncate">{job.client_name}</p>
+              </div>
             </div>
+            <Button variant="outline" onClick={() => navigate('/dashboard')} className="hidden md:flex">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Jobs
+            </Button>
           </div>
-          <Button variant="outline" onClick={() => navigate('/dashboard')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Jobs
-          </Button>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-6">
-        <JobBreadcrumb jobNumber={job.job_number} jobId={job.id} />
+      <main className="container mx-auto px-4 py-4 md:py-8 space-y-4 md:space-y-6">
+        {/* Breadcrumb - Hidden on mobile for cleaner UI */}
+        <div className="hidden md:block">
+          <JobBreadcrumb jobNumber={job.job_number} jobId={job.id} />
+        </div>
         {/* Section 1: Job Status Control - Most prominent */}
         {(() => {
           // Build validation context for state machine
@@ -1084,57 +1102,73 @@ const JobDetail = () => {
           );
         })()}
 
-        {/* Section A: Client & Logistics */}
+        {/* Section A: Client & Logistics - Collapsible on mobile */}
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <User className="h-5 w-5 text-primary" />
+          <CardHeader className="pb-2 md:pb-3">
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
+              <User className="h-4 w-4 md:h-5 md:w-5 text-primary" />
               Client & Logistics
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="flex items-start gap-3">
-                <User className="h-4 w-4 mt-1 text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Client Name</p>
-                  <p className="font-medium">{job.client_name}</p>
+          <CardContent className="pt-0">
+            {/* Mobile: 2-column compact grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+              <div className="flex items-start gap-2">
+                <User className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Client</p>
+                  <p className="text-sm font-medium truncate">{job.client_name}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Mail className="h-4 w-4 mt-1 text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Email</p>
-                  <p className="font-medium">{job.client_email || '—'}</p>
+              <div className="flex items-start gap-2">
+                <Phone className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Phone</p>
+                  {job.client_phone ? (
+                    <a href={`tel:${job.client_phone}`} className="text-sm font-medium text-primary truncate block">
+                      {job.client_phone}
+                    </a>
+                  ) : (
+                    <p className="text-sm font-medium text-muted-foreground">—</p>
+                  )}
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Phone className="h-4 w-4 mt-1 text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Phone</p>
-                  <p className="font-medium">{job.client_phone || '—'}</p>
+              <div className="flex items-start gap-2">
+                <Mail className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Email</p>
+                  {job.client_email ? (
+                    <a href={`mailto:${job.client_email}`} className="text-sm font-medium text-primary truncate block">
+                      {job.client_email}
+                    </a>
+                  ) : (
+                    <p className="text-sm font-medium text-muted-foreground">—</p>
+                  )}
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Calendar className="h-4 w-4 mt-1 text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Created</p>
-                  <p className="font-medium">{format(new Date(job.created_at), 'MMM d, yyyy')}</p>
+              <div className="flex items-start gap-2">
+                <Calendar className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Created</p>
+                  <p className="text-sm font-medium">{format(new Date(job.created_at), 'MMM d')}</p>
                 </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Section B: Photos/Scan Assets */}
+        {/* Section B: Photos/Scan Assets - Mobile optimized */}
         <Card>
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Image className="h-5 w-5 text-primary" />
-                Photos & Assets ({rugs.length} rugs, {rugs.reduce((acc, r) => acc + (r.photo_urls?.length || 0), 0)} photos)
+          <CardHeader className="pb-2 md:pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <CardTitle className="text-base md:text-lg flex items-center gap-2">
+                <Image className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                <span className="truncate">
+                  Rugs ({rugs.length}) • {rugs.reduce((acc, r) => acc + (r.photo_urls?.length || 0), 0)} photos
+                </span>
               </CardTitle>
-              <div className="flex items-center gap-2">
+              {/* Mobile: Actions in a row, hidden on mobile (in bottom bar) */}
+              <div className="hidden md:flex items-center gap-2">
                 {rugs.length > 0 && rugs.some(r => !r.analysis_report) && (
                   <StatusGatedButton 
                     actionState={actions.analyzeRug}
@@ -1166,36 +1200,19 @@ const JobDetail = () => {
                   <Plus className="h-4 w-4" />
                   Add Rug
                 </StatusGatedButton>
-                <Dialog open={isAddingRug} onOpenChange={setIsAddingRug}>
-                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle className="font-display text-xl">Add Rug to Job</DialogTitle>
-                    </DialogHeader>
-                    {isUploadingPhotos && (
-                      <PhotoUploadProgress 
-                        progress={uploadProgress} 
-                        isUploading={isUploadingPhotos} 
-                      />
-                    )}
-                    <RugForm
-                      onSubmit={handleAddRug}
-                      isLoading={addingRug}
-                      rugIndex={rugs.length}
-                    />
-                  </DialogContent>
-                </Dialog>
               </div>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             {rugs.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                <Image className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No rugs added yet</p>
-                <p className="text-sm mt-1">Click "Add Rug" to start</p>
+              <div className="text-center py-6 md:py-8 text-muted-foreground">
+                <Image className="h-10 w-10 md:h-12 md:w-12 mx-auto mb-3 md:mb-4 opacity-50" />
+                <p className="text-sm md:text-base">No rugs added yet</p>
+                <p className="text-xs md:text-sm mt-1">Tap the + button to add your first rug</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              /* Mobile: Full-width stacked cards, Desktop: Grid */
+              <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4">
                 {rugs.map((rug) => (
                   <div key={rug.id} className="border rounded-lg p-3 space-y-2">
                     <div className="flex items-center justify-between">
@@ -1234,16 +1251,26 @@ const JobDetail = () => {
                         )}
                       </div>
                     )}
-                    {/* Actions */}
-                    <div className="flex items-center gap-1 pt-1">
+                    {/* Actions - Mobile touch-friendly */}
+                    <div className="flex items-center gap-2 pt-2">
                       {rug.analysis_report ? (
                         <>
-                          <Button variant="outline" size="sm" onClick={() => handleViewReport(rug)} className="flex-1 gap-1">
-                            <Eye className="h-3 w-3" />
-                            Report
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => handleViewReport(rug)} 
+                            className="flex-1 h-9 gap-1.5"
+                          >
+                            <Eye className="h-4 w-4" />
+                            <span className="hidden xs:inline">View</span> Report
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => handleDownloadPDF(rug)}>
-                            <Download className="h-3 w-3" />
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => handleDownloadPDF(rug)}
+                            className="h-9 w-9 p-0"
+                          >
+                            <Download className="h-4 w-4" />
                           </Button>
                         </>
                       ) : (
@@ -1316,29 +1343,33 @@ const JobDetail = () => {
           </Card>
         )}
 
-        {/* Section D: Expert Estimate */}
+        {/* Section D: Expert Estimate - Mobile optimized */}
         {approvedEstimates.length > 0 && (
           <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
+            <CardHeader className="pb-2 md:pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <DollarSign className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-base md:text-lg flex items-center gap-2">
+                    <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                     Expert Estimate
                   </CardTitle>
-                  <CardDescription>
-                    Professional assessment of required services
+                  <CardDescription className="text-xs md:text-sm">
+                    Professional assessment
                   </CardDescription>
                 </div>
-                <div className="text-right">
-                  <p className="text-2xl font-bold text-primary">
-                    ${approvedEstimates.reduce((sum, ae) => sum + ae.total_amount, 0).toFixed(2)}
-                  </p>
-                  <p className="text-xs text-muted-foreground">Total for {approvedEstimates.length} rug{approvedEstimates.length !== 1 ? 's' : ''}</p>
+                <div className="flex items-center justify-between sm:justify-end sm:text-right gap-4">
+                  <div>
+                    <p className="text-xl md:text-2xl font-bold text-primary">
+                      ${approvedEstimates.reduce((sum, ae) => sum + ae.total_amount, 0).toFixed(2)}
+                    </p>
+                    <p className="text-[10px] md:text-xs text-muted-foreground">
+                      {approvedEstimates.length} rug{approvedEstimates.length !== 1 ? 's' : ''}
+                    </p>
+                  </div>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4 pt-0">
               {approvedEstimates.map((ae) => {
                 const rug = rugs.find(r => r.id === ae.inspection_id);
                 // Group services by category
@@ -1609,6 +1640,49 @@ const JobDetail = () => {
           }}
         />
       )}
+      
+      {/* Add Rug Dialog - Moved outside for mobile access */}
+      <Dialog open={isAddingRug} onOpenChange={setIsAddingRug}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-display text-xl">Add Rug to Job</DialogTitle>
+          </DialogHeader>
+          {isUploadingPhotos && (
+            <PhotoUploadProgress 
+              progress={uploadProgress} 
+              isUploading={isUploadingPhotos} 
+            />
+          )}
+          <RugForm
+            onSubmit={handleAddRug}
+            isLoading={addingRug}
+            rugIndex={rugs.length}
+          />
+        </DialogContent>
+      </Dialog>
+      
+      {/* Mobile Bottom Action Bar */}
+      <MobileJobActionBar
+        actions={actions}
+        rugsCount={rugs.length}
+        hasUnanalyzedRugs={rugs.some(r => !r.analysis_report)}
+        hasApprovedEstimates={approvedEstimates.length > 0}
+        hasClientPortalLink={!!clientPortalLink}
+        isAnalyzing={analyzingAll}
+        isGeneratingLink={generatingPortalLink}
+        onAddRug={() => setIsAddingRug(true)}
+        onAnalyzeAll={handleAnalyzeAllRugs}
+        onSendToClient={generateClientPortalLink}
+        onAdvanceStatus={() => {
+          // Trigger status advance - handled by JobStatusControl
+          const statusControl = document.querySelector('[data-status-advance]');
+          if (statusControl) (statusControl as HTMLButtonElement).click();
+        }}
+        nextStatusLabel={(() => {
+          const next = getNextStatus(currentJobStatus);
+          return next ? JOB_STATUSES.find(s => s.value === next)?.label : undefined;
+        })()}
+      />
       </div>
     </>
   );

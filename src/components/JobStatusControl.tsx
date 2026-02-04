@@ -140,6 +140,7 @@ const JobStatusControl: React.FC<JobStatusControlProps> = ({
                 onClick={handleAdvance}
                 disabled={!canAdvance && !overrideEnabled}
                 className="gap-1"
+                data-status-advance
               >
                 Advance
                 <ChevronRight className="h-3 w-3" />
