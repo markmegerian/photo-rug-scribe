@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Camera, X, Check, ChevronLeft, ChevronRight, AlertCircle, Plus, SkipForward } from 'lucide-react';
+import { Camera, X, Check, ChevronLeft, ChevronRight, AlertCircle, Plus, SkipForward, ImagePlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -87,7 +87,8 @@ const GuidedPhotoCapture: React.FC<GuidedPhotoCaptureProps> = ({
   onRequiredComplete,
   maxPhotos = 50, // Allow many optional photos
 }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [photoData, setPhotoData] = useState<PhotoData[]>([]);
   const [captureMode, setCaptureMode] = useState<'guided' | 'additional'>('guided');
@@ -105,12 +106,7 @@ const GuidedPhotoCapture: React.FC<GuidedPhotoCaptureProps> = ({
     onRequiredComplete?.(allRequiredComplete);
   }, [allRequiredComplete, onRequiredComplete]);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length === 0) return;
-
-    const file = files[0];
-    
+  const processFile = (file: File) => {
     if (captureMode === 'guided') {
       const step = PHOTO_STEPS[currentStep];
       const newPhotoData: PhotoData = {
@@ -156,11 +152,22 @@ const GuidedPhotoCapture: React.FC<GuidedPhotoCaptureProps> = ({
       setPhotoData(updatedPhotoData);
       syncPhotos(updatedPhotoData);
     }
+  };
 
-    // Reset input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    
+    // Process first file for guided mode, all files for additional mode
+    if (captureMode === 'guided') {
+      processFile(files[0]);
+    } else {
+      files.forEach(file => processFile(file));
     }
+
+    // Reset inputs
+    if (cameraInputRef.current) cameraInputRef.current.value = '';
+    if (galleryInputRef.current) galleryInputRef.current.value = '';
   };
 
   const findNextUncapturedStep = (fromStep: number, data: PhotoData[]): number | null => {
@@ -210,9 +217,8 @@ const GuidedPhotoCapture: React.FC<GuidedPhotoCaptureProps> = ({
     }
   };
 
-  const openCamera = () => {
-    fileInputRef.current?.click();
-  };
+  const openCamera = () => cameraInputRef.current?.click();
+  const openGallery = () => galleryInputRef.current?.click();
 
   const getPhotoForStep = (stepId: string) => {
     return photoData.find(p => p.stepId === stepId);
@@ -224,11 +230,20 @@ const GuidedPhotoCapture: React.FC<GuidedPhotoCaptureProps> = ({
 
   return (
     <div className="space-y-6">
+      {/* Hidden inputs - separate for camera (with capture) and gallery (multiple) */}
       <input
-        ref={fileInputRef}
+        ref={cameraInputRef}
         type="file"
         accept="image/*"
         capture="environment"
+        onChange={handleFileSelect}
+        className="hidden"
+      />
+      <input
+        ref={galleryInputRef}
+        type="file"
+        accept="image/*"
+        multiple={captureMode === 'additional'}
         onChange={handleFileSelect}
         className="hidden"
       />
@@ -364,18 +379,35 @@ const GuidedPhotoCapture: React.FC<GuidedPhotoCaptureProps> = ({
                   </div>
                 </div>
               ) : (
-                <button
-                  type="button"
-                  onClick={openCamera}
-                  className="w-full aspect-video rounded-lg border-2 border-dashed border-primary/50 bg-primary/5 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-primary hover:bg-primary/10 transition-all"
-                >
+                <div className="w-full aspect-video rounded-lg border-2 border-dashed border-primary/50 bg-primary/5 flex flex-col items-center justify-center gap-3">
                   <div className="rounded-full bg-primary/20 p-4">
                     <Camera className="h-8 w-8 text-primary" />
                   </div>
                   <span className="text-sm font-medium text-primary">
-                    Tap to capture {PHOTO_STEPS[currentStep].title}
+                    Capture {PHOTO_STEPS[currentStep].title}
                   </span>
-                </button>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={openCamera}
+                      className="gap-1.5"
+                    >
+                      <Camera className="h-4 w-4" />
+                      Camera
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={openGallery}
+                      className="gap-1.5"
+                    >
+                      <ImagePlus className="h-4 w-4" />
+                      Gallery
+                    </Button>
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -472,14 +504,27 @@ const GuidedPhotoCapture: React.FC<GuidedPhotoCaptureProps> = ({
                   </div>
                 ))}
 
-                <button
-                  type="button"
-                  onClick={openCamera}
-                  className="aspect-square rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-primary/50 hover:bg-muted/30 transition-all"
-                >
-                  <Plus className="h-6 w-6 text-muted-foreground" />
-                  <span className="text-xs text-muted-foreground">Add Issue</span>
-                </button>
+                <div className="aspect-square rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-2">
+                  <div className="flex gap-1">
+                    <button
+                      type="button"
+                      onClick={openCamera}
+                      className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors"
+                      title="Take photo"
+                    >
+                      <Camera className="h-5 w-5 text-muted-foreground" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={openGallery}
+                      className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors"
+                      title="Choose from gallery"
+                    >
+                      <ImagePlus className="h-5 w-5 text-muted-foreground" />
+                    </button>
+                  </div>
+                  <span className="text-[10px] text-muted-foreground">Add Issue</span>
+                </div>
               </div>
             </div>
           </div>

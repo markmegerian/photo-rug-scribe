@@ -1,8 +1,7 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { Camera, X, ImagePlus, Upload, RotateCcw, Check, AlertCircle, Loader2 } from 'lucide-react';
+import { Camera, ImagePlus, X, Upload, RotateCcw, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { useCapacitor } from '@/hooks/useCapacitor';
 import { cn } from '@/lib/utils';
 
 interface PhotoItem {
@@ -13,11 +12,12 @@ interface PhotoItem {
   error?: string;
 }
 
-interface PhotoCaptureProps {
+interface MobilePhotoUploadProps {
   photos: File[];
   onPhotosChange: (photos: File[]) => void;
   maxPhotos?: number;
-  showUploadProgress?: boolean;
+  className?: string;
+  showProgress?: boolean;
   uploadProgress?: {
     total: number;
     completed: number;
@@ -26,17 +26,17 @@ interface PhotoCaptureProps {
   disabled?: boolean;
 }
 
-const PhotoCapture: React.FC<PhotoCaptureProps> = ({ 
-  photos, 
-  onPhotosChange, 
+const MobilePhotoUpload: React.FC<MobilePhotoUploadProps> = ({
+  photos,
+  onPhotosChange,
   maxPhotos = 10,
-  showUploadProgress = false,
+  className,
+  showProgress = false,
   uploadProgress,
   disabled = false,
 }) => {
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
-  const { isNative, takePhoto, pickPhotos, hapticSelection } = useCapacitor();
   const [photoItems, setPhotoItems] = useState<PhotoItem[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const [failedUploads, setFailedUploads] = useState<string[]>([]);
@@ -76,6 +76,7 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
 
     setPhotoItems(prev => {
       const updated = [...prev, ...newItems];
+      // Sync to parent
       onPhotosChange(updated.map(item => item.file));
       return updated;
     });
@@ -84,56 +85,15 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
   const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     addPhotos(files);
+    // Reset input
     if (cameraInputRef.current) cameraInputRef.current.value = '';
   };
 
   const handleGallerySelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     addPhotos(files);
+    // Reset input
     if (galleryInputRef.current) galleryInputRef.current.value = '';
-  };
-
-  // Convert native photo URI to File object
-  const uriToFile = async (uri: string, filename: string): Promise<File | null> => {
-    try {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      return new File([blob], filename, { type: blob.type || 'image/jpeg' });
-    } catch (error) {
-      console.error('Failed to convert URI to File:', error);
-      return null;
-    }
-  };
-
-  // Handle native camera capture
-  const handleNativeCamera = async () => {
-    const photo = await takePhoto();
-    if (photo?.webPath) {
-      hapticSelection();
-      const file = await uriToFile(photo.webPath, `photo_${Date.now()}.${photo.format || 'jpg'}`);
-      if (file) addPhotos([file]);
-    }
-  };
-
-  // Handle native photo picker
-  const handleNativePicker = async () => {
-    const remainingSlots = maxPhotos - photoItems.length;
-    const selectedPhotos = await pickPhotos(remainingSlots);
-    
-    if (selectedPhotos.length > 0) {
-      hapticSelection();
-      const files = await Promise.all(
-        selectedPhotos.map(async (photo, index) => {
-          if (photo.webPath) {
-            return uriToFile(photo.webPath, `photo_${Date.now()}_${index}.${photo.format || 'jpg'}`);
-          }
-          return null;
-        })
-      );
-      
-      const validFiles = files.filter((f): f is File => f !== null);
-      if (validFiles.length > 0) addPhotos(validFiles);
-    }
   };
 
   const removePhoto = (id: string) => {
@@ -156,7 +116,7 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
     setFailedUploads(prev => prev.filter(fid => fid !== id));
   };
 
-  // Drag and drop handlers (optional for desktop)
+  // Drag and drop handlers (optional enhancement for desktop)
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(true);
@@ -170,32 +130,20 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
+    
     const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
     addPhotos(files);
   };
 
-  const openCamera = () => {
-    if (isNative) {
-      handleNativeCamera();
-    } else {
-      cameraInputRef.current?.click();
-    }
-  };
-
-  const openGallery = () => {
-    if (isNative) {
-      handleNativePicker();
-    } else {
-      galleryInputRef.current?.click();
-    }
-  };
+  const openCamera = () => cameraInputRef.current?.click();
+  const openGallery = () => galleryInputRef.current?.click();
 
   const remainingSlots = maxPhotos - photoItems.length;
   const hasPhotos = photoItems.length > 0;
 
   return (
-    <div className="space-y-4">
-      {/* Hidden inputs - camera with capture, gallery without */}
+    <div className={cn("space-y-4", className)}>
+      {/* Hidden inputs */}
       <input
         ref={cameraInputRef}
         type="file"
@@ -218,7 +166,7 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
       {/* Header with count and action buttons */}
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-foreground">
-          Rug Photos ({photoItems.length}/{maxPhotos})
+          Photos ({photoItems.length}/{maxPhotos})
         </label>
         {remainingSlots > 0 && !disabled && (
           <div className="flex gap-2">
@@ -230,7 +178,7 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
               className="gap-1.5"
             >
               <Camera className="h-4 w-4" />
-              <span className="hidden sm:inline">{isNative ? 'Camera' : 'Photo'}</span>
+              <span className="hidden sm:inline">Camera</span>
             </Button>
             <Button
               type="button"
@@ -247,7 +195,7 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
       </div>
 
       {/* Upload progress bar */}
-      {showUploadProgress && uploadProgress && (
+      {showProgress && uploadProgress && (
         <div className="space-y-2 p-3 rounded-lg bg-muted/50 border">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
@@ -272,11 +220,11 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
       {failedUploads.length > 0 && (
         <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
           <AlertCircle className="h-4 w-4 flex-shrink-0" />
-          <span>{failedUploads.length} photo(s) failed. Tap to retry.</span>
+          <span>{failedUploads.length} photo(s) failed to upload. Tap to retry.</span>
         </div>
       )}
 
-      {/* Empty state */}
+      {/* Empty state with drag-drop zone (optional) */}
       {!hasPhotos && (
         <div
           onClick={openCamera}
@@ -295,9 +243,9 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
             <Camera className="h-8 w-8 text-primary" />
           </div>
           <div className="text-center">
-            <p className="text-sm font-medium text-foreground">Tap to add photos</p>
+            <p className="text-sm font-medium text-foreground">Tap to take a photo</p>
             <p className="text-xs text-muted-foreground mt-1">
-              {isNative ? 'Take a photo or select from gallery' : 'Camera, gallery, or drag & drop'}
+              or select from gallery • drag & drop supported
             </p>
           </div>
           <div className="flex gap-2 mt-2">
@@ -387,6 +335,13 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
               <div className="absolute bottom-1 left-1 rounded-full bg-foreground/70 px-1.5 py-0.5 text-[10px] text-background font-medium">
                 {index + 1}
               </div>
+              
+              {/* Success indicator */}
+              {item.status === 'success' && (
+                <div className="absolute top-1 left-1 rounded-full bg-primary p-0.5">
+                  <Check className="h-2.5 w-2.5 text-primary-foreground" />
+                </div>
+              )}
             </div>
           ))}
           
@@ -419,4 +374,4 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({
   );
 };
 
-export default PhotoCapture;
+export default MobilePhotoUpload;
