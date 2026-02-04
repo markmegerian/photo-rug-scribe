@@ -12,11 +12,11 @@ const Index = forwardRef<HTMLDivElement>((_, ref) => {
     if (!authLoading) {
       if (user) {
         // Route based on user role
-        if (isAdmin) {
-          navigate('/admin');
-        } else if (isStaff) {
+        // Staff and Admin go to Jobs (Dashboard) as primary workspace
+        if (isAdmin || isStaff) {
           navigate('/dashboard');
         } else if (isClient) {
+          // Clients go to their job list
           navigate('/client/dashboard');
         } else {
           // User has no roles yet - might be new staff signup

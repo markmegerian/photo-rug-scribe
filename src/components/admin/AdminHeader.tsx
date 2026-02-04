@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Settings, LayoutDashboard, Shield, History } from 'lucide-react';
+import { LogOut, Settings, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
@@ -32,25 +32,15 @@ export const AdminHeader = ({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button onClick={() => navigate('/admin')} variant="outline" size="sm" className="gap-2">
-            <LayoutDashboard className="h-4 w-4" />
-            <span className="hidden sm:inline">Dashboard</span>
-          </Button>
           <Button onClick={() => navigate('/admin/users')} variant="outline" size="sm" className="gap-2">
-            Businesses
-          </Button>
-          <Button onClick={() => navigate('/admin/payouts')} variant="outline" size="sm" className="gap-2">
-            Payouts
-          </Button>
-          <Button onClick={() => navigate('/admin/audit-log')} variant="ghost" size="icon" title="Audit Log">
-            <History className="h-4 w-4" />
+            Users
           </Button>
           <Button onClick={() => navigate('/admin/settings')} variant="ghost" size="icon" title="Platform Settings">
             <Settings className="h-4 w-4" />
           </Button>
           <div className="h-6 w-px bg-border mx-1" />
           <Button onClick={() => navigate('/dashboard')} variant="outline" size="sm" className="gap-2">
-            Exit Admin
+            ← Jobs
           </Button>
           <Button onClick={handleSignOut} variant="ghost" size="icon">
             <LogOut className="h-4 w-4" />
