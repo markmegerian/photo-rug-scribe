@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, History, BarChart3, DollarSign, Shield, X, Home, Settings, LogOut } from 'lucide-react';
+import { Menu, Shield, X, Briefcase, Settings, LogOut, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
@@ -47,46 +47,23 @@ const MobileNav = ({ isAdmin = false, onSignOut }: MobileNavProps) => {
             className="w-full justify-start gap-3"
             onClick={() => handleNavigate('/dashboard')}
           >
-            <Home className="h-4 w-4" />
-            Dashboard
-          </Button>
-          
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3"
-            onClick={() => handleNavigate('/history')}
-          >
-            <History className="h-4 w-4" />
-            History
-          </Button>
-          
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3"
-            onClick={() => handleNavigate('/analytics')}
-          >
-            <BarChart3 className="h-4 w-4" />
-            Analytics
-          </Button>
-          
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3"
-            onClick={() => handleNavigate('/accounts-receivable')}
-          >
-            <DollarSign className="h-4 w-4" />
-            Accounts Receivable
+            <Briefcase className="h-4 w-4" />
+            Jobs
           </Button>
           
           {isAdmin && (
-            <Button
-              variant="ghost"
-              className="w-full justify-start gap-3"
-              onClick={() => handleNavigate('/admin')}
-            >
-              <Shield className="h-4 w-4" />
-              Admin Panel
-            </Button>
+            <>
+              <Separator className="my-2" />
+              <p className="text-xs text-muted-foreground px-3 py-1">Admin</p>
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-3"
+                onClick={() => handleNavigate('/admin/users')}
+              >
+                <Users className="h-4 w-4" />
+                Users & Roles
+              </Button>
+            </>
           )}
           
           <Separator className="my-4" />
