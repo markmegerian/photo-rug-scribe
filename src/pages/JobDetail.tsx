@@ -39,6 +39,7 @@ import PhotoUploadProgress from '@/components/PhotoUploadProgress';
 import { JobDetailSkeleton } from '@/components/skeletons/JobDetailSkeleton';
 import JobTimeline, { mapLegacyStatus, JobStatus, JOB_STATUSES, getNextAction, getNextStatus, TransitionContext } from '@/components/JobTimeline';
 import RugPhoto from '@/components/RugPhoto';
+import JobBreadcrumb from '@/components/JobBreadcrumb';
 
 interface ClientPortalStatusData {
   accessToken: string;
@@ -848,8 +849,8 @@ const JobDetail = () => {
             <div className="flex items-center gap-3">
               <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
               <div>
-                <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
-                <p className="text-xs text-muted-foreground">{selectedRug.rug_number} - Estimate Review</p>
+                <h1 className="font-display text-xl font-bold text-foreground">Job #{job.job_number}</h1>
+                <p className="text-xs text-muted-foreground">{selectedRug.rug_number} – Expert Estimate</p>
               </div>
             </div>
             <Button variant="outline" onClick={() => {
@@ -862,6 +863,7 @@ const JobDetail = () => {
           </div>
         </header>
         <main className="container mx-auto px-4 py-8">
+          <JobBreadcrumb jobNumber={job.job_number} jobId={job.id} currentPage={`${selectedRug.rug_number} – Expert Estimate`} />
           <div className="mx-auto max-w-3xl">
             <EstimateReview
               report={selectedRug.analysis_report || ''}
@@ -920,8 +922,8 @@ const JobDetail = () => {
             <div className="flex items-center gap-3">
               <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
               <div>
-                <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
-                <p className="text-xs text-muted-foreground">{selectedRug.rug_number}</p>
+                <h1 className="font-display text-xl font-bold text-foreground">Job #{job.job_number}</h1>
+                <p className="text-xs text-muted-foreground">{selectedRug.rug_number} – Analysis Report</p>
               </div>
             </div>
             <Button variant="outline" onClick={() => setShowReport(false)}>
@@ -931,6 +933,7 @@ const JobDetail = () => {
           </div>
         </header>
         <main className="container mx-auto px-4 py-8">
+          <JobBreadcrumb jobNumber={job.job_number} jobId={job.id} currentPage={`${selectedRug.rug_number} – Analysis Report`} />
           <div className="mx-auto max-w-3xl">
             <AnalysisReport
               report={selectedRug.analysis_report || ''}
@@ -997,18 +1000,19 @@ const JobDetail = () => {
           <div className="flex items-center gap-3">
             <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
             <div>
-              <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
-              <p className="text-xs text-muted-foreground">Job Details</p>
+              <h1 className="font-display text-xl font-bold text-foreground">Job #{job.job_number}</h1>
+              <p className="text-xs text-muted-foreground">{job.client_name}</p>
             </div>
           </div>
           <Button variant="outline" onClick={() => navigate('/dashboard')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Dashboard
+            Back to Jobs
           </Button>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-8 space-y-6">
+        <JobBreadcrumb jobNumber={job.job_number} jobId={job.id} />
         {/* Section 1: Job Timeline - Most prominent */}
         <Card className="border-2 border-primary/20">
           <CardHeader className="pb-3">

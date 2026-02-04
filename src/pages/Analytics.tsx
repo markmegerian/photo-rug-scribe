@@ -256,8 +256,8 @@ const Analytics = () => {
             <div className="flex items-center gap-3">
               <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
               <div>
-                <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
-                <p className="text-xs text-muted-foreground">Business Analytics</p>
+                <h1 className="font-display text-xl font-bold text-foreground">Business Analytics</h1>
+                <p className="text-xs text-muted-foreground">Job Performance Metrics</p>
               </div>
             </div>
           </div>
@@ -277,8 +277,8 @@ const Analytics = () => {
           <div className="flex items-center gap-3">
             <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
             <div>
-              <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
-              <p className="text-xs text-muted-foreground">Business Analytics</p>
+              <h1 className="font-display text-xl font-bold text-foreground">Business Analytics</h1>
+              <p className="text-xs text-muted-foreground">Job Performance Metrics</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -295,7 +295,7 @@ const Analytics = () => {
             </Select>
             <Button variant="outline" onClick={() => navigate("/dashboard")} className="gap-2">
               <ArrowLeft className="h-4 w-4" />
-              Dashboard
+              Back to Jobs
             </Button>
           </div>
         </div>

@@ -170,8 +170,8 @@ const History = () => {
             <div className="flex items-center gap-3">
               <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
               <div>
-                <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
-                <p className="text-xs text-muted-foreground">Client History</p>
+                <h1 className="font-display text-xl font-bold text-foreground">Completed Jobs</h1>
+                <p className="text-xs text-muted-foreground">Service History</p>
               </div>
             </div>
           </div>
@@ -191,14 +191,14 @@ const History = () => {
           <div className="flex items-center gap-3">
             <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
             <div>
-              <h1 className="font-display text-xl font-bold text-foreground">RugBoost</h1>
-              <p className="text-xs text-muted-foreground">Client History</p>
+              <h1 className="font-display text-xl font-bold text-foreground">Completed Jobs</h1>
+              <p className="text-xs text-muted-foreground">Service History</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <Button onClick={() => navigate('/dashboard')} variant="outline" size="sm" className="gap-2">
               <ArrowLeft className="h-4 w-4" />
-              Dashboard
+              Back to Jobs
             </Button>
             <Button onClick={() => navigate('/settings')} variant="ghost" size="sm" className="gap-2">
               <Settings className="h-4 w-4" />

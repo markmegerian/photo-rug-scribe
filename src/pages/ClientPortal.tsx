@@ -588,20 +588,22 @@ const ClientPortal = () => {
             <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10" />
             <div>
               <h1 className="font-display text-xl font-bold text-foreground">
-                {branding?.business_name || 'Rug Cleaning'}
+                Job #{job.job_number}
               </h1>
-              <p className="text-xs text-muted-foreground">Client Portal</p>
+              <p className="text-xs text-muted-foreground">
+                {branding?.business_name || 'Rug Cleaning'} – Estimate Review
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Button 
               variant="outline" 
               size="sm" 
-              onClick={() => navigate('/client/history')}
+              onClick={() => navigate('/client/dashboard')}
               className="gap-1 hidden sm:flex"
             >
               <History className="h-4 w-4" />
-              History
+              My Jobs
             </Button>
             <span className="text-sm text-muted-foreground hidden sm:block">
               {user?.email}
@@ -619,10 +621,10 @@ const ClientPortal = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />
-              Your Rug Inspection Estimate
+              Job #{job.job_number} – Expert Estimate
             </CardTitle>
             <CardDescription>
-              Job #{job.job_number} for {job.client_name}
+              {job.client_name} • {rugs.length} rug{rugs.length !== 1 ? 's' : ''}
             </CardDescription>
           </CardHeader>
           <CardContent>
