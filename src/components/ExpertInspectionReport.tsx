@@ -1,17 +1,17 @@
- import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
- import { Badge } from '@/components/ui/badge';
  import { Button } from '@/components/ui/button';
  import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
  import { 
-   AlertTriangle, CheckCircle, ChevronDown, ChevronUp, 
-   FileText, Image, Lock, MessageSquare, Shield, Sparkles
+  ChevronDown, ChevronUp, 
+  FileText, ImageIcon, Lock, MessageSquare, Shield, ClipboardCheck
  } from 'lucide-react';
  import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
  import { 
    SERVICE_CATEGORIES, 
    categorizeService, 
-   getRiskDisclosure,
    type ServiceCategory 
  } from '@/lib/serviceCategories';
  import RugPhoto from '@/components/RugPhoto';
@@ -42,7 +42,7 @@
    clientName: string;
    jobNumber: string;
    businessName: string | null;
-   onApprove: () => void;
+  onApprove: (acceptedRecommendations: boolean, acceptedPreventative: boolean) => void;
    onRequestClarification?: () => void;
    isProcessing?: boolean;
    totalAmount: number;
@@ -69,6 +69,26 @@
    return services.reduce((sum, s) => sum + s.quantity * s.unitPrice, 0);
  }
  
+// Generate condition summary based on services
+function generateConditionSummary(services: Service[]): string {
+  const hasStainRemoval = services.some(s => s.name.toLowerCase().includes('stain'));
+  const hasOdorTreatment = services.some(s => s.name.toLowerCase().includes('odor') || s.name.toLowerCase().includes('urine'));
+  const hasRepair = services.some(s => s.name.toLowerCase().includes('repair') || s.name.toLowerCase().includes('fringe'));
+  const hasProtection = services.some(s => s.name.toLowerCase().includes('protection') || s.name.toLowerCase().includes('scotchgard'));
+  
+  const conditions: string[] = [];
+  if (hasStainRemoval) conditions.push('visible staining');
+  if (hasOdorTreatment) conditions.push('odor contamination');
+  if (hasRepair) conditions.push('structural concerns');
+  if (hasProtection) conditions.push('fiber vulnerability');
+  
+  if (conditions.length === 0) {
+    return 'Standard cleaning and care recommended based on material type and general condition.';
+  }
+  
+  return `Assessment indicates ${conditions.join(', ')}. Services outlined below address identified conditions.`;
+}
+
  const ExpertInspectionReport: React.FC<ExpertInspectionReportProps> = ({
    rugs,
    clientName,
@@ -81,6 +101,8 @@
  }) => {
    const [expandedRugs, setExpandedRugs] = useState<Set<string>>(new Set(rugs.map(r => r.id)));
    const [showReport, setShowReport] = useState<string | null>(null);
+  const [acceptRecommendations, setAcceptRecommendations] = useState(true);
+  const [acceptPreventative, setAcceptPreventative] = useState(true);
    
    // Aggregate services across all rugs
    const allServices = rugs.flatMap(r => r.services);
@@ -89,6 +111,14 @@
    const requiredTotal = calculateCategoryTotal(allGrouped.required);
    const recommendedTotal = calculateCategoryTotal(allGrouped.recommended);
    const preventativeTotal = calculateCategoryTotal(allGrouped.preventative);
+
+  // Calculate final total based on selections
+  const finalTotal = useMemo(() => {
+    let total = requiredTotal;
+    if (acceptRecommendations) total += recommendedTotal;
+    if (acceptPreventative) total += preventativeTotal;
+    return total;
+  }, [requiredTotal, recommendedTotal, preventativeTotal, acceptRecommendations, acceptPreventative]);
    
    const toggleRug = (rugId: string) => {
      setExpandedRugs(prev => {
@@ -104,48 +134,51 @@
  
    return (
      <div className="space-y-6">
-       {/* Expert Assessment Header */}
-       <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-background">
+      {/* 1. Header Section - Trust Establishment */}
+      <Card className="border-border bg-card">
          <CardHeader>
            <div className="flex items-start gap-3">
-             <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-               <Sparkles className="h-6 w-6 text-primary" />
+            <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
+              <ClipboardCheck className="h-6 w-6 text-foreground" />
              </div>
              <div className="flex-1">
                <CardTitle className="text-xl">Expert Inspection Report</CardTitle>
                <CardDescription className="text-sm mt-1">
-                 {businessName || 'Professional Rug Care'} • Job #{jobNumber}
+                Prepared following professional inspection and industry-standard care guidelines
                </CardDescription>
              </div>
            </div>
          </CardHeader>
          <CardContent>
-           <p className="text-sm text-muted-foreground leading-relaxed">
-             Dear {clientName},
+          <p className="text-sm text-muted-foreground leading-relaxed border-l-2 border-muted pl-4">
+            This report outlines the services required to safely clean and preserve your {rugs.length === 1 ? 'rug' : `${rugs.length} rugs`}. 
+            All recommendations are based on observed condition, material characteristics, and established industry protocols.
            </p>
-           <p className="text-sm text-muted-foreground leading-relaxed mt-2">
-             Based on our professional inspection of your {rugs.length} rug{rugs.length !== 1 ? 's' : ''}, 
-             we have prepared the following expert assessment and service recommendations. 
-             Our analysis identifies required care, recommended enhancements, and optional 
-             preventative treatments to ensure the longevity of your investment.
-           </p>
+          <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="font-medium">{businessName || 'Professional Rug Care'}</span>
+            <span>•</span>
+            <span>Report #{jobNumber}</span>
+            <span>•</span>
+            <span>Prepared for {clientName}</span>
+          </div>
          </CardContent>
        </Card>
  
-       {/* Rug Assessments */}
+      {/* 2. Rug Assessments - Context, Not Choice */}
        {rugs.map((rug) => {
          const groupedServices = groupServicesByCategory(rug.services);
          const isExpanded = expandedRugs.has(rug.id);
          const isShowingReport = showReport === rug.id;
+        const conditionSummary = generateConditionSummary(rug.services);
          
          return (
-           <Card key={rug.id}>
+          <Card key={rug.id} className="overflow-hidden">
              <Collapsible
                open={isExpanded}
                onOpenChange={() => toggleRug(rug.id)}
              >
                <CollapsibleTrigger asChild>
-                 <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors pb-3">
+                <CardHeader className="cursor-pointer hover:bg-muted/30 transition-colors pb-3">
                    <div className="flex items-center justify-between">
                      <div className="flex items-center gap-3">
                        {rug.photo_urls && rug.photo_urls.length > 0 ? (
@@ -157,7 +190,7 @@
                          />
                        ) : (
                          <div className="w-14 h-14 rounded-lg bg-muted flex items-center justify-center">
-                           <Image className="h-6 w-6 text-muted-foreground" />
+                          <ImageIcon className="h-6 w-6 text-muted-foreground" />
                          </div>
                        )}
                        <div>
@@ -167,13 +200,7 @@
                          </CardDescription>
                        </div>
                      </div>
-                     <div className="flex items-center gap-3">
-                       <div className="text-right">
-                         <p className="font-semibold text-lg">${rug.total.toFixed(2)}</p>
-                         <p className="text-xs text-muted-foreground">
-                           {rug.services.length} services
-                         </p>
-                       </div>
+                    <div className="flex items-center gap-2">
                        {isExpanded ? (
                          <ChevronUp className="h-5 w-5 text-muted-foreground" />
                        ) : (
@@ -186,6 +213,13 @@
                
                <CollapsibleContent>
                  <CardContent className="pt-0 space-y-4">
+                  {/* Condition Summary */}
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-sm text-muted-foreground italic">
+                      {conditionSummary}
+                    </p>
+                  </div>
+
                    {/* Photos */}
                    {rug.photo_urls && rug.photo_urls.length > 0 && (
                      <div className="flex gap-2 overflow-x-auto pb-2">
@@ -215,7 +249,7 @@
                          e.stopPropagation();
                          setShowReport(isShowingReport ? null : rug.id);
                        }}
-                       className="w-full justify-start gap-2 text-primary"
+                      className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
                      >
                        <FileText className="h-4 w-4" />
                        {isShowingReport ? 'Hide Detailed Assessment' : 'View Detailed Assessment'}
@@ -230,98 +264,6 @@
                        </pre>
                      </div>
                    )}
-                   
-                   <Separator />
-                   
-                   {/* Required Services */}
-                   {groupedServices.required.length > 0 && (
-                     <div className="space-y-3">
-                       <div className="flex items-center gap-2">
-                         <Lock className="h-4 w-4 text-destructive" />
-                         <p className="text-sm font-semibold text-destructive">
-                           {SERVICE_CATEGORIES.required.label}
-                         </p>
-                       </div>
-                       <p className="text-xs text-muted-foreground">
-                         {SERVICE_CATEGORIES.required.description}
-                       </p>
-                       <div className="space-y-2 bg-destructive/5 rounded-lg p-3">
-                         {groupedServices.required.map((service, idx) => (
-                           <div key={service.id || idx} className="flex items-center justify-between text-sm">
-                             <div className="flex items-center gap-2">
-                               <CheckCircle className="h-4 w-4 text-destructive" />
-                               <span className="font-medium">{service.name}</span>
-                             </div>
-                             <span className="font-semibold">
-                               ${(service.quantity * service.unitPrice).toFixed(2)}
-                             </span>
-                           </div>
-                         ))}
-                       </div>
-                     </div>
-                   )}
-                   
-                   {/* Recommended Services */}
-                   {groupedServices.recommended.length > 0 && (
-                     <div className="space-y-3">
-                       <div className="flex items-center gap-2">
-                         <AlertTriangle className="h-4 w-4 text-amber-600" />
-                         <p className="text-sm font-semibold text-amber-600">
-                           {SERVICE_CATEGORIES.recommended.label}
-                         </p>
-                       </div>
-                       <p className="text-xs text-muted-foreground">
-                         {SERVICE_CATEGORIES.recommended.description}
-                       </p>
-                       <div className="space-y-2 bg-amber-500/5 rounded-lg p-3">
-                         {groupedServices.recommended.map((service, idx) => (
-                           <div key={service.id || idx} className="flex items-center justify-between text-sm">
-                             <div className="flex items-center gap-2">
-                               <CheckCircle className="h-4 w-4 text-amber-600" />
-                               <span>{service.name}</span>
-                             </div>
-                             <span className="font-medium">
-                               ${(service.quantity * service.unitPrice).toFixed(2)}
-                             </span>
-                           </div>
-                         ))}
-                       </div>
-                     </div>
-                   )}
-                   
-                   {/* Preventative Services */}
-                   {groupedServices.preventative.length > 0 && (
-                     <div className="space-y-3">
-                       <div className="flex items-center gap-2">
-                         <Shield className="h-4 w-4 text-muted-foreground" />
-                         <p className="text-sm font-semibold text-muted-foreground">
-                           {SERVICE_CATEGORIES.preventative.label}
-                         </p>
-                       </div>
-                       <p className="text-xs text-muted-foreground">
-                         {SERVICE_CATEGORIES.preventative.description}
-                       </p>
-                       <div className="space-y-2 bg-muted/30 rounded-lg p-3">
-                         {groupedServices.preventative.map((service, idx) => (
-                           <div key={service.id || idx} className="flex items-center justify-between text-sm text-muted-foreground">
-                             <div className="flex items-center gap-2">
-                               <CheckCircle className="h-4 w-4" />
-                               <span>{service.name}</span>
-                             </div>
-                             <span className="font-medium">
-                               ${(service.quantity * service.unitPrice).toFixed(2)}
-                             </span>
-                           </div>
-                         ))}
-                       </div>
-                     </div>
-                   )}
-                   
-                   {/* Rug Total */}
-                   <div className="flex justify-between items-center pt-2 border-t">
-                     <span className="text-sm font-medium">Subtotal for {rug.rug_number}</span>
-                     <span className="font-bold text-lg">${rug.total.toFixed(2)}</span>
-                   </div>
                  </CardContent>
                </CollapsibleContent>
              </Collapsible>
@@ -329,82 +271,186 @@
          );
        })}
  
-       {/* Summary Card */}
-       <Card className="border-primary/30">
-         <CardHeader className="pb-3">
-           <CardTitle className="text-lg">Investment Summary</CardTitle>
+      {/* 3. Services Required for Proper Care - Non-Negotiable */}
+      {requiredTotal > 0 && (
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <Lock className="h-4 w-4 text-foreground" />
+              <CardTitle className="text-base">Services Required for Proper Care</CardTitle>
+            </div>
+            <CardDescription className="text-xs">
+              These services are necessary to safely clean and stabilize the rug.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {allGrouped.required.map((service, idx) => (
+                <div key={service.id || idx} className="flex items-start gap-3 py-2">
+                  <Lock className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium">{service.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Standard protocol for this material and condition type
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 4. Expert-Recommended Enhancements - Grouped Acceptance */}
+      {recommendedTotal > 0 && (
+        <Card className={!acceptRecommendations ? 'opacity-60' : ''}>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-base">Expert-Recommended Enhancements</CardTitle>
+                <CardDescription className="text-xs mt-1">
+                  These services are recommended to improve results and reduce long-term risk.
+                </CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="accept-recommended"
+                  checked={acceptRecommendations}
+                  onCheckedChange={setAcceptRecommendations}
+                />
+                <Label htmlFor="accept-recommended" className="text-xs text-muted-foreground sr-only">
+                  Accept recommendations
+                </Label>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {allGrouped.recommended.map((service, idx) => (
+                <div key={service.id || idx} className="flex items-start gap-3 py-2">
+                  <div className="h-4 w-4 rounded-full border border-muted-foreground/30 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium">{service.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Addresses identified condition factors
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {!acceptRecommendations && (
+              <p className="text-xs text-muted-foreground mt-3 italic">
+                Expert recommendations declined. Required services will proceed as scheduled.
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 5. Preventative Care Recommendations - Softer Visual */}
+      {preventativeTotal > 0 && (
+        <Card className={`border-dashed ${!acceptPreventative ? 'opacity-50' : 'opacity-80'}`}>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-muted-foreground" />
+                <div>
+                  <CardTitle className="text-base text-muted-foreground">Preventative Care</CardTitle>
+                  <CardDescription className="text-xs mt-1">
+                    Not required at this time, but recommended to reduce future deterioration.
+                  </CardDescription>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="accept-preventative"
+                  checked={acceptPreventative}
+                  onCheckedChange={setAcceptPreventative}
+                />
+                <Label htmlFor="accept-preventative" className="text-xs text-muted-foreground sr-only">
+                  Accept preventative care
+                </Label>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {allGrouped.preventative.map((service, idx) => (
+                <div key={service.id || idx} className="flex items-start gap-3 py-2 text-muted-foreground">
+                  <Shield className="h-4 w-4 mt-0.5 flex-shrink-0 opacity-50" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm">{service.name}</p>
+                    <p className="text-xs opacity-70">
+                      Long-term protection measure
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 6. Risk & Disclosure Section */}
+      <div className="bg-muted/30 rounded-lg p-4 border border-dashed">
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          <span className="font-medium text-foreground">Professional Notice:</span>{' '}
+          Rugs of varying age and condition may exhibit pre-existing weaknesses that cannot be fully 
+          corrected through cleaning alone. The services outlined represent our professional assessment 
+          of appropriate care based on current condition. Authorization confirms understanding that 
+          results depend on material condition at time of service.
+        </p>
+      </div>
+
+      {/* 7. Total Investment - Single Moment */}
+      <Card className="border-foreground/20">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
+            Total Investment for Authorized Work
+          </CardTitle>
          </CardHeader>
-         <CardContent className="space-y-3">
-           {requiredTotal > 0 && (
-             <div className="flex justify-between text-sm">
-               <span className="flex items-center gap-2">
-                 <Lock className="h-4 w-4 text-destructive" />
-                 Required Services
-               </span>
-               <span className="font-medium">${requiredTotal.toFixed(2)}</span>
-             </div>
-           )}
-           {recommendedTotal > 0 && (
-             <div className="flex justify-between text-sm">
-               <span className="flex items-center gap-2">
-                 <AlertTriangle className="h-4 w-4 text-amber-600" />
-                 Recommended Enhancements
-               </span>
-               <span className="font-medium">${recommendedTotal.toFixed(2)}</span>
-             </div>
-           )}
-           {preventativeTotal > 0 && (
-             <div className="flex justify-between text-sm">
-               <span className="flex items-center gap-2">
-                 <Shield className="h-4 w-4 text-muted-foreground" />
-                 Preventative Services
-               </span>
-               <span className="font-medium">${preventativeTotal.toFixed(2)}</span>
-             </div>
-           )}
-           
-           <Separator />
-           
-           <div className="flex justify-between items-center">
-             <span className="font-semibold">Total Investment</span>
-             <span className="text-2xl font-bold text-primary">${totalAmount.toFixed(2)}</span>
+        <CardContent>
+          <div className="text-3xl font-bold tracking-tight">
+            ${finalTotal.toFixed(2)}
            </div>
-           
-           {/* Risk Disclosure */}
-           <div className="bg-muted/50 rounded-lg p-3 text-xs text-muted-foreground">
-             <p className="font-medium text-foreground mb-1">Important Notice</p>
-             <p>
-               Approval authorizes work exactly as outlined above. Required services are 
-               essential for proper care and cannot be declined. By proceeding, you confirm 
-               your understanding of and consent to the recommended restoration work.
-             </p>
+          <div className="text-xs text-muted-foreground mt-1 space-y-0.5">
+            {requiredTotal > 0 && (
+              <p>Required services: ${requiredTotal.toFixed(2)}</p>
+            )}
+            {recommendedTotal > 0 && acceptRecommendations && (
+              <p>Expert recommendations: ${recommendedTotal.toFixed(2)}</p>
+            )}
+            {preventativeTotal > 0 && acceptPreventative && (
+              <p>Preventative care: ${preventativeTotal.toFixed(2)}</p>
+            )}
            </div>
          </CardContent>
        </Card>
  
-       {/* Action Buttons */}
-       <div className="space-y-3">
+      {/* 8. Primary CTA - One Action */}
+      <div className="space-y-4">
          <Button 
-           onClick={onApprove}
+           onClick={() => onApprove(acceptRecommendations, acceptPreventative)}
            disabled={isProcessing}
-           className="w-full h-14 text-lg font-semibold gap-2"
+          className="w-full h-14 text-lg font-medium"
            size="lg"
          >
            {isProcessing ? (
-             <span className="animate-pulse">Processing...</span>
+            <span className="animate-pulse">Processing Authorization...</span>
            ) : (
-             <>
-               <CheckCircle className="h-5 w-5" />
-               Approve & Proceed with Work
-             </>
+            'Approve & Authorize Work'
            )}
          </Button>
          
+        <p className="text-xs text-center text-muted-foreground">
+          Approval authorizes the services outlined above and initiates payment.
+        </p>
+        
          {onRequestClarification && (
            <Button 
              variant="ghost"
              onClick={onRequestClarification}
-             className="w-full text-muted-foreground"
+            className="w-full text-muted-foreground hover:text-foreground"
              size="sm"
            >
              <MessageSquare className="h-4 w-4 mr-2" />
