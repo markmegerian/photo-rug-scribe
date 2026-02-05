@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
 import ExpertInspectionReport from '@/components/ExpertInspectionReport';
+import { categorizeService } from '@/lib/serviceCategories';
 
 interface ServiceItem {
   id: string;
@@ -268,10 +269,10 @@ const ClientPortal = () => {
     return rugs.reduce((sum, rug) => sum + rug.total, 0);
   };
 
-  const handleProceedToPayment = async () => {
+  const handleProceedToPayment = async (acceptRecommendations: boolean = true, acceptPreventative: boolean = true) => {
     setIsProcessingPayment(true);
     try {
-      // All services are included - no client selection
+      // Filter services based on client acceptance
       const servicesForCheckout: { 
         rugNumber: string; 
         rugId: string;
@@ -280,17 +281,29 @@ const ClientPortal = () => {
       }[] = [];
       
       rugs.forEach(rug => {
-        if (rug.services.length > 0) {
+        // Filter services based on category and acceptance
+        const filteredServices = rug.services.filter(service => {
+          const category = categorizeService(service.name);
+          if (category === 'required') return true; // Always include required
+          if (category === 'recommended') return acceptRecommendations;
+          if (category === 'preventative') return acceptPreventative;
+          return true;
+        });
+        
+        if (filteredServices.length > 0) {
           servicesForCheckout.push({
             rugNumber: rug.rug_number,
             rugId: rug.id,
             estimateId: rug.estimate_id,
-            services: rug.services,
+            services: filteredServices,
           });
         }
       });
 
-      const total = calculateTotal();
+      // Calculate total based on filtered services
+      const total = servicesForCheckout.reduce((sum, rug) => 
+        sum + rug.services.reduce((s, svc) => s + svc.quantity * svc.unitPrice, 0), 0
+      );
 
       // Save client service selections to database before checkout
       for (const rugSelection of servicesForCheckout) {
