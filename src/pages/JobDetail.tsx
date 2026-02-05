@@ -45,6 +45,7 @@ import RugPhoto from '@/components/RugPhoto';
 import JobBreadcrumb from '@/components/JobBreadcrumb';
 import MobileJobActionBar from '@/components/MobileJobActionBar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import EditClientInfoDialog from '@/components/EditClientInfoDialog';
 
 interface ClientPortalStatusData {
   accessToken: string;
@@ -168,6 +169,8 @@ const JobDetail = () => {
   // Mutable state derived from query data
   const [localApprovedEstimates, setLocalApprovedEstimates] = useState<ApprovedEstimate[]>([]);
   const [localRugs, setLocalRugs] = useState<Rug[]>([]);
+  const [isEditingClientInfo, setIsEditingClientInfo] = useState(false);
+  const [savingClientInfo, setSavingClientInfo] = useState(false);
   
   // Sync query data to local state when it changes
   useEffect(() => {
@@ -408,6 +411,39 @@ const JobDetail = () => {
       toast.error('Failed to update job');
     } finally {
       setSavingJob(false);
+    }
+  };
+
+  const handleSaveClientInfo = async (data: {
+    clientName: string;
+    clientEmail: string;
+    clientPhone: string;
+    notes: string;
+  }) => {
+    if (!job) return;
+
+    setSavingClientInfo(true);
+    try {
+      const { error } = await supabase
+        .from('jobs')
+        .update({
+          client_name: data.clientName,
+          client_email: data.clientEmail || null,
+          client_phone: data.clientPhone || null,
+          notes: data.notes || null,
+        })
+        .eq('id', job.id);
+
+      if (error) throw error;
+
+      toast.success('Client information updated!');
+      setIsEditingClientInfo(false);
+      fetchJobDetails();
+    } catch (error) {
+      console.error('Update client info error:', error);
+      toast.error('Failed to update client information');
+    } finally {
+      setSavingClientInfo(false);
     }
   };
 
@@ -1104,11 +1140,20 @@ const JobDetail = () => {
 
         {/* Section A: Client & Logistics - Collapsible on mobile */}
         <Card>
-          <CardHeader className="pb-2 md:pb-3">
-            <CardTitle className="text-base md:text-lg flex items-center gap-2">
+          <CardHeader className="pb-2 md:pb-3 flex flex-row items-center justify-between">
+            <CardTitle className="text-base md:text-lg flex items-center gap-2 mb-0">
               <User className="h-4 w-4 md:h-5 md:w-5 text-primary" />
               Client & Logistics
             </CardTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => setIsEditingClientInfo(true)}
+            >
+              <Edit2 className="h-4 w-4" />
+              <span className="sr-only">Edit client info</span>
+            </Button>
           </CardHeader>
           <CardContent className="pt-0">
             {/* Mobile: 2-column compact grid */}
@@ -1660,6 +1705,22 @@ const JobDetail = () => {
           />
         </DialogContent>
       </Dialog>
+      
+      {/* Edit Client Info Dialog */}
+      {job && (
+        <EditClientInfoDialog
+          open={isEditingClientInfo}
+          onOpenChange={setIsEditingClientInfo}
+          initialData={{
+            clientName: job.client_name,
+            clientEmail: job.client_email || '',
+            clientPhone: job.client_phone || '',
+            notes: job.notes || '',
+          }}
+          onSave={handleSaveClientInfo}
+          isLoading={savingClientInfo}
+        />
+      )}
       
       {/* Mobile Bottom Action Bar */}
       <MobileJobActionBar
