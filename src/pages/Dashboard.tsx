@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Briefcase, Eye, Plus, LogOut, ChevronRight, PlayCircle, Clock, CheckCircle, Settings, Users, DollarSign, TrendingUp } from 'lucide-react';
+import { Briefcase, Eye, Plus, LogOut, ChevronRight, PlayCircle, Clock, CheckCircle, Settings, Users, DollarSign, TrendingUp, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
+import { useCompany } from '@/hooks/useCompany';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useJobsWithFilters, JobWithDetails } from '@/hooks/useJobsWithFilters';
 import { format } from 'date-fns';
@@ -67,7 +68,8 @@ const DEFAULT_FILTERS: JobFilters = {
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading, signOut, isStaff } = useAuth();
+  const { company, branding, hasCompany, loading: companyLoading, isCompanyAdmin } = useCompany();
   const { isAdmin } = useAdminAuth();
   const [filters, setFilters] = useState<JobFilters>(DEFAULT_FILTERS);
   
@@ -82,17 +84,26 @@ const Dashboard = () => {
   useEffect(() => {
     if (!authLoading && !user) {
       navigate('/auth');
+      return;
     }
-  }, [user, authLoading, navigate]);
+    
+    // Redirect staff/admin users without a company to setup
+    if (!authLoading && !companyLoading && user && isStaff && !hasCompany) {
+      navigate('/company/setup');
+    }
+  }, [user, authLoading, companyLoading, hasCompany, isStaff, navigate]);
 
   const handleSignOut = async () => {
     await signOut();
     navigate('/auth');
   };
 
-  if (authLoading) {
+  if (authLoading || companyLoading) {
     return <DashboardSkeleton />;
   }
+
+  // Get display name from branding or company name
+  const displayName = branding?.business_name || company?.name || 'RugBoost';
 
   return (
     <div className="min-h-screen bg-background">
@@ -100,9 +111,13 @@ const Dashboard = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10 border-0" />
+            {branding?.logo_url ? (
+              <img src={branding.logo_url} alt={displayName} className="h-10 w-10 object-contain" />
+            ) : (
+              <img src={rugboostLogo} alt="RugBoost" className="h-10 w-10 border-0" />
+            )}
             <div>
-              <h1 className="text-xl font-bold text-foreground font-sans">RugBoost</h1>
+              <h1 className="text-xl font-bold text-foreground font-sans">{displayName}</h1>
               <p className="text-xs text-muted-foreground">Jobs</p>
             </div>
           </div>
