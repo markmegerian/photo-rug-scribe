@@ -364,15 +364,45 @@ const ClientPortal = () => {
 
       // Redirect to Stripe Checkout
       if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+        // Try to redirect - use window.open as fallback for iframe environments
+        try {
+          // First try direct navigation
+          window.location.href = data.checkoutUrl;
+          
+          // If we're still here after a short delay, the redirect may have been blocked
+          setTimeout(() => {
+            // Open in new tab as fallback
+            const newWindow = window.open(data.checkoutUrl, '_blank');
+            if (!newWindow) {
+              // Popup blocked - show manual link
+              toast.info(
+                'Click to complete payment',
+                {
+                  duration: 30000,
+                  action: {
+                    label: 'Open Payment',
+                    onClick: () => window.open(data.checkoutUrl, '_blank'),
+                  },
+                }
+              );
+              setIsProcessingPayment(false);
+            }
+          }, 1500);
+        } catch (redirectError) {
+          console.error('Redirect failed:', redirectError);
+          window.open(data.checkoutUrl, '_blank');
+          setIsProcessingPayment(false);
+        }
+        return; // Don't hit finally block immediately
       } else {
         throw new Error('No checkout URL returned');
       }
     } catch (error) {
       console.error('Payment error:', error);
       toast.error('Failed to process payment. Please try again.');
-    } finally {
       setIsProcessingPayment(false);
+    } finally {
+      // Only reset if still processing (means we never left the page)
     }
   };
 
