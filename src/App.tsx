@@ -10,7 +10,6 @@ import { queryClient } from "@/lib/queryClient";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import OfflineBanner from "@/components/OfflineBanner";
 import GlobalSearch from "@/components/GlobalSearch";
-import { ThemeProvider } from "next-themes";
 
 // Lazy load pages for code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -57,67 +56,65 @@ const PageLoader = () => (
 
 const App = () => (
   <ErrorBoundary>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <AppInitializer>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <OfflineBanner />
-              <BrowserRouter>
-                <GlobalSearch />
-                <Suspense fallback={<PageLoader />}>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/auth" element={<Auth />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/jobs/new" element={<NewJob />} />
-                    <Route path="/jobs/:jobId" element={<JobDetail />} />
-                    {/* Stable alias for Capacitor deep linking */}
-                    <Route path="/job/:jobId" element={<JobDetail />} />
-                    <Route path="/settings" element={<AccountSettings />} />
-                    <Route path="/analytics" element={<Analytics />} />
-                    
-                    {/* Client Portal Routes */}
-                    <Route path="/client/auth" element={<ClientAuth />} />
-                    <Route path="/client/dashboard" element={<ClientDashboard />} />
-                    <Route path="/client/history" element={<ClientHistory />} />
-                    <Route path="/client/set-password" element={<ClientSetPassword />} />
-                    <Route path="/client/payment-success" element={<PaymentSuccess />} />
-                    <Route path="/client/payment-cancelled" element={<PaymentCancelled />} />
-                    {/* Stable payment routes for Capacitor deep linking */}
-                    <Route path="/payment/success" element={<PaymentSuccess />} />
-                    <Route path="/payment/cancel" element={<PaymentCancelled />} />
-                    <Route path="/client/:accessToken" element={<ClientPortal />} />
-                    
-                    {/* Admin Routes */}
-                    <Route path="/admin" element={<AdminDashboard />} />
-                    <Route path="/admin/users" element={<AdminUsers />} />
-                    <Route path="/admin/users/:userId" element={<AdminUserDetail />} />
-                    <Route path="/admin/payouts" element={<AdminPayouts />} />
-                    <Route path="/admin/settings" element={<AdminSettings />} />
-                    <Route path="/admin/audit-log" element={<AdminAuditLog />} />
-                    
-                    {/* Utility Routes */}
-                    <Route path="/screenshots" element={<ScreenshotGenerator />} />
-                    
-                    {/* Legal Routes */}
-                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                    <Route path="/privacy" element={<PrivacyPolicy />} />
-                    <Route path="/terms-of-service" element={<TermsOfService />} />
-                    <Route path="/support" element={<Support />} />
-                    
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
-              </BrowserRouter>
-            </TooltipProvider>
-          </AppInitializer>
-        </AuthProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+     <QueryClientProvider client={queryClient}>
+       <AuthProvider>
+         <AppInitializer>
+           <TooltipProvider>
+             <Toaster />
+             <Sonner />
+             <OfflineBanner />
+             <BrowserRouter>
+               <GlobalSearch />
+               <Suspense fallback={<PageLoader />}>
+                 <Routes>
+                   <Route path="/" element={<Index />} />
+                   <Route path="/auth" element={<Auth />} />
+                   <Route path="/reset-password" element={<ResetPassword />} />
+                   <Route path="/dashboard" element={<Dashboard />} />
+                   <Route path="/jobs/new" element={<NewJob />} />
+                   <Route path="/jobs/:jobId" element={<JobDetail />} />
+                   {/* Stable alias for Capacitor deep linking */}
+                   <Route path="/job/:jobId" element={<JobDetail />} />
+                   <Route path="/settings" element={<AccountSettings />} />
+                   <Route path="/analytics" element={<Analytics />} />
+                   
+                   {/* Client Portal Routes */}
+                   <Route path="/client/auth" element={<ClientAuth />} />
+                   <Route path="/client/dashboard" element={<ClientDashboard />} />
+                   <Route path="/client/history" element={<ClientHistory />} />
+                   <Route path="/client/set-password" element={<ClientSetPassword />} />
+                   <Route path="/client/payment-success" element={<PaymentSuccess />} />
+                   <Route path="/client/payment-cancelled" element={<PaymentCancelled />} />
+                   {/* Stable payment routes for Capacitor deep linking */}
+                   <Route path="/payment/success" element={<PaymentSuccess />} />
+                   <Route path="/payment/cancel" element={<PaymentCancelled />} />
+                   <Route path="/client/:accessToken" element={<ClientPortal />} />
+                   
+                   {/* Admin Routes */}
+                   <Route path="/admin" element={<AdminDashboard />} />
+                   <Route path="/admin/users" element={<AdminUsers />} />
+                   <Route path="/admin/users/:userId" element={<AdminUserDetail />} />
+                   <Route path="/admin/payouts" element={<AdminPayouts />} />
+                   <Route path="/admin/settings" element={<AdminSettings />} />
+                   <Route path="/admin/audit-log" element={<AdminAuditLog />} />
+                   
+                   {/* Utility Routes */}
+                   <Route path="/screenshots" element={<ScreenshotGenerator />} />
+                   
+                   {/* Legal Routes */}
+                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                   <Route path="/privacy" element={<PrivacyPolicy />} />
+                   <Route path="/terms-of-service" element={<TermsOfService />} />
+                   <Route path="/support" element={<Support />} />
+                   
+                   <Route path="*" element={<NotFound />} />
+                 </Routes>
+               </Suspense>
+             </BrowserRouter>
+           </TooltipProvider>
+         </AppInitializer>
+       </AuthProvider>
+     </QueryClientProvider>
   </ErrorBoundary>
 );
 
