@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { queryKeys } from '@/lib/queryKeys';
 import { isThisWeek, isThisMonth, isToday, parseISO, subDays } from 'date-fns';
+import { useCompany } from './useCompany';
+import { tenantQueryKeys } from '@/lib/tenantQueries';
 import type { JobFilters } from '@/components/JobsFilter';
 
 export interface JobWithDetails {
@@ -34,11 +35,13 @@ interface JobsResponse {
 }
 
 export const useJobsWithFilters = (filters: JobFilters) => {
-  // Fetch all jobs with related data
+  const { companyId, loading: companyLoading } = useCompany();
+  
+  // Fetch all jobs with related data - scoped to company
   const { data: jobs = [], isLoading, isError, refetch } = useQuery({
-    queryKey: [...queryKeys.jobs.list(), 'with-details'],
+    queryKey: [...tenantQueryKeys.jobs.list(companyId), 'with-details'],
     queryFn: async (): Promise<JobWithDetails[]> => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('jobs')
         .select(`
           id,
@@ -54,6 +57,11 @@ export const useJobsWithFilters = (filters: JobFilters) => {
           approved_estimates:approved_estimates(total_amount)
         `)
         .order('created_at', { ascending: false });
+
+      // RLS will handle the scoping, but we can be explicit for company context
+      // The database trigger auto-sets company_id, so RLS policies do the filtering
+
+      const { data, error } = await query;
 
       if (error) throw error;
 
@@ -74,6 +82,7 @@ export const useJobsWithFilters = (filters: JobFilters) => {
       }));
     },
     staleTime: 30000,
+    enabled: !companyLoading, // Wait for company context to load
   });
 
   // Extract unique client names for the filter dropdown

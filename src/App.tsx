@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import { CompanyProvider } from "@/hooks/useCompany";
 import { AppInitializer } from "@/components/AppInitializer";
 import { queryClient } from "@/lib/queryClient";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -46,6 +47,7 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const Support = lazy(() => import("./pages/Support"));
+const CompanySetup = lazy(() => import("./pages/CompanySetup"));
 
 // Loading fallback component - iOS safe area aware
 const PageLoader = () => (
@@ -58,8 +60,9 @@ const App = () => (
   <ErrorBoundary>
      <QueryClientProvider client={queryClient}>
        <AuthProvider>
-         <AppInitializer>
-           <TooltipProvider>
+         <CompanyProvider>
+           <AppInitializer>
+             <TooltipProvider>
              <Toaster />
              <Sonner />
              <OfflineBanner />
@@ -75,9 +78,10 @@ const App = () => (
                    <Route path="/jobs/:jobId" element={<JobDetail />} />
                    {/* Stable alias for Capacitor deep linking */}
                    <Route path="/job/:jobId" element={<JobDetail />} />
-                   <Route path="/settings" element={<AccountSettings />} />
-                   <Route path="/analytics" element={<Analytics />} />
-                   
+                    <Route path="/settings" element={<AccountSettings />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/company/setup" element={<CompanySetup />} />
+                    
                    {/* Client Portal Routes */}
                    <Route path="/client/auth" element={<ClientAuth />} />
                    <Route path="/client/dashboard" element={<ClientDashboard />} />
@@ -110,12 +114,13 @@ const App = () => (
                    <Route path="*" element={<NotFound />} />
                  </Routes>
                </Suspense>
-             </BrowserRouter>
-           </TooltipProvider>
-         </AppInitializer>
-       </AuthProvider>
-     </QueryClientProvider>
-  </ErrorBoundary>
+              </BrowserRouter>
+             </TooltipProvider>
+           </AppInitializer>
+         </CompanyProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+   </ErrorBoundary>
 );
 
 export default App;
