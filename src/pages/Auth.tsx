@@ -22,6 +22,7 @@ import { z } from 'zod';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
 import RateLimitFeedback from '@/components/RateLimitFeedback';
 import { checkLoginAllowed, recordFailedAttempt, clearAttempts } from '@/lib/authRateLimiter';
+import { getPasswordResetRedirectUrl, getAuthRedirectUrl } from '@/lib/platformUrls';
 
 const emailSchema = z.string().email('Please enter a valid email address');
 const passwordSchema = z.string()
@@ -171,8 +172,10 @@ const Auth = forwardRef<HTMLDivElement>((_, ref) => {
     setIsSendingReset(true);
 
     try {
+      // Capacitor-safe redirect URL for password reset
+      const redirectUrl = getPasswordResetRedirectUrl();
       const { error } = await supabase.auth.resetPasswordForEmail(forgotPasswordEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: redirectUrl,
       });
 
       if (error) throw error;
