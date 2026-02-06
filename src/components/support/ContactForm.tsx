@@ -13,6 +13,7 @@ interface FormData {
   email: string;
   subject: string;
   message: string;
+  website: string; // Honeypot field
 }
 
 const ContactForm = () => {
@@ -24,6 +25,7 @@ const ContactForm = () => {
     email: '',
     subject: '',
     message: '',
+    website: '', // Honeypot - should remain empty
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -64,7 +66,7 @@ const ContactForm = () => {
       if (error) throw error;
 
       setIsSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', subject: '', message: '', website: '' });
       
       toast({
         title: "Message sent!",
@@ -167,6 +169,19 @@ const ContactForm = () => {
               maxLength={5000}
               rows={5}
               required
+            />
+          </div>
+
+          {/* Honeypot field - hidden from users, bots will fill it */}
+          <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+            <Label htmlFor="website">Website (leave blank)</Label>
+            <Input
+              id="website"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={formData.website}
+              onChange={handleChange}
             />
           </div>
 
