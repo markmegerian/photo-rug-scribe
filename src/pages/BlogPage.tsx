@@ -4,6 +4,27 @@ import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { getBlogPosts, BlogPost } from '@/components/landing/LandingBlog';
 import LandingNavbar from '@/components/landing/LandingNavbar';
 import LandingFooter from '@/components/landing/LandingFooter';
+import DOMPurify from 'dompurify';
+
+// Configure DOMPurify for safe HTML rendering
+const sanitizeConfig = {
+  ALLOWED_TAGS: [
+    'p', 'b', 'i', 'em', 'strong', 'a', 'ul', 'ol', 'li', 
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'img', 'blockquote', 'code', 'pre', 
+    'table', 'thead', 'tbody', 'tr', 'th', 'td',
+    'br', 'hr', 'span', 'div', 'figure', 'figcaption'
+  ],
+  ALLOWED_ATTR: [
+    'href', 'src', 'alt', 'class', 'target', 'rel',
+    'width', 'height', 'title', 'id'
+  ],
+  ALLOW_DATA_ATTR: false,
+};
+
+function sanitizeHtml(html: string): string {
+  return DOMPurify.sanitize(html, sanitizeConfig);
+}
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -156,10 +177,10 @@ export function BlogPostPage() {
             </div>
           </header>
 
-          {/* Article content */}
+          {/* Article content - sanitized for XSS protection */}
           <div className="prose prose-lg max-w-none">
             {post.content ? (
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }} />
             ) : (
               <div className="text-muted-foreground">
                 <p>{post.excerpt}</p>
