@@ -1,310 +1,352 @@
 
-# Plan: Landing Page File List & Custom Domain Guide
+# Plan: Strip Down to Marketing Site Only
 
 ## Overview
-This plan provides a complete inventory of files required for standalone VPS deployment of the RugBoost landing page, plus adds comprehensive custom domain configuration instructions to the README.
+Transform this full-featured rug inspection application into a lightweight marketing/landing site by removing all application functionality and keeping only the specified routes.
 
 ---
 
-## Part 1: Complete File Inventory for Standalone Landing Page
+## Routes to Keep
 
-### Core Configuration Files
-```text
-index.html                    # HTML entry point with SEO meta tags
-vite.config.ts               # Vite build configuration
-tailwind.config.ts           # Tailwind CSS configuration
-postcss.config.js            # PostCSS configuration
-tsconfig.json                # TypeScript config (root)
-tsconfig.app.json            # TypeScript app config
-package.json                 # Dependencies and scripts
-```
+| Route | Page |
+|-------|------|
+| `/` and `/landing` | Landing page (redirect `/landing` to `/`) |
+| `/blog` | Blog listing |
+| `/blog/:slug` | Individual blog posts |
+| `/blog-admin` | Blog CMS (passphrase protected) |
+| `/privacy` and `/privacy-policy` | Privacy Policy |
+| `/terms` and `/terms-of-service` | Terms of Service |
+| `/support` | Support/FAQ page |
+| `*` | 404 Not Found |
 
-### Public Assets
-```text
-public/
-  favicon.ico                # Site favicon
-  manifest.json              # PWA manifest
-  placeholder.svg            # Placeholder image
-  robots.txt                 # Search engine directives
-  (optional) pwa-192x192.png # PWA icons (if added)
-  (optional) pwa-512x512.png
-```
+---
 
-### Source Entry Points
-```text
-src/
-  main.tsx                   # React entry point
-  App.tsx                    # Router configuration
-  App.css                    # (minimal, mostly unused)
-  index.css                  # Global styles, CSS variables, TipTap styles
-  vite-env.d.ts              # Vite type declarations
-```
+## Implementation Strategy
 
-### Landing Page Components
+Since `LandingApp.tsx` already exists with most of the routes you need, the simplest approach is to:
+
+1. Replace `App.tsx` content with `LandingApp.tsx` structure
+2. Add the missing route aliases (`/privacy-policy`, `/terms-of-service`)
+3. Delete all unused pages, components, hooks, and libraries
+
+---
+
+## Files to Delete
+
+### Pages (22 files to remove)
 ```text
+src/pages/admin/ (entire folder - 6 files)
+  - AdminAuditLog.tsx
+  - AdminDashboard.tsx
+  - AdminPayouts.tsx
+  - AdminSettings.tsx
+  - AdminUserDetail.tsx
+  - AdminUsers.tsx
+
 src/pages/
-  LandingPage.tsx            # Main landing page
-  BlogPage.tsx               # Blog listing + individual post pages
-  BlogAdmin.tsx              # Blog CMS admin panel
-  PrivacyPolicy.tsx          # Privacy policy page
-  TermsOfService.tsx         # Terms of service page
-  Support.tsx                # Support/help center page
-  NotFound.tsx               # 404 page
-  Auth.tsx                   # Login/signup (for CTA links)
-
-src/components/landing/
-  GradientMeshBackground.tsx # Animated gradient background
-  LandingBlog.tsx            # Blog preview section + data utilities
-  LandingFAQ.tsx             # FAQ accordion section
-  LandingFeatures.tsx        # Features grid section
-  LandingFooter.tsx          # Footer with CTA and links
-  LandingHero.tsx            # Hero section with device mockup
-  LandingHowItWorks.tsx      # How it works steps
-  LandingNavbar.tsx          # Navigation bar
-  LandingPricing.tsx         # Pricing tiers section
-  LandingProblemSolution.tsx # Problem/solution section
-  LandingTestimonials.tsx    # Customer testimonials
-  MobileCarousel.tsx         # Mobile screenshot carousel
+  - AccountSettings.tsx
+  - AccountsReceivable.tsx
+  - Analytics.tsx
+  - Auth.tsx
+  - ClientAuth.tsx
+  - ClientDashboard.tsx
+  - ClientHistory.tsx
+  - ClientPortal.tsx
+  - ClientSetPassword.tsx
+  - CompanySetup.tsx
+  - Dashboard.tsx
+  - History.tsx
+  - Index.tsx
+  - JobDetail.tsx
+  - NewJob.tsx
+  - PaymentCancelled.tsx
+  - PaymentSuccess.tsx
+  - ResetPassword.tsx
+  - ScreenshotGenerator.tsx
 ```
 
-### Device Mockup Components (for screenshots)
+### Components (48+ files to remove)
 ```text
-src/components/screenshots/
-  DeviceFrame.tsx            # Device frame wrapper (iPhone, iPad, etc.)
-  MockAnalysisReport.tsx     # Mock AI analysis UI
-  MockAnalytics.tsx          # Mock analytics dashboard
-  MockClientPortal.tsx       # Mock client portal UI
-  MockDashboard.tsx          # Mock main dashboard
-  MockEstimate.tsx           # Mock estimate view
-  MockPhotoCapture.tsx       # Mock photo capture UI
-  ScreenshotSlide.tsx        # Carousel slide component
+src/components/admin/ (entire folder)
+src/components/analytics/ (entire folder)
+src/components/screenshots/ (entire folder)
+src/components/skeletons/ (entire folder)
+
+src/components/
+  - AnalysisProgress.tsx
+  - AnalysisReport.tsx
+  - AppInitializer.tsx
+  - BatchActionBar.tsx
+  - BillingStatusBanner.tsx
+  - ClientPortalStatus.tsx
+  - ClientSearch.tsx
+  - CompanyGuard.tsx
+  - ConditionInspectionForm.tsx
+  - DeleteAccountDialog.tsx
+  - EditClientInfoDialog.tsx
+  - EditRugDialog.tsx
+  - EmailPreviewDialog.tsx
+  - EmailTemplatesSettings.tsx
+  - EstimateReview.tsx
+  - ExpertEstimateCard.tsx
+  - ExpertInspectionReport.tsx
+  - ExportCsvButton.tsx
+  - FeatureGate.tsx
+  - GlobalSearch.tsx
+  - GuidedPhotoCapture.tsx
+  - JobBreadcrumb.tsx
+  - JobForm.tsx
+  - JobStatusControl.tsx
+  - JobTimeline.tsx
+  - JobsFilter.tsx
+  - LazyPhotoGallery.tsx
+  - LifecycleErrorState.tsx
+  - MobileJobActionBar.tsx
+  - MobileNav.tsx
+  - MobilePhotoUpload.tsx
+  - ModelComparisonDialog.tsx
+  - NavLink.tsx
+  - NotificationBell.tsx
+  - OfflineBanner.tsx
+  - PaginatedTable.tsx
+  - PaymentInfoSettings.tsx
+  - PaymentTracking.tsx
+  - PhotoCapture.tsx
+  - PhotoUploadProgress.tsx
+  - PricingReview.tsx
+  - ProtectedRoute.tsx
+  - RateLimitFeedback.tsx
+  - RugForm.tsx
+  - RugInspectionForm.tsx
+  - RugPhoto.tsx
+  - ServiceCompletionCard.tsx
+  - ServicePricing.tsx
+  - StatusGatedButton.tsx
+  - SystemDeterminedServices.tsx
+  - TeachAIDialog.tsx
+  - UnsavedChangesDialog.tsx
 ```
 
-### Blog Editor Components
-```text
-src/components/blog/
-  RichTextEditor.tsx         # TipTap WYSIWYG editor
-```
-
-### Required UI Components (shadcn/ui)
-```text
-src/components/ui/
-  accordion.tsx              # For FAQ
-  button.tsx                 # Buttons throughout
-  card.tsx                   # Card containers
-  input.tsx                  # Form inputs
-  label.tsx                  # Form labels
-  separator.tsx              # Dividers
-  switch.tsx                 # Toggle switches
-  textarea.tsx               # Multi-line inputs
-  dropdown-menu.tsx          # Table menu in editor
-```
-
-### Hooks
+### Hooks (21 files to remove)
 ```text
 src/hooks/
-  useScrollAnimation.ts      # Intersection observer animations
+  - useAdminAuth.tsx
+  - useAuditLog.tsx
+  - useAuth.tsx
+  - useBatchSelection.ts
+  - useCapacitor.tsx
+  - useCompany.tsx
+  - useDeepLinking.tsx
+  - useInspectionPdf.ts
+  - useJobActions.ts
+  - useJobDetail.ts
+  - useJobs.ts
+  - useJobsWithFilters.ts
+  - useLifecycleGuards.ts
+  - useOfflineStatus.ts
+  - usePhotoUpload.ts
+  - usePlanFeatures.tsx
+  - usePushToken.tsx
+  - useRealtimeNotifications.ts
+  - useSignedUrl.ts
+  - useSignedUrls.tsx
+  - useUnsavedChanges.ts
 ```
 
-### Utilities
+### Libraries (13 files to remove)
 ```text
 src/lib/
-  utils.ts                   # cn() utility for class merging
+  - authRateLimiter.ts
+  - csvExport.ts
+  - lifecycleStateMachine.ts
+  - navigation.ts
+  - passwordValidation.ts
+  - pdfGenerator.ts
+  - planFeatures.ts
+  - platformUrls.ts
+  - pricingEngine.ts
+  - queryKeys.ts
+  - serviceCategories.ts
+  - serviceRulesEngine.ts
+  - tenantQueries.ts
 ```
 
-### Assets
+### Other Files to Remove
 ```text
-src/assets/
-  rugboost-logo.svg          # Brand logo (required)
-  appstore-mockup-1.png      # (optional, for hero if used)
+- src/LandingApp.tsx (will be merged into App.tsx)
+- src/data/demoData.ts
+- src/landing-main.tsx
+- landing.html
+- vite.config.landing.ts
+- capacitor.config.ts (Capacitor no longer needed)
 ```
 
-### Integrations (minimal for landing-only)
+### Edge Functions (entire folder can be removed)
+All 15 edge functions in `supabase/functions/` can be deleted as they're for the full app.
+
+---
+
+## Files to Keep
+
+### Pages (6 files)
 ```text
-src/integrations/
-  lovable/
-    index.ts                 # Lovable Cloud AI client (for full app)
-  supabase/
-    client.ts                # Supabase client (for blog persistence if needed)
-    types.ts                 # Database types
+src/pages/
+  - LandingPage.tsx
+  - BlogPage.tsx (includes BlogPostPage export)
+  - BlogAdmin.tsx
+  - PrivacyPolicy.tsx
+  - TermsOfService.tsx
+  - Support.tsx
+  - NotFound.tsx
+```
+
+### Components
+```text
+src/components/landing/ (entire folder - 12 files)
+src/components/blog/RichTextEditor.tsx
+src/components/ui/ (entire folder - keep all UI primitives)
+src/components/ErrorBoundary.tsx (useful for any React app)
+```
+
+### Hooks (keep minimal set)
+```text
+src/hooks/
+  - use-mobile.tsx
+  - use-toast.ts
+  - useScrollAnimation.ts
+```
+
+### Libraries (keep minimal set)
+```text
+src/lib/
+  - utils.ts
+  - queryClient.ts (may be needed if blog uses React Query)
+```
+
+### Other Files to Keep
+```text
+- src/App.tsx (will be simplified)
+- src/main.tsx
+- src/index.css
+- src/App.css
+- src/assets/ (logo and images)
+- src/integrations/ (keep for potential future use)
+- All UI components in src/components/ui/
 ```
 
 ---
 
-## Part 2: README Updates
+## Code Changes
 
-The README will be updated to include:
+### 1. Simplify `src/App.tsx`
 
-1. **Standalone Landing Page Deployment Section** - Clear instructions for deploying just the landing page
-2. **Custom Domain Configuration Guide** - Step-by-step DNS setup for popular registrars
-3. **SSL Certificate Setup** - Instructions for Let's Encrypt/Certbot
-4. **Nginx/Apache Configuration Examples** - Production-ready server configs
+Replace with a stripped-down version:
 
-### New README Sections to Add
+```text
+import { Suspense, lazy } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
-```markdown
-## Standalone Landing Page Deployment
+// Lazy load pages
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPostPage })));
+const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const Support = lazy(() => import("./pages/Support"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-For deploying only the marketing landing page (without the full application):
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
 
-### Quick Deploy
-\`\`\`sh
-npm run build
-# Upload dist/ folder to your VPS
-\`\`\`
+const App = () => (
+  <ErrorBoundary>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Landing */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/landing" element={<Navigate to="/" replace />} />
+            
+            {/* Blog */}
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/blog-admin" element={<BlogAdmin />} />
+            
+            {/* Legal */}
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/support" element={<Support />} />
+            
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </TooltipProvider>
+  </ErrorBoundary>
+);
 
-### Required Files
-The landing page is self-contained and includes:
-- Marketing pages (/landing, /blog, /support, /privacy, /terms)
-- Blog CMS at /blog-admin (stores posts in localStorage)
-- Device mockups for product screenshots
+export default App;
+```
 
-### Minimal Dependencies
-The landing page uses localStorage for blog posts, making it fully 
-standalone without backend requirements.
+### 2. Update Support Page Links
+
+The Support page has links to `/auth` that need updating to point to the external app URL or be removed.
 
 ---
 
-## Custom Domain Configuration
+## Dependencies to Remove from package.json
 
-### Step 1: DNS Configuration
+These packages are only used by the full app and can be uninstalled:
 
-Add the following DNS records at your domain registrar:
-
-| Type | Name | Value | TTL |
-|------|------|-------|-----|
-| A | @ | [Your VPS IP] | 3600 |
-| A | www | [Your VPS IP] | 3600 |
-| CNAME | www | yourdomain.com | 3600 |
-
-### Step 2: SSL Certificate (Let's Encrypt)
-
-\`\`\`sh
-# Install Certbot
-sudo apt install certbot python3-certbot-nginx
-
-# Generate certificate
-sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
-
-# Auto-renewal (already configured by certbot)
-sudo certbot renew --dry-run
-\`\`\`
-
-### Step 3: Nginx Configuration
-
-Create `/etc/nginx/sites-available/rugboost`:
-
-\`\`\`nginx
-server {
-    listen 80;
-    server_name yourdomain.com www.yourdomain.com;
-    return 301 https://$server_name$request_uri;
-}
-
-server {
-    listen 443 ssl http2;
-    server_name yourdomain.com www.yourdomain.com;
-
-    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
-
-    root /var/www/rugboost/dist;
-    index index.html;
-
-    # SPA routing - serve index.html for all routes
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    # Cache static assets
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-
-    # Security headers
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-
-    # Gzip compression
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript;
-}
-\`\`\`
-
-Enable the site:
-\`\`\`sh
-sudo ln -s /etc/nginx/sites-available/rugboost /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
-\`\`\`
-
-### Apache Alternative
-
-\`\`\`apache
-<VirtualHost *:443>
-    ServerName yourdomain.com
-    DocumentRoot /var/www/rugboost/dist
-
-    SSLEngine on
-    SSLCertificateFile /etc/letsencrypt/live/yourdomain.com/fullchain.pem
-    SSLCertificateKeyFile /etc/letsencrypt/live/yourdomain.com/privkey.pem
-
-    <Directory /var/www/rugboost/dist>
-        Options -Indexes +FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    # SPA routing
-    FallbackResource /index.html
-
-    # Compression
-    <IfModule mod_deflate.c>
-        AddOutputFilterByType DEFLATE text/html text/css application/javascript
-    </IfModule>
-</VirtualHost>
-\`\`\`
-
-### Common Domain Registrars
-
-**Cloudflare**
-1. Go to DNS settings
-2. Add A record: @ → Your VPS IP (Proxied or DNS only)
-3. Add CNAME: www → yourdomain.com
-
-**Namecheap**
-1. Domain List → Manage → Advanced DNS
-2. Add A Record: Host @ → Your VPS IP
-3. Add CNAME: Host www → yourdomain.com
-
-**GoDaddy**
-1. My Products → DNS
-2. Add A Record: Name @ → Your VPS IP
-3. Add CNAME: Name www → yourdomain.com
-
-### Troubleshooting
-
-- **DNS Propagation**: Allow 24-48 hours for global propagation
-- **SSL Issues**: Ensure ports 80 and 443 are open in firewall
-- **404 Errors**: Verify the SPA fallback rule is configured
-- **Check DNS**: Use `dig yourdomain.com` or https://dnschecker.org
+```text
+@capacitor/android
+@capacitor/app
+@capacitor/camera
+@capacitor/cli
+@capacitor/core
+@capacitor/filesystem
+@capacitor/haptics
+@capacitor/ios
+@capacitor/push-notifications
+@capacitor/share
+@capacitor/status-bar
+@hookform/resolvers
+@lovable.dev/cloud-auth-js
+@playwright/test
+html2canvas
+jspdf
+jspdf-autotable
+react-day-picker
+react-hook-form
+react-resizable-panels
+recharts
+zod
 ```
 
 ---
 
-## Implementation Steps
+## Summary
 
-1. **Update README.md** - Add the new deployment and custom domain sections after the existing Mobile Apps section
-2. **Keep existing content** - Preserve all current README sections
-3. **Test build** - Verify `npm run build` produces a complete dist folder
+| Category | Files to Delete | Files to Keep |
+|----------|-----------------|---------------|
+| Pages | 22 | 7 |
+| Components (non-UI) | ~50+ | ~15 |
+| Hooks | 21 | 3 |
+| Libraries | 13 | 2 |
+| Edge Functions | 15 | 0 |
 
----
-
-## Technical Notes
-
-- The landing page stores blog posts in `localStorage`, making it fully standalone
-- Device mockups are self-contained React components (no external images required)
-- All fonts are loaded from Google Fonts CDN
-- The favicon uses an external URL in index.html (consider hosting locally for full independence)
+**Result**: A lightweight marketing site with landing page, blog with CMS, and legal pages. No authentication, no database operations (blog uses localStorage), and a significantly smaller bundle size.
