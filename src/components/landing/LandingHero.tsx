@@ -1,11 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import DeviceFrame from '@/components/screenshots/DeviceFrame';
 import MockDashboard from '@/components/screenshots/MockDashboard';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import GradientMeshBackground from './GradientMeshBackground';
+
+const APP_URL = 'https://app.rugboost.com';
 
 export default function LandingHero() {
   const { ref: textRef, isVisible: textVisible } = useScrollAnimation({ threshold: 0.2 });
@@ -49,10 +50,10 @@ export default function LandingHero() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button size="xl" variant="warm" asChild>
-                <Link to="/auth" className="gap-2">
+                <a href={APP_URL} className="gap-2">
                   Start Free Trial
                   <ArrowRight className="h-5 w-5" />
-                </Link>
+                </a>
               </Button>
               <Button size="xl" variant="outline" className="gap-2">
                 <Play className="h-5 w-5" />

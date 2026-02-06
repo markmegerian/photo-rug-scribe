@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
 
+const APP_URL = 'https://app.rugboost.com';
+
 const navLinks = [
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
@@ -48,10 +50,10 @@ export default function LandingNavbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Button variant="ghost" asChild>
-              <Link to="/auth">Log In</Link>
+              <a href={APP_URL}>Log In</a>
             </Button>
             <Button variant="warm" asChild>
-              <Link to="/auth">Start Free Trial</Link>
+              <a href={APP_URL}>Start Free Trial</a>
             </Button>
           </div>
 
@@ -79,10 +81,10 @@ export default function LandingNavbar() {
               ))}
               <div className="flex flex-col gap-2 mt-4 px-4">
                 <Button variant="outline" asChild className="w-full">
-                  <Link to="/auth">Log In</Link>
+                  <a href={APP_URL}>Log In</a>
                 </Button>
                 <Button variant="warm" asChild className="w-full">
-                  <Link to="/auth">Start Free Trial</Link>
+                  <a href={APP_URL}>Start Free Trial</a>
                 </Button>
               </div>
             </div>

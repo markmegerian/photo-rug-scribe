@@ -5,6 +5,8 @@ import rugboostLogo from '@/assets/rugboost-logo.svg';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 
+const APP_URL = 'https://app.rugboost.com';
+
 const footerLinks = {
   Product: [
     { label: 'Features', href: '#features' },
@@ -56,10 +58,10 @@ export default function LandingFooter() {
             Join hundreds of rug professionals who've modernized their operations with RugBoost.
           </p>
           <Button size="xl" variant="secondary" asChild>
-            <Link to="/auth" className="gap-2">
+            <a href={APP_URL} className="gap-2">
               Start Your Free Trial
               <ArrowRight className="h-5 w-5" />
-            </Link>
+            </a>
           </Button>
         </div>
       </div>
