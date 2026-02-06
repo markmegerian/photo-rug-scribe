@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play, Sparkles, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import DeviceFrame from '@/components/screenshots/DeviceFrame';
-import MockDashboard from '@/components/screenshots/MockDashboard';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import GradientMeshBackground from './GradientMeshBackground';
+import appstoreMockup from '@/assets/appstore-mockup-1.png';
 
 export default function LandingHero() {
   const { ref: textRef, isVisible: textVisible } = useScrollAnimation({ threshold: 0.2 });
@@ -27,10 +26,7 @@ export default function LandingHero() {
             )}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
+              <Sparkles className="h-4 w-4" />
               AI-Powered Rug Inspection
             </div>
             
@@ -49,20 +45,33 @@ export default function LandingHero() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button size="xl" variant="warm" asChild>
-                <Link to="/auth" className="gap-2">
-                  Start Free Trial
+                <a href="mailto:info@rugboost.com" className="gap-2">
+                  Get Started
                   <ArrowRight className="h-5 w-5" />
-                </Link>
+                </a>
               </Button>
-              <Button size="xl" variant="outline" className="gap-2">
-                <Play className="h-5 w-5" />
-                Watch Demo
+              <Button size="xl" variant="outline" className="gap-2" asChild>
+                <Link to="/blog">
+                  <Play className="h-5 w-5" />
+                  Learn More
+                </Link>
               </Button>
             </div>
             
-            <p className="mt-6 text-sm text-muted-foreground">
-              No credit card required • 14-day free trial • Cancel anytime
-            </p>
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-primary" />
+                No credit card required
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-primary" />
+                14-day free trial
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-primary" />
+                Cancel anytime
+              </div>
+            </div>
           </div>
 
           {/* Device Mockup */}
@@ -77,9 +86,14 @@ export default function LandingHero() {
               {/* Glow effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl scale-150 opacity-50" />
               
-              <DeviceFrame device="iphone-15-pro" scale={0.6}>
-                <MockDashboard />
-              </DeviceFrame>
+              {/* App mockup image */}
+              <div className="relative w-[280px] sm:w-[320px] md:w-[360px]">
+                <img 
+                  src={appstoreMockup} 
+                  alt="RugBoost App" 
+                  className="w-full h-auto rounded-3xl shadow-2xl"
+                />
+              </div>
             </div>
           </div>
         </div>
