@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, Edit, Save, X, Eye, Image, Upload, Lock, LogOut } from 'lucide-react';
+import { Plus, Trash2, Edit, Save, X, Eye, Image, Upload, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -8,34 +8,11 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { getBlogPosts, saveBlogPosts, BlogPost } from '@/components/landing/LandingBlog';
 import LandingNavbar from '@/components/landing/LandingNavbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RichTextEditor from '@/components/blog/RichTextEditor';
-
-// Simple passphrase protection for blog admin
-// In production, this should be replaced with proper Supabase auth
-const BLOG_ADMIN_SESSION_KEY = 'rugboost_blog_admin_session';
-const SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
-
-function isSessionValid(): boolean {
-  const session = localStorage.getItem(BLOG_ADMIN_SESSION_KEY);
-  if (!session) return false;
-  try {
-    const { expiry } = JSON.parse(session);
-    return Date.now() < expiry;
-  } catch {
-    return false;
-  }
-}
-
-function createSession(): void {
-  localStorage.setItem(BLOG_ADMIN_SESSION_KEY, JSON.stringify({
-    expiry: Date.now() + SESSION_DURATION_MS
-  }));
-}
-
-function clearSession(): void {
-  localStorage.removeItem(BLOG_ADMIN_SESSION_KEY);
-}
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { User, Session } from '@supabase/supabase-js';
 
 function generateSlug(title: string): string {
   return title
@@ -48,97 +25,86 @@ function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
-// Passphrase gate component
-function PassphraseGate({ onSuccess }: { onSuccess: () => void }) {
-  const [passphrase, setPassphrase] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  // The passphrase is hashed client-side for basic obfuscation
-  // In production, use proper server-side authentication
-  const EXPECTED_HASH = 'Garo0325!';
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    // Simple delay to prevent brute force
-    setTimeout(() => {
-      if (passphrase === EXPECTED_HASH) {
-        createSession();
-        onSuccess();
-      } else {
-        setError('Invalid passphrase. Please try again.');
-      }
-      setIsLoading(false);
-    }, 500);
-  };
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-            <Lock className="h-6 w-6 text-primary" />
-          </div>
-          <CardTitle className="text-xl">Blog Admin Access</CardTitle>
-          <p className="text-sm text-muted-foreground mt-2">
-            Enter the admin passphrase to manage blog content.
-          </p>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="passphrase">Passphrase</Label>
-              <Input
-                id="passphrase"
-                type="password"
-                value={passphrase}
-                onChange={e => setPassphrase(e.target.value)}
-                placeholder="Enter admin passphrase"
-                autoFocus
-              />
-              {error && (
-                <p className="text-sm text-destructive">{error}</p>
-              )}
-            </div>
-            <Button type="submit" className="w-full" disabled={isLoading || !passphrase}>
-              {isLoading ? 'Verifying...' : 'Access Blog Admin'}
-            </Button>
-          </form>
-          <p className="text-xs text-muted-foreground text-center mt-4">
-            Contact your administrator if you've forgotten the passphrase.
-          </p>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
-
 export default function BlogAdmin() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // Check if user has a valid session
-    setIsAuthenticated(isSessionValid());
-    setIsCheckingAuth(false);
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        // Defer role check with setTimeout to avoid deadlock
+        if (session?.user) {
+          setTimeout(() => {
+            checkAdminRole(session.user.id);
+          }, 0);
+        } else {
+          setIsAdmin(false);
+          setIsCheckingAuth(false);
+        }
+      }
+    );
+
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        checkAdminRole(session.user.id);
+      } else {
+        setIsCheckingAuth(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
+  const checkAdminRole = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .rpc('has_role', { _user_id: userId, _role: 'admin' });
+
+      if (error) {
+        console.error('Error checking admin role:', error);
+        setIsAdmin(false);
+      } else {
+        setIsAdmin(!!data);
+      }
+    } catch (error) {
+      console.error('Failed to check admin role:', error);
+      setIsAdmin(false);
+    } finally {
+      setIsCheckingAuth(false);
+    }
+  };
+
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAdmin) {
       setPosts(getBlogPosts());
     }
-  }, [isAuthenticated]);
+  }, [isAdmin]);
 
-  const handleLogout = () => {
-    clearSession();
-    setIsAuthenticated(false);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+    setIsAdmin(false);
+    toast({
+      title: "Signed out",
+      description: "You have been signed out of blog admin.",
+    });
+    navigate('/');
   };
 
   // Show loading state while checking auth
@@ -150,9 +116,10 @@ export default function BlogAdmin() {
     );
   }
 
-  // Show passphrase gate if not authenticated
-  if (!isAuthenticated) {
-    return <PassphraseGate onSuccess={() => setIsAuthenticated(true)} />;
+  // Redirect to auth if not logged in or not admin
+  if (!user || !session || !isAdmin) {
+    navigate('/blog-admin/auth');
+    return null;
   }
 
   const handleSave = () => {
@@ -166,6 +133,11 @@ export default function BlogAdmin() {
     setPosts(updatedPosts);
     setEditingPost(null);
     setIsCreating(false);
+    
+    toast({
+      title: "Post saved",
+      description: editingPost.id ? "Your changes have been saved." : "New post created successfully.",
+    });
   };
 
   const handleDelete = (id: string) => {
@@ -173,6 +145,10 @@ export default function BlogAdmin() {
     const updatedPosts = posts.filter(p => p.id !== id);
     saveBlogPosts(updatedPosts);
     setPosts(updatedPosts);
+    toast({
+      title: "Post deleted",
+      description: "The post has been removed.",
+    });
   };
 
   const handleCreate = () => {
@@ -199,8 +175,6 @@ export default function BlogAdmin() {
     const file = e.target.files?.[0];
     if (!file || !editingPost) return;
 
-    // For standalone deployment, convert to data URL
-    // In production with storage, you'd upload to a CDN instead
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataUrl = event.target?.result as string;
@@ -227,6 +201,9 @@ export default function BlogAdmin() {
               </h1>
               <p className="text-muted-foreground mt-1">
                 Manage your blog posts for SEO and content marketing.
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Signed in as: {user.email}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -276,7 +253,6 @@ export default function BlogAdmin() {
                 <div className="space-y-2">
                   <Label>Cover Image</Label>
                   <div className="flex gap-4 items-start">
-                    {/* Preview */}
                     <div className="w-32 h-20 rounded-lg border border-border overflow-hidden bg-muted flex items-center justify-center flex-shrink-0">
                       {editingPost.coverImage ? (
                         <img 
@@ -460,9 +436,9 @@ export default function BlogAdmin() {
                       {post.category} • {new Date(post.publishedAt).toLocaleDateString()} • {post.readTime} min read
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Button 
-                      variant="ghost" 
+                  <div className="flex gap-2">
+                    <Button
+                      variant="ghost"
                       size="icon"
                       asChild
                     >
@@ -470,18 +446,21 @@ export default function BlogAdmin() {
                         <Eye className="h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       size="icon"
-                      onClick={() => setEditingPost(post)}
+                      onClick={() => {
+                        setIsCreating(false);
+                        setEditingPost(post);
+                      }}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       size="icon"
-                      onClick={() => handleDelete(post.id)}
                       className="text-destructive hover:text-destructive"
+                      onClick={() => handleDelete(post.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -490,13 +469,12 @@ export default function BlogAdmin() {
               </Card>
             ))}
 
-            {posts.length === 0 && !isCreating && (
-              <div className="text-center py-12 text-muted-foreground">
-                <p>No blog posts yet.</p>
-                <Button onClick={handleCreate} variant="link" className="mt-2">
-                  Create your first post
-                </Button>
-              </div>
+            {posts.length === 0 && (
+              <Card>
+                <CardContent className="py-8 text-center text-muted-foreground">
+                  No blog posts yet. Click "New Post" to create your first article.
+                </CardContent>
+              </Card>
             )}
           </div>
         </div>

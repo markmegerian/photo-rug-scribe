@@ -10,6 +10,7 @@ const LandingPage = lazy(() => import("./pages/LandingPage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const BlogPostPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPostPage })));
 const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));
+const BlogAdminAuth = lazy(() => import("./pages/BlogAdminAuth"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const Support = lazy(() => import("./pages/Support"));
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/blog-admin" element={<BlogAdmin />} />
+            <Route path="/blog-admin/auth" element={<BlogAdminAuth />} />
             
             {/* Legal */}
             <Route path="/privacy" element={<PrivacyPolicy />} />
