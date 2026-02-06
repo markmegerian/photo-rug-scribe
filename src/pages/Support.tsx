@@ -39,16 +39,16 @@ const Support = () => {
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <img src={rugboostLogo} alt="RugBoost" className="h-8 w-8" />
             <span className="font-display text-lg font-bold text-foreground">RugBoost</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/auth">Sign In</Link>
+              <Link to="/blog">Blog</Link>
             </Button>
             <Button size="sm" asChild>
-              <Link to="/auth">Get Started</Link>
+              <Link to="/">Home</Link>
             </Button>
           </div>
         </div>
@@ -188,10 +188,10 @@ const Support = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/auth">Get Started Free</Link>
+              <Link to="/">Learn More</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link to="/auth">Sign In</Link>
+              <Link to="/blog">Read Our Blog</Link>
             </Button>
           </div>
         </div>
