@@ -71,6 +71,7 @@ Deno.serve(async (req) => {
         }
       );
     }
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     
@@ -123,118 +124,50 @@ Deno.serve(async (req) => {
     console.log(`[${requestId}] Registration request from IP: ${clientIp.substring(0, 10)}*** for: ${normalizedEmail.substring(0, 3)}***`);
     console.log(`[${requestId}] Rate limit status - Remaining: ${rateCheck.remaining}, Reset in: ${Math.ceil(rateCheck.resetIn / 1000)}s`);
 
-    // Validate the access token and verify email matches
+    // Validate the access token and get the auth_user_id
     const { data: tokenData, error: tokenError } = await supabaseAdmin
       .rpc('validate_access_token', { _token: accessToken });
 
     if (tokenError || !tokenData || tokenData.length === 0) {
-      console.error('Token validation error:', tokenError);
+      console.error(`[${requestId}] Token validation error:`, tokenError?.message || 'No token data');
       return new Response(
-        JSON.stringify({ error: 'Invalid or expired access link' }),
+        JSON.stringify({ error: 'Invalid or expired access link. Please request a new link from the business.' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     const accessInfo = tokenData[0];
+    const authUserId = accessInfo.auth_user_id;
     
+    // CRITICAL: Check if auth_user_id exists on the invite
+    // If not, this is a legacy invite that cannot be processed safely
+    if (!authUserId) {
+      console.error(`[${requestId}] Legacy invite without auth_user_id - cannot process`);
+      return new Response(
+        JSON.stringify({ error: 'This access link is invalid or expired. Please request a new link from the business.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     // SECURITY: Verify the email matches the invited email
     const invitedEmail = accessInfo.invited_email?.toLowerCase().trim();
     if (invitedEmail && invitedEmail !== normalizedEmail) {
+      console.error(`[${requestId}] Email mismatch - invited: ${invitedEmail.substring(0, 3)}***, provided: ${normalizedEmail.substring(0, 3)}***`);
       return new Response(
         JSON.stringify({ error: 'Email does not match the invitation' }),
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Find the user by email
-    const { data: usersData, error: listError } = await supabaseAdmin.auth.admin.listUsers({
-      page: 1,
-      perPage: 1000,
-    });
+    console.log(`[${requestId}] Using auth_user_id from invite: ${authUserId.substring(0, 8)}***`);
 
-    if (listError) {
-      console.error('Error listing users:', listError);
-      throw listError;
-    }
-
-    const existingUser = usersData?.users?.find(
-      u => u.email?.toLowerCase() === normalizedEmail
-    );
-
-    if (!existingUser) {
-      // User doesn't exist yet - create them with the provided password
-      console.log(`[${requestId}] Creating new user account`);
-      
-      const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-        email: normalizedEmail,
-        password: password,
-        email_confirm: true,
-        user_metadata: {
-          needs_password_setup: false,
-        },
-      });
-
-      if (createError) {
-        console.error(`[${requestId}] Error creating user:`, createError.message);
-        throw createError;
-      }
-
-      console.log(`[${requestId}] User created successfully: ${newUser.user.id.substring(0, 8)}***`);
-      const userId = newUser.user.id;
-
-      // Add client role
-      const { error: roleError } = await supabaseAdmin
-        .from('user_roles')
-        .insert({ user_id: userId, role: 'client' });
-
-      if (roleError && roleError.code !== '23505') {
-        console.error(`[${requestId}] Error adding client role:`, roleError.message);
-      } else {
-        console.log(`[${requestId}] Client role added`);
-      }
-
-      // Create client account
-      const { data: clientAccount, error: clientError } = await supabaseAdmin
-        .from('client_accounts')
-        .insert({
-          user_id: userId,
-          email: normalizedEmail,
-          full_name: accessInfo.client_name || '',
-        })
-        .select('id')
-        .single();
-
-      if (clientError && clientError.code !== '23505') {
-        console.error(`[${requestId}] Error creating client account:`, clientError.message);
-      } else if (clientAccount) {
-        console.log(`[${requestId}] Client account created: ${clientAccount.id.substring(0, 8)}***`);
-      }
-
-      // Link to job access
-      if (clientAccount) {
-        await supabaseAdmin
-          .from('client_job_access')
-          .update({ client_id: clientAccount.id })
-          .eq('access_token', accessToken);
-        console.log(`[${requestId}] Linked client to job access`);
-      }
-
-      console.log(`[${requestId}] Registration completed successfully (new user)`);
-      return new Response(
-        JSON.stringify({ success: true, userId, isNewUser: true }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // User exists - update their password
-    console.log(`[${requestId}] Updating password for existing user: ${existingUser.id.substring(0, 8)}***`);
-    
+    // Update the user's password using the stored auth_user_id
+    // No listUsers() call needed - we have the definitive user ID
     const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
-      existingUser.id,
+      authUserId,
       {
         password: password,
         user_metadata: {
-          ...existingUser.user_metadata,
           needs_password_setup: false,
         },
       }
@@ -250,7 +183,7 @@ Deno.serve(async (req) => {
     const { data: existingClient } = await supabaseAdmin
       .from('client_accounts')
       .select('id')
-      .eq('user_id', existingUser.id)
+      .eq('user_id', authUserId)
       .maybeSingle();
 
     let clientId = existingClient?.id;
@@ -259,15 +192,18 @@ Deno.serve(async (req) => {
       const { data: newClient, error: clientError } = await supabaseAdmin
         .from('client_accounts')
         .insert({
-          user_id: existingUser.id,
+          user_id: authUserId,
           email: normalizedEmail,
-          full_name: accessInfo.client_name || existingUser.user_metadata?.full_name || '',
+          full_name: accessInfo.client_name || '',
         })
         .select('id')
         .single();
 
-      if (!clientError) {
+      if (!clientError && newClient) {
         clientId = newClient.id;
+        console.log(`[${requestId}] Created client account: ${clientId.substring(0, 8)}***`);
+      } else if (clientError && clientError.code !== '23505') {
+        console.error(`[${requestId}] Error creating client account:`, clientError.message);
       }
     }
 
@@ -280,18 +216,26 @@ Deno.serve(async (req) => {
         .is('client_id', null);
     }
 
-    // Ensure client role exists
+    // Ensure client role exists - ONLY 'client' role, never 'staff'
     const { error: roleError } = await supabaseAdmin
       .from('user_roles')
-      .insert({ user_id: existingUser.id, role: 'client' });
+      .insert({ user_id: authUserId, role: 'client' });
 
     if (roleError && roleError.code !== '23505') {
-      console.error(`[${requestId}] Error adding role:`, roleError.message);
+      console.error(`[${requestId}] Error adding client role:`, roleError.message);
+    } else {
+      console.log(`[${requestId}] Client role ensured`);
     }
 
-    console.log(`[${requestId}] Registration completed successfully (existing user)`);
+    // Mark password as set on the access record
+    await supabaseAdmin
+      .from('client_job_access')
+      .update({ password_set_at: new Date().toISOString() })
+      .eq('access_token', accessToken);
+
+    console.log(`[${requestId}] Registration completed successfully`);
     return new Response(
-      JSON.stringify({ success: true, userId: existingUser.id, isNewUser: false }),
+      JSON.stringify({ success: true, userId: authUserId, isNewUser: false }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error: unknown) {

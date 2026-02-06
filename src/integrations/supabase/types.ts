@@ -1216,6 +1216,7 @@ export type Database = {
         Args: { _token: string }
         Returns: {
           access_id: string
+          auth_user_id: string
           client_id: string
           client_name: string
           invited_email: string
