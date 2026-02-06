@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Check, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useScrollAnimation, useStaggeredAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
+
+const APP_URL = 'https://app.rugboost.com';
 
 const plans = [
   {
@@ -132,7 +133,7 @@ export default function LandingPricing() {
                   className="w-full"
                   asChild
                 >
-                  <Link to="/auth">{plan.cta}</Link>
+                  <a href={plan.name === 'Enterprise' ? 'mailto:sales@rugboost.com' : APP_URL}>{plan.cta}</a>
                 </Button>
               </CardContent>
             </Card>
