@@ -45,10 +45,7 @@ const Support = () => {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/auth">Sign In</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link to="/auth">Get Started</Link>
+              <Link to="/">Home</Link>
             </Button>
           </div>
         </div>
@@ -188,10 +185,7 @@ const Support = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/auth">Get Started Free</Link>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <Link to="/auth">Sign In</Link>
+              <Link to="/">Learn More</Link>
             </Button>
           </div>
         </div>
