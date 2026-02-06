@@ -15,6 +15,7 @@ import ExpertInspectionReport from '@/components/ExpertInspectionReport';
 import { categorizeService } from '@/lib/serviceCategories';
 import { getServiceDeclineConsequence } from '@/lib/serviceCategories';
 import { batchSignUrls } from '@/hooks/useSignedUrls';
+import { openExternalUrl } from '@/lib/navigation';
 
 interface ServiceItem {
   id: string;
@@ -427,38 +428,11 @@ const ClientPortal = () => {
       if (error) throw error;
       if (data.error) throw new Error(data.error);
 
-      // Redirect to Stripe Checkout
+      // Redirect to Stripe Checkout - use Capacitor-safe navigation
       if (data.checkoutUrl) {
-        // Try to redirect - use window.open as fallback for iframe environments
-        try {
-          // First try direct navigation
-          window.location.href = data.checkoutUrl;
-          
-          // If we're still here after a short delay, the redirect may have been blocked
-          setTimeout(() => {
-            // Open in new tab as fallback
-            const newWindow = window.open(data.checkoutUrl, '_blank');
-            if (!newWindow) {
-              // Popup blocked - show manual link
-              toast.info(
-                'Click to complete payment',
-                {
-                  duration: 30000,
-                  action: {
-                    label: 'Open Payment',
-                    onClick: () => window.open(data.checkoutUrl, '_blank'),
-                  },
-                }
-              );
-              setIsProcessingPayment(false);
-            }
-          }, 1500);
-        } catch (redirectError) {
-          console.error('Redirect failed:', redirectError);
-          window.open(data.checkoutUrl, '_blank');
-          setIsProcessingPayment(false);
-        }
-        return; // Don't hit finally block immediately
+        // For payment flows, always use direct navigation (critical flow)
+        openExternalUrl(data.checkoutUrl, { critical: true });
+        return; // Don't reset processing state - we're leaving the page
       } else {
         throw new Error('No checkout URL returned');
       }

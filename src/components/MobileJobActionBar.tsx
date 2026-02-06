@@ -104,7 +104,7 @@ const MobileJobActionBar: React.FC<MobileJobActionBarProps> = ({
     <div className={cn(
       "fixed bottom-0 left-0 right-0 z-40 md:hidden",
       "bg-background/95 backdrop-blur-md border-t border-border",
-      "px-4 py-3 pb-safe",
+      "px-4 py-3 pb-safe-bottom",
       className
     )}>
       <div className="flex items-center gap-3">
