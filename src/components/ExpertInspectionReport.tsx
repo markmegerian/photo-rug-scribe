@@ -137,6 +137,7 @@ function generateConditionSummary(services: Service[]): string {
   const [lightboxImages, setLightboxImages] = useState<string[] | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxAnnotations, setLightboxAnnotations] = useState<PhotoAnnotations[] | null>(null);
+  const [tappedAnnotation, setTappedAnnotation] = useState<number | null>(null);
    
    // Aggregate services across all rugs, adding rug identification
    const allServices = rugs.flatMap(r => 
@@ -222,6 +223,13 @@ function generateConditionSummary(services: Service[]): string {
     setLightboxImages(null);
     setLightboxIndex(0);
     setLightboxAnnotations(null);
+    setTappedAnnotation(null);
+  };
+
+  // Clear tapped annotation when changing photos
+  const handleLightboxNav = (newIndex: number) => {
+    setLightboxIndex(newIndex);
+    setTappedAnnotation(null);
   };
   
    const toggleRug = (rugId: string) => {
@@ -670,7 +678,7 @@ function generateConditionSummary(services: Service[]): string {
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2 bg-black/30 rounded-full"
               onClick={(e) => {
                 e.stopPropagation();
-                setLightboxIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
+                handleLightboxNav((lightboxIndex - 1 + lightboxImages.length) % lightboxImages.length);
               }}
             >
               <ChevronLeft className="h-8 w-8" />
@@ -688,33 +696,41 @@ function generateConditionSummary(services: Service[]): string {
               className="max-w-full max-h-[85vh] object-contain rounded-lg"
               loadingClassName="w-64 h-64"
             />
-            {/* Annotation markers on lightbox image */}
+            {/* Annotation markers on lightbox image - tap to reveal on mobile */}
             {lightboxAnnotations && (() => {
               const currentAnnotation = lightboxAnnotations.find(a => a.photoIndex === lightboxIndex);
               const markers = currentAnnotation?.annotations || [];
-              return markers.map((annotation, annIdx) => (
-                <div
-                  key={annIdx}
-                  className="absolute z-10 group"
-                  style={{
-                    left: `${annotation.x}%`,
-                    top: `${annotation.y}%`,
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                >
-                  <div className="relative cursor-pointer">
-                    <div className="w-8 h-8 bg-destructive rounded-full flex items-center justify-center text-destructive-foreground text-sm font-bold shadow-lg border-2 border-white">
-                      {annIdx + 1}
-                    </div>
-                    {/* Tooltip on hover */}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-20 pointer-events-none">
-                      <div className="bg-white text-foreground px-3 py-2 rounded-md shadow-lg text-sm whitespace-nowrap border border-border max-w-[250px]">
-                        {annotation.label}
+              return markers.map((annotation, annIdx) => {
+                const isSelected = tappedAnnotation === annIdx;
+                return (
+                  <div
+                    key={annIdx}
+                    className="absolute z-10"
+                    style={{
+                      left: `${annotation.x}%`,
+                      top: `${annotation.y}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Toggle tooltip on tap for mobile
+                      setTappedAnnotation(isSelected ? null : annIdx);
+                    }}
+                  >
+                    <div className="relative cursor-pointer group">
+                      <div className={`w-8 h-8 bg-destructive rounded-full flex items-center justify-center text-destructive-foreground text-sm font-bold shadow-lg border-2 transition-all ${isSelected ? 'border-white ring-2 ring-white/50 scale-110' : 'border-white'}`}>
+                        {annIdx + 1}
+                      </div>
+                      {/* Tooltip - shows on hover (desktop) or when tapped (mobile) */}
+                      <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-20 pointer-events-none transition-opacity ${isSelected ? 'block' : 'hidden md:group-hover:block'}`}>
+                        <div className="bg-white text-foreground px-3 py-2 rounded-md shadow-lg text-sm whitespace-normal border border-border max-w-[200px] sm:max-w-[250px]">
+                          {annotation.label}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ));
+                );
+              });
             })()}
           </div>
           
@@ -724,7 +740,7 @@ function generateConditionSummary(services: Service[]): string {
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2 bg-black/30 rounded-full"
               onClick={(e) => {
                 e.stopPropagation();
-                setLightboxIndex((prev) => (prev + 1) % lightboxImages.length);
+                handleLightboxNav((lightboxIndex + 1) % lightboxImages.length);
               }}
             >
               <ChevronRight className="h-8 w-8" />
@@ -762,7 +778,7 @@ function generateConditionSummary(services: Service[]): string {
                   key={idx}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setLightboxIndex(idx);
+                    handleLightboxNav(idx);
                   }}
                   className={`flex-shrink-0 rounded border-2 transition-all ${
                     idx === lightboxIndex 
