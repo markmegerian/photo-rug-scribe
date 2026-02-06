@@ -152,7 +152,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    const redirectUrl = `${window.location.origin}/`;
+    // Capacitor-safe redirect URL for email confirmation
+    const { getSignupRedirectUrl } = await import('@/lib/platformUrls');
+    const redirectUrl = getSignupRedirectUrl();
     
     const { error } = await supabase.auth.signUp({
       email,

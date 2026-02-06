@@ -12,7 +12,8 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: 'automatic',
     preferredContentMode: 'mobile',
-    scheme: 'Rugboost',
+    // Custom URL scheme for deep linking (lowercase for consistency)
+    scheme: 'rugboost',
     // Allows proper handling of background/foreground states
     backgroundColor: '#f7f5f3',
     // Prevent WebView from scrolling behind nav bar

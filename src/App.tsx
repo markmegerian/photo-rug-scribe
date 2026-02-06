@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CompanyProvider } from "@/hooks/useCompany";
 import { AppInitializer } from "@/components/AppInitializer";
+import { DeepLinkHandler } from "@/hooks/useDeepLinking";
 import { queryClient } from "@/lib/queryClient";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import OfflineBanner from "@/components/OfflineBanner";
@@ -66,10 +67,12 @@ const App = () => (
              <Toaster />
              <Sonner />
              <OfflineBanner />
-             <BrowserRouter>
-               <GlobalSearch />
-               <Suspense fallback={<PageLoader />}>
-                 <Routes>
+              <BrowserRouter>
+                {/* Deep link handler for Capacitor native apps */}
+                <DeepLinkHandler />
+                <GlobalSearch />
+                <Suspense fallback={<PageLoader />}>
+                  <Routes>
                    <Route path="/" element={<Index />} />
                    <Route path="/auth" element={<Auth />} />
                    <Route path="/reset-password" element={<ResetPassword />} />
