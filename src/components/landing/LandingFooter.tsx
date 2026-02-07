@@ -58,7 +58,7 @@ export default function LandingFooter() {
             Join hundreds of rug professionals who've modernized their operations with RugBoost.
           </p>
           <Button size="xl" variant="secondary" asChild>
-            <a href={APP_URL} className="gap-2">
+            <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="gap-2">
               Start Your Free Trial
               <ArrowRight className="h-5 w-5" />
             </a>

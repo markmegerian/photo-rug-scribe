@@ -50,7 +50,7 @@ export default function LandingHero() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button size="xl" variant="warm" asChild>
-                <a href={APP_URL} className="gap-2">
+                <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="gap-2">
                   Start Free Trial
                   <ArrowRight className="h-5 w-5" />
                 </a>
