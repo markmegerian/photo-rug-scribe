@@ -50,10 +50,10 @@ export default function LandingNavbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Button variant="ghost" asChild>
-              <a href={APP_URL}>Log In</a>
+              <a href={APP_URL} target="_blank" rel="noopener noreferrer">Log In</a>
             </Button>
             <Button variant="warm" asChild>
-              <a href={APP_URL}>Start Free Trial</a>
+              <a href={APP_URL} target="_blank" rel="noopener noreferrer">Start Free Trial</a>
             </Button>
           </div>
 
@@ -81,10 +81,10 @@ export default function LandingNavbar() {
               ))}
               <div className="flex flex-col gap-2 mt-4 px-4">
                 <Button variant="outline" asChild className="w-full">
-                  <a href={APP_URL}>Log In</a>
+                  <a href={APP_URL} target="_blank" rel="noopener noreferrer">Log In</a>
                 </Button>
                 <Button variant="warm" asChild className="w-full">
-                  <a href={APP_URL}>Start Free Trial</a>
+                  <a href={APP_URL} target="_blank" rel="noopener noreferrer">Start Free Trial</a>
                 </Button>
               </div>
             </div>

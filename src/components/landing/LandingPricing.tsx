@@ -133,7 +133,12 @@ export default function LandingPricing() {
                   className="w-full"
                   asChild
                 >
-                  <a href={plan.name === 'Enterprise' ? 'mailto:sales@rugboost.com' : APP_URL}>{plan.cta}</a>
+                  <a 
+                    href={plan.name === 'Enterprise' ? 'mailto:sales@rugboost.com' : APP_URL}
+                    {...(plan.name !== 'Enterprise' && { target: '_blank', rel: 'noopener noreferrer' })}
+                  >
+                    {plan.cta}
+                  </a>
                 </Button>
               </CardContent>
             </Card>
