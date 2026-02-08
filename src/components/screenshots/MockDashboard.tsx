@@ -28,10 +28,10 @@ const MockDashboard = forwardRef<HTMLDivElement>((_, ref) => {
               <Plus className="h-4 w-4" />
               New Job
             </button>
-            <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center">
+            <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center" aria-label="Notifications">
               <Bell className="h-4 w-4 text-muted-foreground" />
             </button>
-            <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center">
+            <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center" aria-label="Settings">
               <Settings className="h-4 w-4 text-muted-foreground" />
             </button>
           </div>

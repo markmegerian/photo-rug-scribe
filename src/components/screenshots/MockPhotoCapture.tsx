@@ -15,7 +15,7 @@ const MockPhotoCapture = forwardRef<HTMLDivElement>((_, ref) => {
       {/* Header */}
       <header className="border-b border-border bg-card px-5 py-4">
         <div className="flex items-center gap-3">
-          <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center">
+          <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center" aria-label="Go back">
             <ArrowLeft className="h-4 w-4 text-muted-foreground" />
           </button>
           <div className="flex-1">
@@ -67,7 +67,7 @@ const MockPhotoCapture = forwardRef<HTMLDivElement>((_, ref) => {
           
           {/* Capture button */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-            <button className="w-16 h-16 rounded-full bg-white border-4 border-white/50 flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
+            <button className="w-16 h-16 rounded-full bg-white border-4 border-white/50 flex items-center justify-center shadow-lg hover:scale-105 transition-transform" aria-label="Capture photo">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent" />
             </button>
           </div>
