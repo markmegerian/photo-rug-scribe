@@ -3,8 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Check, Star } from 'lucide-react';
 import { useScrollAnimation, useStaggeredAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-
-const APP_URL = 'https://app.rugboost.com';
+import { Link } from 'react-router-dom';
 
 const plans = [
   {
@@ -23,7 +22,7 @@ const plans = [
       'Email support',
     ],
     highlighted: false,
-    cta: 'Start Free Trial',
+    cta: 'Contact Us',
   },
   {
     name: 'Pro',
@@ -41,7 +40,7 @@ const plans = [
       'API access',
     ],
     highlighted: true,
-    cta: 'Start Free Trial',
+    cta: 'Contact Us',
     badge: 'Most Popular',
   },
   {
@@ -82,7 +81,7 @@ export default function LandingPricing() {
             Simple, Transparent Pricing
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Start free, upgrade when you're ready. All plans include a 14-day trial.
+            Choose the plan that fits your business. Contact us to get started.
           </p>
         </div>
 
@@ -133,12 +132,15 @@ export default function LandingPricing() {
                   className="w-full"
                   asChild
                 >
-                  <a 
-                    href={plan.name === 'Enterprise' ? 'mailto:sales@rugboost.com' : APP_URL}
-                    {...(plan.name !== 'Enterprise' && { target: '_blank', rel: 'noopener noreferrer' })}
-                  >
-                    {plan.cta}
-                  </a>
+                  {plan.name === 'Enterprise' ? (
+                    <a href="mailto:sales@rugboost.com">
+                      {plan.cta}
+                    </a>
+                  ) : (
+                    <Link to="/support">
+                      {plan.cta}
+                    </Link>
+                  )}
                 </Button>
               </CardContent>
             </Card>
