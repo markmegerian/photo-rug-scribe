@@ -10,7 +10,7 @@ const MockEstimate = forwardRef<HTMLDivElement>((_, ref) => {
       {/* Header */}
       <header className="border-b border-border bg-card px-5 py-4">
         <div className="flex items-center gap-3">
-          <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center">
+          <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center" aria-label="Go back">
             <ArrowLeft className="h-4 w-4 text-muted-foreground" />
           </button>
           <div className="flex-1">
