@@ -10,6 +10,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
+    <!-- Preload critical font files to break the dependency chain -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="https://fonts.gstatic.com/s/dmserifdisplay/v17/-nFnOHM81r4j6k0gjAW3mujVU2B2G_Bx0vrx52g.woff2" as="font" type="font/woff2" crossorigin />
+    
     <!-- Non-render-blocking font loading -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:wght@400&display=swap" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap" media="print" onload="this.media='all'" />
