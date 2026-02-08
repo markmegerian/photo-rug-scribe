@@ -6,11 +6,16 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import GradientMeshBackground from './GradientMeshBackground';
 
-const APP_URL = 'https://app.rugboost.com';
-
 export default function LandingHero() {
   const { ref: textRef, isVisible: textVisible } = useScrollAnimation({ threshold: 0.2 });
   const { ref: mockupRef, isVisible: mockupVisible } = useScrollAnimation({ threshold: 0.2 });
+
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <section className="pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden relative">
@@ -49,11 +54,9 @@ export default function LandingHero() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="xl" variant="warm" asChild>
-                <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="gap-2">
-                  Start Free Trial
-                  <ArrowRight className="h-5 w-5" />
-                </a>
+              <Button size="xl" variant="warm" onClick={() => scrollToSection('#pricing')} className="gap-2">
+                View Pricing
+                <ArrowRight className="h-5 w-5" />
               </Button>
               <Button size="xl" variant="outline" className="gap-2">
                 <Play className="h-5 w-5" />
@@ -62,7 +65,7 @@ export default function LandingHero() {
             </div>
             
             <p className="mt-6 text-sm text-muted-foreground">
-              No credit card required • 14-day free trial • Cancel anytime
+              AI-powered inspections • Professional estimates • Client portal included
             </p>
           </div>
 

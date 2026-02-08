@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
 
-const APP_URL = 'https://app.rugboost.com';
-
 const navLinks = [
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
@@ -29,7 +27,7 @@ export default function LandingNavbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/landing" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <img src={rugboostLogo} alt="RugBoost" className="h-8 w-auto" />
             <span className="font-display text-xl font-bold text-foreground">RugBoost</span>
           </Link>
@@ -50,10 +48,10 @@ export default function LandingNavbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Button variant="ghost" asChild>
-              <a href={APP_URL} target="_blank" rel="noopener noreferrer">Log In</a>
+              <Link to="/support">Contact Us</Link>
             </Button>
-            <Button variant="warm" asChild>
-              <a href={APP_URL} target="_blank" rel="noopener noreferrer">Start Free Trial</a>
+            <Button variant="warm" onClick={() => scrollToSection('#pricing')}>
+              View Pricing
             </Button>
           </div>
 
@@ -81,10 +79,10 @@ export default function LandingNavbar() {
               ))}
               <div className="flex flex-col gap-2 mt-4 px-4">
                 <Button variant="outline" asChild className="w-full">
-                  <a href={APP_URL} target="_blank" rel="noopener noreferrer">Log In</a>
+                  <Link to="/support">Contact Us</Link>
                 </Button>
-                <Button variant="warm" asChild className="w-full">
-                  <a href={APP_URL} target="_blank" rel="noopener noreferrer">Start Free Trial</a>
+                <Button variant="warm" className="w-full" onClick={() => scrollToSection('#pricing')}>
+                  View Pricing
                 </Button>
               </div>
             </div>
