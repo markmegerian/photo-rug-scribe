@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Check, Star, Zap, ArrowRight, HelpCircle } from 'lucide-react';
+import { Check, Star, Zap, ArrowRight, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { useScrollAnimation, useStaggeredAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
@@ -10,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import PricingComparisonTable from './PricingComparisonTable';
 
 const plans = [
   {
@@ -80,6 +82,7 @@ const valueProps = [
 ];
 
 export default function LandingPricing() {
+  const [showComparison, setShowComparison] = useState(false);
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(plans.length, 150);
 
@@ -207,6 +210,33 @@ export default function LandingPricing() {
             ))}
           </div>
         </TooltipProvider>
+
+        {/* Compare all features toggle */}
+        <div className={cn(
+          "mt-12 text-center transition-all duration-700 delay-300",
+          cardsVisible ? "opacity-100" : "opacity-0"
+        )}>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => setShowComparison(!showComparison)}
+            className="gap-2"
+          >
+            {showComparison ? 'Hide' : 'Compare all features'}
+            {showComparison ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+
+        {/* Comparison Table */}
+        {showComparison && (
+          <div className="mt-8">
+            <PricingComparisonTable />
+          </div>
+        )}
 
         {/* Bottom note */}
         <div className={cn(
