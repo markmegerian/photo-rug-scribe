@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, Edit, Save, X, Eye, Image, Upload, LogOut } from 'lucide-react';
+import { Plus, Trash2, Edit, Save, X, Eye, Image, Upload, LogOut, FileText, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getBlogPosts, saveBlogPosts, BlogPost } from '@/components/landing/LandingBlog';
 import LandingNavbar from '@/components/landing/LandingNavbar';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ import RichTextEditor from '@/components/blog/RichTextEditor';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User, Session } from '@supabase/supabase-js';
+import SocialContentTab from '@/components/admin/SocialContentTab';
 
 function generateSlug(title: string): string {
   return title
@@ -95,6 +97,13 @@ export default function BlogAdmin() {
     }
   }, [isAdmin]);
 
+  // Redirect to auth if not logged in or not admin
+  useEffect(() => {
+    if (!isCheckingAuth && (!user || !session || !isAdmin)) {
+      navigate('/blog-admin/auth');
+    }
+  }, [isCheckingAuth, user, session, isAdmin, navigate]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -116,9 +125,7 @@ export default function BlogAdmin() {
     );
   }
 
-  // Redirect to auth if not logged in or not admin
   if (!user || !session || !isAdmin) {
-    navigate('/blog-admin/auth');
     return null;
   }
 
@@ -194,30 +201,39 @@ export default function BlogAdmin() {
       
       <main className="pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="font-display text-3xl font-bold text-foreground">
-                Blog Admin
+                Content Manager
               </h1>
-              <p className="text-muted-foreground mt-1">
-                Manage your blog posts for SEO and content marketing.
-              </p>
               <p className="text-sm text-muted-foreground mt-1">
                 Signed in as: {user.email}
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <Button onClick={handleCreate} className="gap-2">
-                <Plus className="h-4 w-4" />
-                New Post
-              </Button>
-              <Button variant="outline" size="icon" onClick={handleLogout} title="Sign out">
-                <LogOut className="h-4 w-4" />
-              </Button>
-            </div>
+            <Button variant="outline" size="icon" onClick={handleLogout} title="Sign out">
+              <LogOut className="h-4 w-4" />
+            </Button>
           </div>
 
-          {/* Editor */}
+          <Tabs defaultValue="blog" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="blog" className="gap-2">
+                <FileText className="h-4 w-4" />
+                Blog Posts
+              </TabsTrigger>
+              <TabsTrigger value="social" className="gap-2">
+                <Share2 className="h-4 w-4" />
+                Social Content
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="blog">
+              <div className="flex justify-end mb-6">
+                <Button onClick={handleCreate} className="gap-2">
+                  <Plus className="h-4 w-4" />
+                  New Post
+                </Button>
+              </div>
           {editingPost && (
             <Card className="mb-8">
               <CardHeader>
@@ -477,6 +493,12 @@ export default function BlogAdmin() {
               </Card>
             )}
           </div>
+            </TabsContent>
+
+            <TabsContent value="social">
+              <SocialContentTab />
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
     </div>
