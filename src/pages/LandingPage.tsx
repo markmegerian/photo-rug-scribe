@@ -14,15 +14,15 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background">
       <LandingNavbar />
       <main>
-        {/* Attention: Hook with hero */}
+        {/* Attention: Hook with hero and problem/solution */}
         <LandingHero />
+        <LandingProblemSolution />
 
         {/* Interest: Show metrics and features */}
         <LandingStats />
         <LandingFeatures />
 
-        {/* Build trust: Problem/solution and comparison */}
-        <LandingProblemSolution />
+        {/* Build trust: Comparison */}
         <LandingComparison />
 
         {/* Action: Remove friction and close */}
