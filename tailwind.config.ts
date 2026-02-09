@@ -28,7 +28,7 @@ export default {
   				'serif'
   			],
   			sans: [
-  				'DM Sans',
+  				'Lato',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',
@@ -38,7 +38,7 @@ export default {
   				'Noto Color Emoji'
   			],
   			serif: [
-  				'Libre Caslon Text',
+  				'Source Serif Pro',
   				'ui-serif',
   				'Georgia',
   				'Cambria',
@@ -47,7 +47,7 @@ export default {
   				'serif'
   			],
   			mono: [
-  				'Fira Code',
+  				'SF Mono',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
