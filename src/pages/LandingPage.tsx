@@ -17,13 +17,13 @@ export default function LandingPage() {
         {/* Attention: Hook with hero */}
         <LandingHero />
 
-        {/* Interest: Show the problem and metrics */}
+        {/* Interest: Show metrics and features */}
         <LandingStats />
+        <LandingFeatures />
+
+        {/* Build trust: Problem/solution and comparison */}
         <LandingProblemSolution />
         <LandingComparison />
-
-        {/* Desire: Features */}
-        <LandingFeatures />
 
         {/* Action: Remove friction and close */}
         <LandingPricing />
