@@ -1,98 +1,72 @@
 
-# Feature Comparison Table for Pricing Section
+# Font Update: Garamond for Headings, Georgia/Cambria for Body
 
 ## Overview
-Add a comprehensive feature comparison table below the pricing cards that clearly shows which features are included in each tier. This helps users quickly compare plans and make informed decisions.
+Replace the current modern sans-serif typography (DM Sans / DM Serif Display) with professional, formal serif fonts throughout the entire site: **Garamond** for headings and **Georgia/Cambria** for body text.
+
+## Current State
+- Headings: DM Serif Display (loaded from Google Fonts)
+- Body: DM Sans (loaded from Google Fonts)
+- Additional: Source Serif Pro available as serif option
 
 ## Implementation Details
 
-### 1. Create Comparison Data Structure
-Define a comprehensive list of all features across tiers with clear availability indicators:
+### 1. Update Google Fonts Loading (index.html)
+- Remove DM Sans and DM Serif Display font preloads
+- Add EB Garamond (Google Fonts equivalent of Garamond) for headings
+- Georgia and Cambria are system fonts - no loading needed (already on most devices)
 
-**Feature Categories:**
-- **Core Features**: Workflow management, Client portal, Online payments, Professional estimates
-- **Team & Collaboration**: Staff users (1, up to 5, unlimited)
-- **Operations**: Operations checklist, AR damage documentation, Workflow automation
-- **Analytics & Growth**: Analytics dashboard, Upsell recommendations, Customer retention tools
-- **Integrations**: Custom integrations
-- **Support**: Email support, Priority support, Dedicated account manager
-- **Admin**: Admin controls (role-based permissions, multi-location)
+**Font loading changes:**
+- Preload: EB Garamond (woff2 file for headings)
+- System fonts: Georgia, Cambria (no loading required)
+- Keep performance optimizations (async loading pattern)
 
-### 2. Table Design
-- Responsive layout: Full table on desktop, collapsible accordion or scrollable on mobile
-- Clear visual indicators: Checkmarks for included, dashes or X for not included, text for specific limits
-- Highlighted "Growth" column to match the "Most Popular" badge
-- Sticky header row with plan names and prices for easy reference while scrolling
+### 2. Update Tailwind Configuration (tailwind.config.ts)
+Update the `fontFamily` settings:
+- `display`: EB Garamond, Garamond, Georgia, serif
+- `body`: Georgia, Cambria, serif
+- `sans`: Georgia, Cambria, serif (to ensure fallback consistency)
+- `serif`: EB Garamond, Garamond, Georgia, serif
 
-### 3. UI Components Used
-- Existing `Table` components from `@/components/ui/table`
-- `Check` and `Minus` icons from Lucide for availability indicators
-- Scroll animation hooks for smooth reveal
-- TooltipProvider for feature explanations
+### 3. Update CSS Custom Properties (src/index.css)
+Update the `:root` CSS variables:
+- `--font-serif`: "EB Garamond", Garamond, Georgia, serif
+- `--font-sans`: Georgia, Cambria, "Times New Roman", serif
 
-### 4. Visual Styling
-- Alternating row backgrounds for readability
-- Primary color highlighting for the Growth (Most Popular) column
-- Subtle borders and spacing consistent with existing design
-- "Compare all features" toggle button to show/hide the table
+Update base styles:
+- `body`: Use Georgia/Cambria font-family
+- `h1-h6`: Use EB Garamond font-family
+- `.font-display`: Use EB Garamond
+- `.font-body`: Use Georgia/Cambria
 
----
+### 4. Files to Modify
 
-## Technical Implementation
+| File | Changes |
+|------|---------|
+| `index.html` | Update font preloads and Google Fonts stylesheet links |
+| `tailwind.config.ts` | Update fontFamily definitions for display, body, sans, serif |
+| `src/index.css` | Update CSS variables and base font-family declarations |
 
-### File to Modify
-`src/components/landing/LandingPricing.tsx`
+### 5. Font Stack Details
 
-### Changes
-1. Add `comparisonFeatures` data array with feature categories and tier availability
-2. Add a "Compare all features" toggle button below the pricing cards
-3. Add the comparison table component that renders conditionally
-4. Use `useState` for show/hide toggle
-5. Import Table components and Minus icon
-
-### Comparison Table Structure
-
-```text
-+------------------+-----------+-----------+-----------+
-| Feature          | Starter   | Growth    | Pro       |
-+------------------+-----------+-----------+-----------+
-| CORE FEATURES                                        |
-+------------------+-----------+-----------+-----------+
-| Workflow mgmt    |    [check]    |    [check]    |    [check]    |
-| Client portal    |    [check]    |    [check]    |    [check]    |
-| Online payments  |    [check]    |    [check]    |    [check]    |
-| Pro estimates    |    [check]    |    [check]    |    [check]    |
-+------------------+-----------+-----------+-----------+
-| TEAM & USERS                                         |
-+------------------+-----------+-----------+-----------+
-| Staff users      |     1     |  Up to 5  | Unlimited |
-+------------------+-----------+-----------+-----------+
-| OPERATIONS                                           |
-+------------------+-----------+-----------+-----------+
-| Ops checklist    |     -     |    [check]    |    [check]    |
-| AR documentation |     -     |    [check]    |    [check]    |
-| Workflow auto    |     -     |     -     |    [check]    |
-+------------------+-----------+-----------+-----------+
-| ANALYTICS                                            |
-+------------------+-----------+-----------+-----------+
-| Dashboard        |     -     |    [check]    |    [check]    |
-| AI upsells       |     -     |    [check]    |    [check]    |
-| Retention tools  |     -     |     -     |    [check]    |
-+------------------+-----------+-----------+-----------+
-| SUPPORT                                              |
-+------------------+-----------+-----------+-----------+
-| Email support    |    [check]    |    [check]    |    [check]    |
-| Priority support |     -     |    [check]    |    [check]    |
-| Account manager  |     -     |     -     |    [check]    |
-+------------------+-----------+-----------+-----------+
-| ADMIN & INTEGRATIONS                                 |
-+------------------+-----------+-----------+-----------+
-| Admin controls   |     -     |     -     |    [check]    |
-| Custom integrations|   -     |     -     |    [check]    |
-+------------------+-----------+-----------+-----------+
+**Headings (EB Garamond):**
+```
+'EB Garamond', Garamond, Georgia, serif
 ```
 
-### Mobile Responsiveness
-- On mobile, the table will be horizontally scrollable within a container
-- Feature names column stays sticky on the left for reference
-- Clear visual cues that the table is scrollable
+**Body Text (Georgia/Cambria):**
+```
+Georgia, Cambria, 'Times New Roman', Times, serif
+```
+
+## Visual Impact
+- More traditional, established, professional appearance
+- Excellent readability for body text (Georgia is highly optimized for screens)
+- Classic elegance for headings with Garamond
+- Consistent serif styling throughout the site
+
+## Technical Notes
+- EB Garamond is the open-source Google Fonts version of the classic Garamond typeface
+- Georgia and Cambria are web-safe system fonts with excellent cross-platform support
+- No additional font files needed for body text (reduces page load)
+- Maintains the existing performance optimizations (async loading, preloading)
