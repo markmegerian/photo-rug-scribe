@@ -28,7 +28,7 @@ export default {
   				'serif'
   			],
   			sans: [
-  				'Plus Jakarta Sans',
+  				'DM Sans',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',
@@ -38,7 +38,7 @@ export default {
   				'Noto Color Emoji'
   			],
   			serif: [
-  				'Source Serif Pro',
+  				'Libre Baskerville',
   				'ui-serif',
   				'Georgia',
   				'Cambria',
