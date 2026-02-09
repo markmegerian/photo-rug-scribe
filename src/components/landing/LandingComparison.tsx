@@ -106,12 +106,7 @@ export default function LandingComparison() {
 
         {/* Benefits Grid */}
         <div className={cn("grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 transition-all duration-700 delay-300", tableVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4")}>
-          {benefits.map((benefit, index) => (
-            <div key={index} className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border">
-              <span className="text-2xl">{benefit.icon}</span>
-              <span className="font-medium text-foreground text-sm">{benefit.label}</span>
-            </div>
-          ))}
+          {benefits.map((benefit, index) => {})}
         </div>
 
         {/* CTA */}
