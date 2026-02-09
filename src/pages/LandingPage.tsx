@@ -5,7 +5,6 @@ import LandingProblemSolution from '@/components/landing/LandingProblemSolution'
 import LandingComparison from '@/components/landing/LandingComparison';
 import LandingFeatures from '@/components/landing/LandingFeatures';
 import LandingSecurity from '@/components/landing/LandingSecurity';
-import LandingGuarantee from '@/components/landing/LandingGuarantee';
 import LandingPricing from '@/components/landing/LandingPricing';
 import LandingFAQ from '@/components/landing/LandingFAQ';
 import LandingCTA from '@/components/landing/LandingCTA';
@@ -29,7 +28,6 @@ export default function LandingPage() {
         
         {/* Trust: Address concerns */}
         <LandingSecurity />
-        <LandingGuarantee />
         
         {/* Action: Remove friction and close */}
         <LandingPricing />
