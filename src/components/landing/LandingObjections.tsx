@@ -1,6 +1,6 @@
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-import { MessageCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { MessageCircle, ArrowRight, CheckCircle2, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 const objections = [{
@@ -62,7 +62,7 @@ export default function LandingObjections() {
               <div className="grid md:grid-cols-[1fr,2fr] gap-4 md:gap-8">
                 {/* Objection */}
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">🤔</span>
+                  <HelpCircle className="h-6 w-6 text-muted-foreground shrink-0 mt-0.5" />
                   <p className="font-semibold text-foreground text-lg leading-snug">
                     "{item.objection}"
                   </p>
