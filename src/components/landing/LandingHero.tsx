@@ -4,8 +4,7 @@ import DeviceFrame from '@/components/screenshots/DeviceFrame';
 import MockDashboard from '@/components/screenshots/MockDashboard';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const quickWins = [
   "14-day free trial",
@@ -16,15 +15,6 @@ const quickWins = [
 export default function LandingHero() {
   const { ref: textRef, isVisible: textVisible } = useScrollAnimation({ threshold: 0.2 });
   const { ref: mockupRef, isVisible: mockupVisible } = useScrollAnimation({ threshold: 0.2 });
-  const [email, setEmail] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const pricingSection = document.querySelector('#pricing');
-    if (pricingSection) {
-      pricingSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section className="pt-20 pb-8 md:pt-28 md:pb-12 overflow-hidden relative">
@@ -71,21 +61,18 @@ export default function LandingHero() {
               RugBoost uses AI to analyze rugs, generate accurate estimates, and delight clients with a modern digital experience—all in <span className="text-foreground font-medium">under 60 seconds</span>.
             </p>
             
-            {/* Email signup form */}
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-5">
-              <Input
-                type="email"
-                placeholder="Enter your work email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-12 text-base bg-card border-border focus:border-primary"
-                required
-              />
-              <Button type="submit" size="lg" variant="warm" className="h-12 px-6 whitespace-nowrap gap-2">
-                Start Free Trial
-                <ArrowRight className="h-4 w-4" />
+            {/* CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-5">
+              <Button size="lg" variant="warm" className="h-12 px-6 whitespace-nowrap gap-2" asChild>
+                <a href="/support">
+                  Request a Demo
+                  <ArrowRight className="h-4 w-4" />
+                </a>
               </Button>
-            </form>
+              <Button size="lg" variant="outline" className="h-12 px-6" onClick={() => document.querySelector('#pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+                View Pricing
+              </Button>
+            </div>
             
             {/* Quick wins */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2">
