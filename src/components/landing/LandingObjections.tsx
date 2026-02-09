@@ -62,8 +62,7 @@ export default function LandingObjections() {
               <div className="grid md:grid-cols-[1fr,2fr] gap-4 md:gap-8">
                 {/* Objection */}
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">
-              </span>
+                  <span className="text-2xl">🤔</span>
                   <p className="font-semibold text-foreground text-lg leading-snug">
                     "{item.objection}"
                   </p>
