@@ -64,7 +64,7 @@ export default function LandingCTA() {
               asChild
             >
               <Link to="/support">
-                Start Your Free Trial
+                Request a Demo
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>

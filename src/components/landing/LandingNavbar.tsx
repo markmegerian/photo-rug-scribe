@@ -65,8 +65,8 @@ export default function LandingNavbar() {
             <Button variant="ghost" asChild>
               <Link to="/support">Contact</Link>
             </Button>
-            <Button variant="warm" onClick={() => scrollToSection('#pricing')}>
-              Start Free Trial
+            <Button variant="warm" asChild>
+              <Link to="/support">Request a Demo</Link>
             </Button>
           </div>
 
@@ -97,8 +97,8 @@ export default function LandingNavbar() {
                 <Button variant="outline" asChild className="w-full">
                   <Link to="/support">Contact</Link>
                 </Button>
-                <Button variant="warm" className="w-full" onClick={() => scrollToSection('#pricing')}>
-                  Start Free Trial
+                <Button variant="warm" className="w-full" asChild>
+                  <Link to="/support">Request a Demo</Link>
                 </Button>
               </div>
             </div>

@@ -100,7 +100,7 @@ export default function LandingUrgency() {
             asChild
           >
             <Link to="/support">
-              Claim Your Free Trial + Bonuses
+              Request a Demo
               <ArrowRight className="h-5 w-5" />
             </Link>
           </Button>
