@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
+import { cn } from '@/lib/utils';
 
 const navLinks = [
   { label: 'Features', href: '#features' },
@@ -13,6 +14,15 @@ const navLinks = [
 
 export default function LandingNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (href: string) => {
     setMobileOpen(false);
@@ -23,7 +33,12 @@ export default function LandingNavbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+      scrolled 
+        ? "bg-background/95 backdrop-blur-md border-b border-border shadow-soft" 
+        : "bg-transparent border-b border-transparent"
+    )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -48,10 +63,10 @@ export default function LandingNavbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Button variant="ghost" asChild>
-              <Link to="/support">Contact Us</Link>
+              <Link to="/support">Contact</Link>
             </Button>
             <Button variant="warm" onClick={() => scrollToSection('#pricing')}>
-              View Pricing
+              Start Free Trial
             </Button>
           </div>
 
@@ -67,7 +82,7 @@ export default function LandingNavbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="md:hidden py-4 border-t border-border bg-background">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <button
@@ -80,10 +95,10 @@ export default function LandingNavbar() {
               ))}
               <div className="flex flex-col gap-2 mt-4 px-4">
                 <Button variant="outline" asChild className="w-full">
-                  <Link to="/support">Contact Us</Link>
+                  <Link to="/support">Contact</Link>
                 </Button>
                 <Button variant="warm" className="w-full" onClick={() => scrollToSection('#pricing')}>
-                  View Pricing
+                  Start Free Trial
                 </Button>
               </div>
             </div>

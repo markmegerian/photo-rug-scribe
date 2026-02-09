@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import DeviceFrame from '@/components/screenshots/DeviceFrame';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
+import { Sparkles, Clock, Users, TrendingUp, Camera, FileCheck } from 'lucide-react';
 
 // Lazy load mock components
 const MockDashboard = lazy(() => import('@/components/screenshots/MockDashboard'));
@@ -17,45 +18,43 @@ const MockLoader = () => (
 
 const features = [
   {
-    id: 'dashboard',
-    title: 'Manage Jobs Effortlessly',
-    description: 'Track every job from intake to delivery in one unified dashboard. See status at a glance, search clients, and never lose track of a rug again.',
-    highlights: ['Real-time status updates', 'Client search & filters', 'Batch operations'],
-    MockComponent: MockDashboard,
-  },
-  {
     id: 'analysis',
+    icon: Sparkles,
     title: 'AI-Powered Inspections',
-    description: 'Our AI analyzes rug photos to identify type, origin, condition issues, and recommended services. What took 30 minutes now takes 30 seconds.',
-    highlights: ['Rug type identification', 'Condition detection', 'Service recommendations'],
+    subtitle: 'From 30 minutes to 30 seconds',
+    description: 'Our AI analyzes rug photos to identify type, origin, condition issues, and recommended services—instantly.',
+    highlights: ['Automatic rug type identification', 'Condition issue detection', 'Smart service recommendations'],
+    metric: { value: '94%', label: 'faster than manual' },
     MockComponent: MockAnalysisReport,
   },
   {
-    id: 'photo',
-    title: 'Guided Photo Capture',
-    description: 'Step-by-step guidance ensures your team captures the right angles every time. Consistent documentation across all jobs.',
-    highlights: ['Built-in photo guide', 'Issue annotation', 'Cloud storage'],
-    MockComponent: MockPhotoCapture,
-  },
-  {
     id: 'estimate',
+    icon: FileCheck,
     title: 'Professional Estimates',
-    description: 'Generate detailed, itemized estimates automatically based on AI analysis. Adjust pricing, add services, and approve with one tap.',
-    highlights: ['Itemized pricing', 'Required vs optional services', 'One-tap approval'],
+    subtitle: 'One-tap approval flow',
+    description: 'Generate detailed, itemized estimates automatically based on AI analysis. Clients approve online with a single click.',
+    highlights: ['Itemized pricing breakdown', 'Required vs optional services', 'Instant client notifications'],
+    metric: { value: '68%', label: 'higher approval rate' },
     MockComponent: MockEstimate,
   },
   {
     id: 'portal',
+    icon: Users,
     title: 'Seamless Client Experience',
+    subtitle: "A portal they'll actually love",
     description: 'Clients receive a personalized portal to view inspections, approve estimates, make payments, and track their rugs.',
-    highlights: ['Estimate approval', 'Online payments', 'Job tracking'],
+    highlights: ['Digital estimate approval', 'Secure online payments', 'Real-time job tracking'],
+    metric: { value: '3x', label: 'more referrals' },
     MockComponent: MockClientPortal,
   },
   {
     id: 'analytics',
-    title: 'Business Insights',
+    icon: TrendingUp,
+    title: 'Business Intelligence',
+    subtitle: 'Data-driven decisions',
     description: 'Understand your business with real-time analytics. Track revenue, conversion rates, popular services, and team performance.',
-    highlights: ['Revenue tracking', 'Conversion funnels', 'Service popularity'],
+    highlights: ['Revenue & margin tracking', 'Service popularity insights', 'Team performance metrics'],
+    metric: { value: '23%', label: 'revenue increase avg' },
     MockComponent: MockAnalytics,
   },
 ];
@@ -68,23 +67,37 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
     <div
       ref={ref}
       className={cn(
-        "grid lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-700 ease-out",
+        "grid lg:grid-cols-2 gap-12 lg:gap-20 items-center",
+        isEven ? "" : "lg:flex-row-reverse"
+      )}
+    >
+      {/* Text Content */}
+      <div className={cn(
+        "transition-all duration-700 ease-out",
+        isEven ? "" : "lg:order-2",
         isVisible 
           ? "opacity-100 translate-x-0" 
           : isEven 
             ? "opacity-0 -translate-x-8" 
             : "opacity-0 translate-x-8"
-      )}
-    >
-      {/* Text Content */}
-      <div className={cn(index % 2 === 1 ? 'lg:order-2' : '')}>
-        <h3 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-4">
+      )}>
+        {/* Icon and subtitle */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <feature.icon className="h-5 w-5 text-primary" />
+          </div>
+          <span className="text-sm font-medium text-primary">{feature.subtitle}</span>
+        </div>
+
+        <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4 leading-tight">
           {feature.title}
         </h3>
-        <p className="text-lg text-muted-foreground mb-6">
+        <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
           {feature.description}
         </p>
-        <ul className="space-y-3">
+
+        {/* Highlights */}
+        <ul className="space-y-3 mb-6">
           {feature.highlights.map((highlight, i) => (
             <li 
               key={i} 
@@ -95,21 +108,27 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
                 transform: isVisible ? 'translateX(0)' : 'translateX(-10px)'
               }}
             >
-              <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <svg className="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                <svg className="h-3 w-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-foreground">{highlight}</span>
+              <span className="text-foreground font-medium">{highlight}</span>
             </li>
           ))}
         </ul>
+
+        {/* Metric callout */}
+        <div className="inline-flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 border border-border">
+          <span className="text-2xl font-bold text-primary">{feature.metric.value}</span>
+          <span className="text-sm text-muted-foreground">{feature.metric.label}</span>
+        </div>
       </div>
 
       {/* Device Mockup */}
       <div className={cn(
         "flex justify-center transition-all duration-700 delay-100",
-        index % 2 === 1 ? 'lg:order-1 lg:justify-start' : 'lg:justify-end',
+        isEven ? "lg:justify-end" : "lg:order-1 lg:justify-start",
         isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
       )}>
         <div className="relative">
@@ -131,20 +150,23 @@ export default function LandingFeatures() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
 
   return (
-    <section id="features" className="py-16 md:py-24">
+    <section id="features" className="py-16 md:py-24 bg-gradient-to-b from-muted/20 to-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div 
           ref={headerRef}
           className={cn(
-            "text-center mb-16 transition-all duration-700 ease-out",
+            "text-center mb-16 md:mb-24 transition-all duration-700 ease-out",
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Everything You Need to Run a Modern Rug Business
+          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
+            Powerful Features
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
+            Everything you need to scale
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From inspection to payment, RugBoost handles every step of your workflow.
+            From AI-powered inspections to seamless client portals—RugBoost handles every step of your workflow.
           </p>
         </div>
 
