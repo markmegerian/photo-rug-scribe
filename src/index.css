@@ -62,9 +62,9 @@
     --shadow-soft: 0 4px 20px -4px hsl(20 15% 15% / 0.08);
     --shadow-medium: 0 8px 30px -8px hsl(20 15% 15% / 0.12);
     --shadow-card: 0 2px 12px -2px hsl(20 15% 15% / 0.06);
-    --font-serif: "Source Serif Pro", ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
+    --font-serif: "EB Garamond", Garamond, Georgia, serif;
     --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-    --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-sans: Georgia, Cambria, "Times New Roman", Times, serif;
   }
 }
 
@@ -75,7 +75,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
     /* iOS safe area support */
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
@@ -98,7 +98,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Serif Display', Georgia, serif;
+    font-family: 'EB Garamond', Garamond, Georgia, serif;
   }
 
   /* Disable text selection on native app UI elements */
@@ -116,11 +116,11 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'DM Serif Display', Georgia, serif;
+    font-family: 'EB Garamond', Garamond, Georgia, serif;
   }
 
   .font-body {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
   }
 
   .gradient-warm {
