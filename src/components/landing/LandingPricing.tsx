@@ -105,16 +105,6 @@ export default function LandingPricing() {
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8">
             Most customers save more in the first month than the annual subscription costs.
           </p>
-
-          {/* Value props */}
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6 sm:mb-8">
-            {valueProps.map((prop) => (
-              <div key={prop.label} className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-bold text-primary">{prop.metric}</span>
-                <span className="text-xs sm:text-sm text-muted-foreground">{prop.label}</span>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Trial banner */}
