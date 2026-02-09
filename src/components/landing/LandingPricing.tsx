@@ -14,64 +14,62 @@ import {
 const plans = [
   {
     name: 'Starter',
-    price: '$49',
+    price: '$79',
     period: '/month',
-    annualPrice: '$39',
-    description: 'Perfect for small operations getting started.',
+    annualPrice: '$65',
+    description: 'Perfect for solo rug shops getting started.',
     features: [
-      { text: 'Up to 2 staff users', tooltip: 'Add additional users for $15/month each' },
-      { text: 'Unlimited rug inspections', tooltip: null },
-      { text: 'AI-powered analysis', tooltip: 'Identifies rug type, origin, and condition' },
+      { text: 'Basic workflow management', tooltip: 'Track jobs from intake to delivery' },
+      { text: 'Client portal', tooltip: 'Clients can view status & approve work' },
+      { text: 'Online payments', tooltip: 'Accept payments through the portal' },
       { text: 'Professional estimates', tooltip: 'Branded PDF estimates with your logo' },
-      { text: 'Client portal access', tooltip: 'Clients can approve & pay online' },
       { text: 'Email support', tooltip: 'Response within 24 hours' },
     ],
     highlighted: false,
-    cta: 'Start Free Trial',
+    cta: 'Request a Demo',
     ctaVariant: 'outline' as const,
     savings: null,
+  },
+  {
+    name: 'Growth',
+    price: '$199',
+    period: '/month',
+    annualPrice: '$165',
+    description: 'For small teams ready to scale operations.',
+    features: [
+      { text: 'Everything in Starter, plus:', tooltip: null },
+      { text: 'Up to 5 staff users', tooltip: 'Add additional users for $20/month each' },
+      { text: 'Operations checklist', tooltip: 'Standardized processes for quality control' },
+      { text: 'AR damage documentation', tooltip: 'Visual condition reports with annotations' },
+      { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
+      { text: 'Upsell recommendations', tooltip: 'AI-suggested add-on services' },
+      { text: 'Priority support', tooltip: 'Response within 4 hours' },
+    ],
+    highlighted: true,
+    cta: 'Request a Demo',
+    ctaVariant: 'warm' as const,
+    badge: 'Most Popular',
+    savings: 'Save $408/year with annual',
   },
   {
     name: 'Pro',
-    price: '$129',
+    price: '$399',
     period: '/month',
-    annualPrice: '$99',
-    description: 'For growing businesses that need more power.',
+    annualPrice: '$329',
+    description: 'For multi-location operations with advanced needs.',
     features: [
-      { text: 'Up to 10 staff users', tooltip: 'Add additional users for $10/month each' },
-      { text: 'Everything in Starter, plus:', tooltip: null },
-      { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
-      { text: 'Custom email templates', tooltip: 'Automated notifications with your branding' },
-      { text: 'Advanced pricing rules', tooltip: 'Per-type pricing, minimums, tiered rates' },
-      { text: 'Priority support', tooltip: 'Response within 4 hours + screen sharing' },
-      { text: 'Custom branding', tooltip: 'White-label client portal' },
-      { text: 'API access', tooltip: 'Integrate with your existing systems' },
-    ],
-    highlighted: true,
-    cta: 'Start Free Trial',
-    ctaVariant: 'warm' as const,
-    badge: 'Most Popular',
-    savings: 'Save $360/year with annual',
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    annualPrice: null,
-    description: 'For large operations with custom needs.',
-    features: [
+      { text: 'Everything in Growth, plus:', tooltip: null },
       { text: 'Unlimited staff users', tooltip: null },
-      { text: 'Everything in Pro, plus:', tooltip: null },
-      { text: 'White-label solution', tooltip: 'Your brand, your domain' },
-      { text: 'Custom integrations', tooltip: 'Connect to any system you use' },
+      { text: 'Workflow automation', tooltip: 'Auto-notifications, reminders, follow-ups' },
+      { text: 'Admin controls', tooltip: 'Role-based permissions & multi-location management' },
+      { text: 'Customer retention tools', tooltip: 'Loyalty tracking & re-engagement campaigns' },
+      { text: 'Custom integrations', tooltip: 'Connect to your existing systems' },
       { text: 'Dedicated account manager', tooltip: 'Personal point of contact' },
-      { text: 'SLA guarantee', tooltip: '99.9% uptime commitment' },
-      { text: 'On-premise option', tooltip: 'Host on your own servers' },
     ],
     highlighted: false,
-    cta: 'Contact Sales',
+    cta: 'Request a Demo',
     ctaVariant: 'outline' as const,
-    savings: null,
+    savings: 'Save $840/year with annual',
   },
 ];
 
@@ -199,17 +197,10 @@ export default function LandingPricing() {
                     className="w-full gap-2"
                     asChild
                   >
-                    {plan.name === 'Enterprise' ? (
-                      <a href="mailto:sales@rugboost.com">
-                        {plan.cta}
-                        <ArrowRight className="h-4 w-4" />
-                      </a>
-                    ) : (
-                      <Link to="/support">
-                        {plan.cta}
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    )}
+                    <Link to="/support">
+                      {plan.cta}
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>
