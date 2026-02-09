@@ -28,7 +28,7 @@ export default {
   				'serif'
   			],
   			sans: [
-  				'Lato',
+  				'Plus Jakarta Sans',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',
