@@ -97,9 +97,12 @@ export default function LandingHero() {
               {/* Soft glow behind device */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-accent/10 to-transparent blur-3xl scale-150" />
               
-              <DeviceFrame device="iphone-15-pro" scale={0.55} className="sm:scale-[0.62]">
-                <MockDashboard />
-              </DeviceFrame>
+              {/* Responsive scale wrapper */}
+              <div className="transform scale-[0.85] sm:scale-100 origin-top">
+                <DeviceFrame device="iphone-15-pro" scale={0.62}>
+                  <MockDashboard />
+                </DeviceFrame>
+              </div>
               
               {/* Floating stat cards - hidden on mobile */}
               <div className="absolute -left-4 sm:-left-8 bottom-20 bg-card rounded-xl p-3.5 shadow-medium border border-border animate-fade-in hidden sm:block">
