@@ -4,7 +4,6 @@ import LandingStats from '@/components/landing/LandingStats';
 import LandingProblemSolution from '@/components/landing/LandingProblemSolution';
 import LandingComparison from '@/components/landing/LandingComparison';
 import LandingFeatures from '@/components/landing/LandingFeatures';
-import LandingSecurity from '@/components/landing/LandingSecurity';
 import LandingPricing from '@/components/landing/LandingPricing';
 import LandingFAQ from '@/components/landing/LandingFAQ';
 import LandingCTA from '@/components/landing/LandingCTA';
@@ -26,8 +25,8 @@ export default function LandingPage() {
         {/* Desire: Features */}
         <LandingFeatures />
         
-        {/* Trust: Address concerns */}
-        <LandingSecurity />
+        {/* Action: Remove friction and close */}
+        <LandingPricing />
         
         {/* Action: Remove friction and close */}
         <LandingPricing />
