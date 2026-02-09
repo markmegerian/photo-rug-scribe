@@ -7,6 +7,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Lazy load pages
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const BlogPostPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPostPage })));
 const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));
@@ -34,6 +35,7 @@ const App = () => (
             {/* Landing */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/landing" element={<Navigate to="/" replace />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
             
             {/* Blog */}
             <Route path="/blog" element={<BlogPage />} />
