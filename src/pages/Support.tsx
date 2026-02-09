@@ -55,7 +55,7 @@ const Support = () => {
       {/* Hero Section */}
       <section className="py-16 md:py-24 px-4">
         <div className="container mx-auto max-w-4xl text-center">
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h1 className="font-display text-4xl md:text-5xl font-extrabold text-foreground mb-4">
             Support & Help Center
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -124,7 +124,7 @@ const Support = () => {
             <div className="rounded-lg bg-primary/10 p-2">
               <HelpCircle className="h-6 w-6 text-primary" />
             </div>
-            <h2 className="font-display text-2xl font-bold text-foreground">
+            <h2 className="font-display text-2xl font-extrabold text-foreground">
               Frequently Asked Questions
             </h2>
           </div>
