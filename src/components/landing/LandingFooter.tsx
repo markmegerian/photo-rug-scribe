@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
@@ -23,7 +21,6 @@ const footerLinks = {
 };
 
 export default function LandingFooter() {
-  const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation();
   const { ref: linksRef, isVisible: linksVisible } = useScrollAnimation();
 
   const scrollToSection = (href: string) => {
@@ -37,35 +34,11 @@ export default function LandingFooter() {
 
   return (
     <footer className="bg-foreground text-background">
-      {/* CTA Section */}
-      <div className="border-b border-background/10">
-        <div 
-          ref={ctaRef}
-          className={cn(
-            "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center transition-all duration-700 ease-out",
-            ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          )}
-        >
-          <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
-            Ready to Transform Your Rug Business?
-          </h2>
-          <p className="text-lg text-background/70 max-w-2xl mx-auto mb-8">
-            Join hundreds of rug professionals who've modernized their operations with RugBoost.
-          </p>
-          <Button size="xl" variant="secondary" asChild>
-            <Link to="/support" className="gap-2">
-              Get in Touch
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-          </Button>
-        </div>
-      </div>
-
       {/* Links Section */}
       <div 
         ref={linksRef}
         className={cn(
-          "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 transition-all duration-700 ease-out delay-200",
+          "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 transition-all duration-700 ease-out",
           linksVisible ? "opacity-100" : "opacity-0"
         )}
       >
@@ -76,7 +49,7 @@ export default function LandingFooter() {
               <img src={rugboostLogo} alt="RugBoost" className="h-8 w-auto brightness-0 invert" />
               <span className="font-display text-xl font-bold">RugBoost</span>
             </div>
-            <p className="text-sm text-background/60">
+            <p className="text-sm text-background/60 leading-relaxed">
               AI-powered rug inspection and business management for modern professionals.
             </p>
           </div>
@@ -84,8 +57,8 @@ export default function LandingFooter() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h3 className="font-semibold mb-4">{title}</h3>
-              <ul className="space-y-2">
+              <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-background/80">{title}</h3>
+              <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
                     {link.href.startsWith('#') ? (

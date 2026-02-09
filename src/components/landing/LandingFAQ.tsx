@@ -4,6 +4,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { MessageCircle } from 'lucide-react';
 
 const faqs = [
   {
@@ -30,41 +35,76 @@ const faqs = [
     question: 'What happens after the free trial?',
     answer: 'After 14 days, you can choose to subscribe to a paid plan. If you do not subscribe, your account will be read-only. You can export your data at any time. We do not auto-charge.',
   },
-  {
-    question: 'Do you offer training?',
-    answer: 'All plans include self-serve documentation and video tutorials. Pro plans get priority support with screen-sharing assistance. Enterprise plans include dedicated onboarding and custom training sessions.',
-  },
 ];
 
 export default function LandingFAQ() {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation();
+
   return (
-    <section id="faq" className="py-16 md:py-24">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Frequently Asked Questions
+    <section id="faq" className="py-16 md:py-24 bg-card border-t border-border">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div 
+          ref={headerRef}
+          className={cn(
+            "text-center mb-12 transition-all duration-700 ease-out",
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
+          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
+            FAQ
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Frequently asked questions
           </h2>
           <p className="text-lg text-muted-foreground">
-            Have questions? We have got answers.
+            Everything you need to know about RugBoost.
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="space-y-4">
-          {faqs.map((faq, index) => (
-            <AccordionItem
-              key={index}
-              value={`item-${index}`}
-              className="bg-card rounded-xl border border-border px-6 shadow-card"
-            >
-              <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-5">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-5">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <div
+          ref={contentRef}
+          className={cn(
+            "transition-all duration-700 ease-out",
+            contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
+          <Accordion type="single" collapsible className="space-y-3">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="bg-background rounded-xl border border-border px-6 shadow-card data-[state=open]:shadow-medium transition-shadow"
+              >
+                <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-5 text-base">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground pb-5 leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+
+        {/* Contact CTA */}
+        <div className={cn(
+          "mt-12 text-center p-8 rounded-2xl bg-muted/50 border border-border transition-all duration-700 delay-300",
+          contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        )}>
+          <p className="text-lg font-medium text-foreground mb-2">
+            Still have questions?
+          </p>
+          <p className="text-muted-foreground mb-6">
+            Our team is here to help you get started.
+          </p>
+          <Button variant="outline" size="lg" asChild className="gap-2">
+            <Link to="/support">
+              <MessageCircle className="h-4 w-4" />
+              Contact Support
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );

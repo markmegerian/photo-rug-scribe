@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Check, Star } from 'lucide-react';
+import { Check, Star, Zap } from 'lucide-react';
 import { useScrollAnimation, useStaggeredAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
@@ -17,12 +17,11 @@ const plans = [
       'Guided photo capture',
       'Professional estimates',
       'Client portal',
-      'Batch operations',
-      'CSV export',
       'Email support',
     ],
     highlighted: false,
-    cta: 'Contact Us',
+    cta: 'Start Free Trial',
+    ctaVariant: 'outline' as const,
   },
   {
     name: 'Pro',
@@ -40,7 +39,8 @@ const plans = [
       'API access',
     ],
     highlighted: true,
-    cta: 'Contact Us',
+    cta: 'Start Free Trial',
+    ctaVariant: 'warm' as const,
     badge: 'Most Popular',
   },
   {
@@ -56,10 +56,10 @@ const plans = [
       'Dedicated account manager',
       'SLA guarantee',
       'On-premise option',
-      'Custom training',
     ],
     highlighted: false,
     cta: 'Contact Sales',
+    ctaVariant: 'outline' as const,
   },
 ];
 
@@ -68,20 +68,35 @@ export default function LandingPricing() {
   const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(plans.length, 150);
 
   return (
-    <section id="pricing" className="py-16 md:py-24">
+    <section id="pricing" className="py-16 md:py-24 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div 
           ref={headerRef}
           className={cn(
-            "text-center mb-16 transition-all duration-700 ease-out",
+            "text-center mb-12 transition-all duration-700 ease-out",
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Simple, Transparent Pricing
+          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
+            Pricing
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Start free, upgrade when ready
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose the plan that fits your business. Contact us to get started.
+            Try RugBoost free for 14 days. No credit card required.
+          </p>
+        </div>
+
+        {/* Trial banner */}
+        <div className={cn(
+          "max-w-2xl mx-auto mb-12 p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-center gap-3 text-center transition-all duration-700",
+          headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        )}>
+          <Zap className="h-5 w-5 text-primary flex-shrink-0" />
+          <p className="text-sm">
+            <span className="font-semibold text-foreground">14-day free trial</span>
+            <span className="text-muted-foreground"> on all plans • Full access to all features • Cancel anytime</span>
           </p>
         </div>
 
@@ -100,7 +115,7 @@ export default function LandingPricing() {
             >
               {plan.badge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-xs font-semibold text-white shadow-md">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-xs font-semibold text-primary-foreground shadow-md">
                     <Star className="h-3 w-3" />
                     {plan.badge}
                   </span>
@@ -127,7 +142,7 @@ export default function LandingPricing() {
                 </ul>
 
                 <Button
-                  variant={plan.highlighted ? 'warm' : 'outline'}
+                  variant={plan.ctaVariant}
                   size="lg"
                   className="w-full"
                   asChild
