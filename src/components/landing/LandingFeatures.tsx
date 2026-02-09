@@ -135,11 +135,14 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
           {/* Subtle glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 blur-2xl scale-125 opacity-40" />
           
-          <DeviceFrame device="iphone-15-pro" scale={0.48} className="sm:scale-[0.55]">
-            <Suspense fallback={<MockLoader />}>
-              <feature.MockComponent />
-            </Suspense>
-          </DeviceFrame>
+          {/* Responsive scale wrapper */}
+          <div className="transform scale-[0.85] sm:scale-100 origin-top">
+            <DeviceFrame device="iphone-15-pro" scale={0.55}>
+              <Suspense fallback={<MockLoader />}>
+                <feature.MockComponent />
+              </Suspense>
+            </DeviceFrame>
+          </div>
         </div>
       </div>
     </div>
