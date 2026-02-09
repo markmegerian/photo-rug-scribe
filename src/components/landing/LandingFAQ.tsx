@@ -54,7 +54,7 @@ export default function LandingFAQ() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-2 sm:mb-3">
             FAQ
           </p>
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 sm:mb-4">
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground mb-3 sm:mb-4">
             Frequently asked questions
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground">
@@ -92,9 +92,9 @@ export default function LandingFAQ() {
           "mt-10 sm:mt-12 text-center p-6 sm:p-8 rounded-2xl bg-muted/50 border border-border transition-all duration-700 delay-300",
           contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <p className="text-base sm:text-lg font-medium text-foreground mb-2">
+          <h3 className="text-base sm:text-lg font-bold text-foreground mb-2">
             Still have questions?
-          </p>
+          </h3>
           <p className="text-sm sm:text-base text-muted-foreground mb-5 sm:mb-6">
             Our team is here to help you get started.
           </p>
