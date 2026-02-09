@@ -6,9 +6,6 @@ import LandingProblemSolution from '@/components/landing/LandingProblemSolution'
 import LandingComparison from '@/components/landing/LandingComparison';
 import LandingFeatures from '@/components/landing/LandingFeatures';
 import LandingResults from '@/components/landing/LandingResults';
-import LandingSuccessStories from '@/components/landing/LandingSuccessStories';
-import LandingTestimonials from '@/components/landing/LandingTestimonials';
-import LandingObjections from '@/components/landing/LandingObjections';
 import LandingSecurity from '@/components/landing/LandingSecurity';
 import LandingGuarantee from '@/components/landing/LandingGuarantee';
 import LandingPricing from '@/components/landing/LandingPricing';
@@ -34,11 +31,8 @@ export default function LandingPage() {
         {/* Desire: Features and proof */}
         <LandingFeatures />
         <LandingResults />
-        <LandingSuccessStories />
-        <LandingTestimonials />
         
         {/* Trust: Address concerns */}
-        <LandingObjections />
         <LandingSecurity />
         <LandingGuarantee />
         
