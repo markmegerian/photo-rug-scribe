@@ -17,12 +17,12 @@ export default function LandingHero() {
   const { ref: mockupRef, isVisible: mockupVisible } = useScrollAnimation({ threshold: 0.2 });
 
   return (
-    <section className="pt-20 pb-8 md:pt-28 md:pb-12 overflow-hidden relative">
+    <section className="pt-24 pb-12 md:pt-28 md:pb-12 overflow-hidden relative">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] via-transparent to-transparent pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Text Content */}
           <div 
             ref={textRef}
@@ -31,8 +31,8 @@ export default function LandingHero() {
               textVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             )}
           >
-            {/* Social proof badge */}
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-sm mb-6 shadow-soft">
+            {/* Social proof badge - hidden on very small screens */}
+            <div className="hidden sm:inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/80 backdrop-blur-sm text-sm mb-6 shadow-soft">
               <div className="flex -space-x-2">
                 {['MC', 'SM', 'DT'].map((initials, i) => (
                   <div 
@@ -49,7 +49,7 @@ export default function LandingHero() {
               </div>
             </div>
             
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-bold text-foreground leading-[1.1] mb-5 tracking-tight">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-bold text-foreground leading-[1.15] mb-4 sm:mb-5 tracking-tight">
               Rug inspections that take{' '}
               <span className="relative inline-block">
                 <span className="relative z-10 text-primary">minutes,</span>
@@ -57,25 +57,25 @@ export default function LandingHero() {
               not hours
             </h1>
             
-            <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
               RugBoost uses AI to analyze rugs, generate accurate estimates, and delight clients with a modern digital experience—all in <span className="text-foreground font-medium">under 60 seconds</span>.
             </p>
             
             {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-5">
-              <Button size="lg" variant="warm" className="h-12 px-6 whitespace-nowrap gap-2" asChild>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-6">
+              <Button size="lg" variant="warm" className="h-12 px-6 whitespace-nowrap gap-2 text-base" asChild>
                 <a href="/support">
                   Request a Demo
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="h-12 px-6" onClick={() => document.querySelector('#pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+              <Button size="lg" variant="outline" className="h-12 px-6 text-base" onClick={() => document.querySelector('#pricing')?.scrollIntoView({ behavior: 'smooth' })}>
                 View Pricing
               </Button>
             </div>
             
             {/* Quick wins */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2">
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2">
               {quickWins.map((win, i) => (
                 <div key={i} className="flex items-center gap-1.5 text-sm text-muted-foreground">
                   <CheckCircle2 className="h-4 w-4 text-primary" />
@@ -89,7 +89,7 @@ export default function LandingHero() {
           <div 
             ref={mockupRef}
             className={cn(
-              "relative flex justify-center lg:justify-end transition-all duration-700 ease-out delay-150",
+              "relative flex justify-center lg:justify-end transition-all duration-700 ease-out delay-150 mt-4 lg:mt-0",
               mockupVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             )}
           >
@@ -97,11 +97,11 @@ export default function LandingHero() {
               {/* Soft glow behind device */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-accent/10 to-transparent blur-3xl scale-150" />
               
-              <DeviceFrame device="iphone-15-pro" scale={0.62}>
+              <DeviceFrame device="iphone-15-pro" scale={0.55} className="sm:scale-[0.62]">
                 <MockDashboard />
               </DeviceFrame>
               
-              {/* Floating stat cards */}
+              {/* Floating stat cards - hidden on mobile */}
               <div className="absolute -left-4 sm:-left-8 bottom-20 bg-card rounded-xl p-3.5 shadow-medium border border-border animate-fade-in hidden sm:block">
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">

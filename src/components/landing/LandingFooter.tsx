@@ -38,18 +38,18 @@ export default function LandingFooter() {
       <div 
         ref={linksRef}
         className={cn(
-          "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 transition-all duration-700 ease-out",
+          "max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-10 sm:py-12 transition-all duration-700 ease-out",
           linksVisible ? "opacity-100" : "opacity-0"
         )}
       >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <img src={rugboostLogo} alt="RugBoost" className="h-8 w-auto brightness-0 invert" />
-              <span className="font-display text-xl font-bold">RugBoost</span>
+              <img src={rugboostLogo} alt="RugBoost" className="h-7 sm:h-8 w-auto brightness-0 invert" />
+              <span className="font-display text-lg sm:text-xl font-bold">RugBoost</span>
             </div>
-            <p className="text-sm text-background/60 leading-relaxed">
+            <p className="text-xs sm:text-sm text-background/60 leading-relaxed">
               AI-powered rug inspection and business management for modern professionals.
             </p>
           </div>
@@ -57,21 +57,21 @@ export default function LandingFooter() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-background/80">{title}</h3>
-              <ul className="space-y-2.5">
+              <h3 className="font-semibold mb-3 sm:mb-4 text-xs sm:text-sm uppercase tracking-wider text-background/80">{title}</h3>
+              <ul className="space-y-2 sm:space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
                     {link.href.startsWith('#') ? (
                       <button
                         onClick={() => scrollToSection(link.href)}
-                        className="text-sm text-background/60 hover:text-background transition-colors"
+                        className="text-xs sm:text-sm text-background/60 hover:text-background transition-colors"
                       >
                         {link.label}
                       </button>
                     ) : (
                       <Link
                         to={link.href}
-                        className="text-sm text-background/60 hover:text-background transition-colors"
+                        className="text-xs sm:text-sm text-background/60 hover:text-background transition-colors"
                       >
                         {link.label}
                       </Link>
@@ -84,8 +84,8 @@ export default function LandingFooter() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-background/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-background/60">
+        <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-background/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs sm:text-sm text-background/60">
             © {new Date().getFullYear()} RugBoost. All rights reserved.
           </p>
           <div className="flex items-center gap-6">

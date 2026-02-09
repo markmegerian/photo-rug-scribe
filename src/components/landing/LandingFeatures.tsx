@@ -67,7 +67,7 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
     <div
       ref={ref}
       className={cn(
-        "grid lg:grid-cols-2 gap-12 lg:gap-20 items-center",
+        "grid lg:grid-cols-2 gap-8 lg:gap-20 items-center",
         isEven ? "" : "lg:flex-row-reverse"
       )}
     >
@@ -89,39 +89,39 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
           <span className="text-sm font-medium text-primary">{feature.subtitle}</span>
         </div>
 
-        <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4 leading-tight">
+        <h3 className="font-display text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
           {feature.title}
         </h3>
-        <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+        <p className="text-base sm:text-lg text-muted-foreground mb-5 sm:mb-6 leading-relaxed">
           {feature.description}
         </p>
 
         {/* Highlights */}
-        <ul className="space-y-3 mb-6">
+        <ul className="space-y-2.5 sm:space-y-3 mb-5 sm:mb-6">
           {feature.highlights.map((highlight, i) => (
             <li 
               key={i} 
-              className="flex items-center gap-3 transition-all duration-500"
+              className="flex items-center gap-2.5 sm:gap-3 transition-all duration-500"
               style={{ 
                 transitionDelay: isVisible ? `${i * 100 + 200}ms` : '0ms',
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? 'translateX(0)' : 'translateX(-10px)'
               }}
             >
-              <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                <svg className="h-3 w-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                <svg className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-foreground font-medium">{highlight}</span>
+              <span className="text-sm sm:text-base text-foreground font-medium">{highlight}</span>
             </li>
           ))}
         </ul>
 
         {/* Metric callout */}
-        <div className="inline-flex items-center gap-3 px-4 py-3 rounded-xl bg-muted/50 border border-border">
-          <span className="text-2xl font-bold text-primary">{feature.metric.value}</span>
-          <span className="text-sm text-muted-foreground">{feature.metric.label}</span>
+        <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-muted/50 border border-border">
+          <span className="text-xl sm:text-2xl font-bold text-primary">{feature.metric.value}</span>
+          <span className="text-xs sm:text-sm text-muted-foreground">{feature.metric.label}</span>
         </div>
       </div>
 
@@ -135,7 +135,7 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
           {/* Subtle glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 blur-2xl scale-125 opacity-40" />
           
-          <DeviceFrame device="iphone-15-pro" scale={0.55}>
+          <DeviceFrame device="iphone-15-pro" scale={0.48} className="sm:scale-[0.55]">
             <Suspense fallback={<MockLoader />}>
               <feature.MockComponent />
             </Suspense>
@@ -150,8 +150,8 @@ export default function LandingFeatures() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
 
   return (
-    <section id="features" className="py-16 md:py-24 bg-gradient-to-b from-muted/20 to-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" className="py-12 md:py-24 bg-gradient-to-b from-muted/20 to-background">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div 
           ref={headerRef}
           className={cn(
@@ -159,18 +159,18 @@ export default function LandingFeatures() {
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
+          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-2 sm:mb-3">
             Powerful Features
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
             Everything you need to scale
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             From AI-powered inspections to seamless client portals—RugBoost handles every step of your workflow.
           </p>
         </div>
 
-        <div className="space-y-24 md:space-y-32">
+        <div className="space-y-16 md:space-y-32">
           {features.map((feature, index) => (
             <FeatureRow key={feature.id} feature={feature} index={index} />
           ))}

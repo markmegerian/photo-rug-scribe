@@ -87,8 +87,8 @@ export default function LandingPricing() {
   const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(plans.length, 150);
 
   return (
-    <section id="pricing" className="py-16 md:py-24 bg-gradient-to-b from-background to-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="py-12 md:py-24 bg-gradient-to-b from-background to-muted/30">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div 
           ref={headerRef}
           className={cn(
@@ -96,22 +96,22 @@ export default function LandingPricing() {
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
+          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-2 sm:mb-3">
             Pricing
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 sm:mb-4">
             Invest in efficiency. See returns in weeks.
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8">
             Most customers save more in the first month than the annual subscription costs.
           </p>
 
           {/* Value props */}
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6 sm:mb-8">
             {valueProps.map((prop) => (
               <div key={prop.label} className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-primary">{prop.metric}</span>
-                <span className="text-sm text-muted-foreground">{prop.label}</span>
+                <span className="text-xl sm:text-2xl font-bold text-primary">{prop.metric}</span>
+                <span className="text-xs sm:text-sm text-muted-foreground">{prop.label}</span>
               </div>
             ))}
           </div>
@@ -119,18 +119,18 @@ export default function LandingPricing() {
 
         {/* Trial banner */}
         <div className={cn(
-          "max-w-2xl mx-auto mb-12 p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-center gap-3 text-center transition-all duration-700",
+          "max-w-2xl mx-auto mb-8 sm:mb-12 p-3 sm:p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-center gap-2 sm:gap-3 text-center transition-all duration-700",
           headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <Zap className="h-5 w-5 text-primary flex-shrink-0" />
-          <p className="text-sm">
+          <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
+          <p className="text-xs sm:text-sm">
             <span className="font-semibold text-foreground">14-day free trial</span>
-            <span className="text-muted-foreground"> • Full access • No credit card • Cancel anytime</span>
+            <span className="text-muted-foreground"> • Full access • No credit card</span>
           </p>
         </div>
 
         <TooltipProvider>
-          <div ref={cardsRef} className="grid md:grid-cols-3 gap-6 lg:gap-8">
+          <div ref={cardsRef} className="grid md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {plans.map((plan, index) => (
               <Card
                 key={plan.name}
