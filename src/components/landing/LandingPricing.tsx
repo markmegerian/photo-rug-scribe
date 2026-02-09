@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Check, Star, Zap, ArrowRight, HelpCircle } from 'lucide-react';
+import { Check, Star, Zap, ArrowRight, HelpCircle, Shield, Lock, CreditCard } from 'lucide-react';
 import { useStaggeredAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
 import {
   Tooltip,
   TooltipContent,
@@ -185,15 +186,29 @@ export default function LandingPricing() {
           </div>
         </TooltipProvider>
 
-        {/* Bottom note */}
+        {/* Trust badges */}
         <div className={cn(
-          "mt-12 text-center transition-all duration-700 delay-500",
+          "mt-12 transition-all duration-700 delay-500",
           cardsVisible ? "opacity-100" : "opacity-0"
         )}>
-          <p className="text-sm text-muted-foreground mb-2">
+          <div className="flex flex-wrap justify-center gap-3 mb-6">
+            <Badge variant="outline" className="gap-2 px-4 py-2 text-sm">
+              <Shield className="h-4 w-4 text-primary" />
+              SOC 2 Type II
+            </Badge>
+            <Badge variant="outline" className="gap-2 px-4 py-2 text-sm">
+              <Lock className="h-4 w-4 text-primary" />
+              256-bit Encryption
+            </Badge>
+            <Badge variant="outline" className="gap-2 px-4 py-2 text-sm">
+              <CreditCard className="h-4 w-4 text-primary" />
+              30-Day Money Back
+            </Badge>
+          </div>
+          <p className="text-sm text-muted-foreground text-center mb-2">
             All prices in USD. Annual billing saves you 2 months.
           </p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground text-center">
             Need a custom solution? <Link to="/support" className="text-primary hover:underline">Talk to sales</Link>
           </p>
         </div>
