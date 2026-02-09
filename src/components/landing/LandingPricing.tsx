@@ -75,12 +75,6 @@ const plans = [
   },
 ];
 
-const valueProps = [
-  { metric: '5+ hrs', label: 'Saved weekly' },
-  { metric: '$12,400', label: 'Avg. revenue increase' },
-  { metric: '847%', label: 'Average ROI' },
-];
-
 export default function LandingPricing() {
   const [showComparison, setShowComparison] = useState(false);
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
