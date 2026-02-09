@@ -90,7 +90,7 @@ export default function LandingPricing() {
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
           )}
         >
-          <h1 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Pricing</h1>
+          
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Invest in efficiency. See returns in weeks.
           </h2>
