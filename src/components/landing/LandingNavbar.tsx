@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'FAQ', href: '#faq' },
+  { label: 'Blog', href: '/blog', isRoute: true },
 ];
 
 export default function LandingNavbar() {
@@ -47,16 +48,25 @@ export default function LandingNavbar() {
             <span className="font-display text-xl font-bold text-foreground">RugBoost</span>
           </Link>
 
-          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => scrollToSection(link.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </button>
+              link.isRoute ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <button
+                  key={link.href}
+                  onClick={() => scrollToSection(link.href)}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </button>
+              )
             ))}
           </div>
 
@@ -85,13 +95,24 @@ export default function LandingNavbar() {
           <div className="md:hidden py-4 border-t border-border bg-background">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => scrollToSection(link.href)}
-                  className="px-4 py-2 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-                >
-                  {link.label}
-                </button>
+                link.isRoute ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="px-4 py-2 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={link.href}
+                    onClick={() => scrollToSection(link.href)}
+                    className="px-4 py-2 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                  >
+                    {link.label}
+                  </button>
+                )
               ))}
               <div className="flex flex-col gap-2 mt-4 px-4">
                 <Button variant="outline" asChild className="w-full">
