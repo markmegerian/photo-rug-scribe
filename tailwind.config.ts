@@ -13,45 +13,51 @@ export default {
   		}
   	},
   	extend: {
-		fontFamily: {
-			display: [
-				'EB Garamond',
-				'Garamond',
-				'Georgia',
-				'serif'
-			],
-			body: [
-				'Georgia',
-				'Cambria',
-				'Times New Roman',
-				'Times',
-				'serif'
-			],
-			sans: [
-				'Georgia',
-				'Cambria',
-				'Times New Roman',
-				'Times',
-				'serif'
-			],
-			serif: [
-				'EB Garamond',
-				'Garamond',
-				'Georgia',
-				'serif'
-			],
-			mono: [
-				'SF Mono',
-				'ui-monospace',
-				'SFMono-Regular',
-				'Menlo',
-				'Monaco',
-				'Consolas',
-				'Liberation Mono',
-				'Courier New',
-				'monospace'
-			]
-		},
+  		fontFamily: {
+  			display: [
+  				'EB Garamond',
+  				'Garamond',
+  				'Georgia',
+  				'serif'
+  			],
+  			body: [
+  				'Georgia',
+  				'Cambria',
+  				'Times New Roman',
+  				'Times',
+  				'serif'
+  			],
+  			sans: [
+  				'DM Sans',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'sans-serif',
+  				'Apple Color Emoji',
+  				'Segoe UI Emoji',
+  				'Segoe UI Symbol',
+  				'Noto Color Emoji'
+  			],
+  			serif: [
+  				'Libre Caslon Text',
+  				'ui-serif',
+  				'Georgia',
+  				'Cambria',
+  				'Times New Roman',
+  				'Times',
+  				'serif'
+  			],
+  			mono: [
+  				'Fira Code',
+  				'ui-monospace',
+  				'SFMono-Regular',
+  				'Menlo',
+  				'Monaco',
+  				'Consolas',
+  				'Liberation Mono',
+  				'Courier New',
+  				'monospace'
+  			]
+  		},
   		colors: {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
@@ -110,19 +116,18 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
-		},
-		borderRadius: {
-			lg: 'var(--radius)',
-			md: 'calc(var(--radius) - 2px)',
-			sm: 'calc(var(--radius) - 4px)'
-		},
-		// iOS Safe Area Insets
-		spacing: {
-			'safe-top': 'env(safe-area-inset-top)',
-			'safe-bottom': 'env(safe-area-inset-bottom)',
-			'safe-left': 'env(safe-area-inset-left)',
-			'safe-right': 'env(safe-area-inset-right)',
-		},
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		spacing: {
+  			'safe-top': 'env(safe-area-inset-top)',
+  			'safe-bottom': 'env(safe-area-inset-bottom)',
+  			'safe-left': 'env(safe-area-inset-left)',
+  			'safe-right': 'env(safe-area-inset-right)'
+  		},
   		keyframes: {
   			'accordion-down': {
   				from: {
