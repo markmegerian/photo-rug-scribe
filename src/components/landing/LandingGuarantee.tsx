@@ -35,25 +35,9 @@ const guarantees = [
   },
 ];
 
-const objections = [
-  {
-    objection: '"What if my team struggles with new software?"',
-    answer: "RugBoost is designed for technicians, not tech experts. Our guided capture is so intuitive that teams are usually comfortable within hours, not days. Plus, we offer free onboarding support to ensure smooth adoption.",
-  },
-  {
-    objection: '"What if the AI makes mistakes?"',
-    answer: "Our AI is trained on thousands of rugs and achieves 95%+ accuracy. But you're always in control—every analysis can be reviewed and adjusted before sending to clients. Most users find it catches things they'd miss.",
-  },
-  {
-    objection: "\"I'm worried about being locked into a contract.\"",
-    answer: "We don't believe in lock-ins. Pay monthly, cancel anytime, and export your data whenever you want. We earn your business every month.",
-  },
-];
-
 export default function LandingGuarantee() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { ref: guaranteesRef, isVisible: guaranteesVisible } = useScrollAnimation();
-  const { ref: objectionsRef, isVisible: objectionsVisible } = useScrollAnimation();
 
   return (
     <section className="py-16 md:py-24 bg-card border-y border-border">
@@ -80,7 +64,7 @@ export default function LandingGuarantee() {
         {/* Guarantees Grid */}
         <div 
           ref={guaranteesRef}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {guarantees.map((item, index) => (
             <div 
@@ -100,39 +84,6 @@ export default function LandingGuarantee() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Common Concerns */}
-        <div 
-          ref={objectionsRef}
-          className={cn(
-            "max-w-3xl mx-auto transition-all duration-700",
-            objectionsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          )}
-        >
-          <h3 className="font-display text-2xl font-bold text-foreground text-center mb-8">
-            Common concerns, honest answers
-          </h3>
-          
-          <div className="space-y-6">
-            {objections.map((item, index) => (
-              <div 
-                key={index}
-                className={cn(
-                  "p-6 rounded-2xl bg-background border border-border transition-all duration-500",
-                  objectionsVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-                )}
-                style={{ transitionDelay: objectionsVisible ? `${index * 100 + 200}ms` : '0ms' }}
-              >
-                <p className="font-semibold text-foreground mb-3 text-lg">
-                  {item.objection}
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  {item.answer}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
