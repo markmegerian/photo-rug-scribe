@@ -42,7 +42,7 @@ export default function LandingProblemSolution() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
             The Problem
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             Traditional rug inspection is broken
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -61,7 +61,7 @@ export default function LandingProblemSolution() {
                   <X className="h-5 w-5 text-destructive" />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-bold text-foreground">Without RugBoost</h3>
+                  <h3 className="font-display text-xl font-extrabold text-foreground">Without RugBoost</h3>
                   <p className="text-sm text-muted-foreground">Slow, inconsistent, frustrating</p>
                 </div>
               </div>
@@ -91,7 +91,7 @@ export default function LandingProblemSolution() {
                   <CheckCircle className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-bold text-foreground">The RugBoost Way</h3>
+                  <h3 className="font-display text-xl font-extrabold text-foreground">The RugBoost Way</h3>
                   <p className="text-sm text-muted-foreground">Fast, accurate, delightful</p>
                 </div>
               </div>

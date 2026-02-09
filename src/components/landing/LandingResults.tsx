@@ -69,7 +69,7 @@ export default function LandingResults() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
             Real Results
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
             The numbers speak for themselves
           </h2>
           <p className="text-lg text-background/70 max-w-2xl mx-auto">

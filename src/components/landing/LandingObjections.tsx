@@ -45,7 +45,7 @@ export default function LandingObjections() {
             <MessageCircle className="h-4 w-4" />
             Common Questions
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             Still on the fence?{' '}
             <span className="text-primary">Let's address that.</span>
           </h2>

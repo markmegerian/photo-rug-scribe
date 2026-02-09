@@ -88,7 +88,7 @@ export default function LandingTestimonials() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
             Customer Stories
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             Loved by rug professionals everywhere
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
