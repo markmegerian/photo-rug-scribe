@@ -58,7 +58,7 @@ export default function LandingComparison() {
             <Sparkles className="h-4 w-4" />
             Why Choose RugBoost
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             The smarter way to run your{' '}
             <span className="text-primary">rug business</span>
           </h2>

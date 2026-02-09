@@ -73,7 +73,7 @@ export default function LandingSuccessStories() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
             Success Stories
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             Real results from real businesses
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -136,7 +136,7 @@ export default function LandingSuccessStories() {
                   </div>
 
                   {/* Headline */}
-                  <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
+                  <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground mb-4">
                     {story.headline}
                   </h3>
 

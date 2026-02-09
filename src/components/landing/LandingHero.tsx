@@ -49,7 +49,7 @@ export default function LandingHero() {
               </div>
             </div>
             
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-bold text-foreground leading-[1.15] mb-4 sm:mb-5 tracking-tight">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-extrabold text-foreground leading-[1.15] mb-4 sm:mb-5 tracking-tight">
               Rug inspections that take{' '}
               <span className="relative inline-block">
                 <span className="relative z-10 text-primary">minutes,</span>

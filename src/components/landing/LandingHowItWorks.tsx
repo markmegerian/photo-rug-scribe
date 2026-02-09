@@ -50,7 +50,7 @@ export default function LandingHowItWorks() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
             Simple Process
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             From drop-off to estimate in minutes
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -83,7 +83,7 @@ export default function LandingHowItWorks() {
                   </div>
                 </div>
                 
-                <h3 className="font-display text-xl font-bold text-foreground mb-2">
+                <h3 className="font-display text-xl font-extrabold text-foreground mb-2">
                   {step.title}
                 </h3>
                 <p className="text-muted-foreground mb-4 leading-relaxed">

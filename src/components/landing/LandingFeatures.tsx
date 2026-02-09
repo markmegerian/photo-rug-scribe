@@ -89,7 +89,7 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
           <span className="text-sm font-medium text-primary">{feature.subtitle}</span>
         </div>
 
-        <h3 className="font-display text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
+        <h3 className="font-display text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-extrabold text-foreground mb-3 sm:mb-4 leading-tight">
           {feature.title}
         </h3>
         <p className="text-base sm:text-lg text-muted-foreground mb-5 sm:mb-6 leading-relaxed">
@@ -165,7 +165,7 @@ export default function LandingFeatures() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-2 sm:mb-3">
             Powerful Features
           </p>
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground mb-3 sm:mb-4 leading-tight">
             Everything you need to scale
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
