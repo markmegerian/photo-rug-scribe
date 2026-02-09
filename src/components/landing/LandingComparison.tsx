@@ -1,6 +1,6 @@
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-import { Check, X, ArrowRight, Sparkles } from 'lucide-react';
+import { Check, X, ArrowRight, Sparkles, Clock, DollarSign, Smile, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
@@ -38,10 +38,10 @@ const comparisonData = [
 ];
 
 const benefits = [
-  { label: 'Save 5+ hours every week', icon: '⏱️' },
-  { label: 'Eliminate pricing disputes', icon: '💰' },
-  { label: 'Delight clients with transparency', icon: '😊' },
-  { label: 'Grow referrals organically', icon: '📈' },
+  { label: 'Save 5+ hours every week', icon: Clock },
+  { label: 'Eliminate pricing disputes', icon: DollarSign },
+  { label: 'Delight clients with transparency', icon: Smile },
+  { label: 'Grow referrals organically', icon: TrendingUp },
 ];
 
 export default function LandingComparison() {
@@ -133,7 +133,7 @@ export default function LandingComparison() {
               key={benefit.label}
               className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border"
             >
-              <span className="text-2xl">{benefit.icon}</span>
+              <benefit.icon className="h-6 w-6 text-primary" />
               <span className="font-medium text-foreground">{benefit.label}</span>
             </div>
           ))}
