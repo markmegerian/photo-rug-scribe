@@ -5,8 +5,6 @@ import LandingStats from '@/components/landing/LandingStats';
 import LandingProblemSolution from '@/components/landing/LandingProblemSolution';
 import LandingComparison from '@/components/landing/LandingComparison';
 import LandingFeatures from '@/components/landing/LandingFeatures';
-import LandingHowItWorks from '@/components/landing/LandingHowItWorks';
-import LandingGetStarted from '@/components/landing/LandingGetStarted';
 import LandingResults from '@/components/landing/LandingResults';
 import LandingSuccessStories from '@/components/landing/LandingSuccessStories';
 import LandingTestimonials from '@/components/landing/LandingTestimonials';
@@ -35,8 +33,6 @@ export default function LandingPage() {
         
         {/* Desire: Features and proof */}
         <LandingFeatures />
-        <LandingHowItWorks />
-        <LandingGetStarted />
         <LandingResults />
         <LandingSuccessStories />
         <LandingTestimonials />
