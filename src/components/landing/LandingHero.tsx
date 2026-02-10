@@ -5,6 +5,7 @@ import MockDashboard from '@/components/screenshots/MockDashboard';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
+import { trackCTAClick } from '@/lib/analytics';
 
 const quickWins = [
   "14-day free trial",
@@ -64,12 +65,12 @@ export default function LandingHero() {
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-6">
               <Button size="lg" variant="warm" className="h-12 px-6 whitespace-nowrap gap-2 text-base" asChild>
-                <a href="/support">
+                <a href="/support" onClick={() => trackCTAClick('Request a Demo', 'hero')}>
                   Request a Demo
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="h-12 px-6 text-base" onClick={() => document.querySelector('#pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+              <Button size="lg" variant="outline" className="h-12 px-6 text-base" onClick={() => { trackCTAClick('View Pricing', 'hero'); document.querySelector('#pricing')?.scrollIntoView({ behavior: 'smooth' }); }}>
                 View Pricing
               </Button>
             </div>

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { trackContactFormSubmit } from '@/lib/analytics';
 
 interface FormData {
   name: string;
@@ -65,6 +66,7 @@ const ContactForm = () => {
 
       if (error) throw error;
 
+      trackContactFormSubmit();
       setIsSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '', website: '' });
       

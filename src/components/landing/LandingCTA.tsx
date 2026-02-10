@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
+import { trackCTAClick } from '@/lib/analytics';
 
 const benefits = [
   "14-day free trial",
@@ -63,7 +64,7 @@ export default function LandingCTA() {
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg gap-2"
               asChild
             >
-              <Link to="/support">
+              <Link to="/support" onClick={() => trackCTAClick('Request a Demo', 'bottom_cta')}>
                 Request a Demo
                 <ArrowRight className="h-5 w-5" />
               </Link>

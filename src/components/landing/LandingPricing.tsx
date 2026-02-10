@@ -5,6 +5,8 @@ import { useStaggeredAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+import { trackPricingView, trackPricingPlanClick } from '@/lib/analytics';
+import { useEffect, useRef } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -84,6 +86,14 @@ const valueProps = [
 
 export default function LandingPricing() {
   const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(plans.length, 150);
+  const pricingTracked = useRef(false);
+
+  useEffect(() => {
+    if (cardsVisible && !pricingTracked.current) {
+      pricingTracked.current = true;
+      trackPricingView();
+    }
+  }, [cardsVisible]);
 
   return (
     <section id="pricing" className="py-16 md:py-24 bg-gradient-to-b from-background to-muted/30">
@@ -167,6 +177,7 @@ export default function LandingPricing() {
                     size="lg"
                     className="w-full gap-2"
                     asChild
+                    onClick={() => trackPricingPlanClick(plan.name)}
                   >
                     {plan.name === 'Enterprise' ? (
                       <a href="mailto:sales@rugboost.com">
