@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import rugboostLogo from '@/assets/rugboost-logo.svg';
 import { cn } from '@/lib/utils';
+import { trackCTAClick, trackNavClick } from '@/lib/analytics';
 
 const navLinks = [
   { label: 'Features', href: '#features' },
@@ -76,7 +77,7 @@ export default function LandingNavbar() {
               <Link to="/support">Contact</Link>
             </Button>
             <Button variant="warm" asChild>
-              <Link to="/support">Request a Demo</Link>
+              <Link to="/support" onClick={() => trackCTAClick('Request a Demo', 'navbar')}>Request a Demo</Link>
             </Button>
           </div>
 
