@@ -1,5 +1,6 @@
 import LandingNavbar from "@/components/landing/LandingNavbar";
 import LandingHero from "@/components/landing/LandingHero";
+import LandingDemo from "@/components/landing/LandingDemo";
 import LandingStats from "@/components/landing/LandingStats";
 import LandingProblemSolution from "@/components/landing/LandingProblemSolution";
 import LandingComparison from "@/components/landing/LandingComparison";
@@ -17,6 +18,7 @@ export default function LandingPage() {
         {/* Attention: Hook with hero and problem/solution */}
         <LandingHero />
         <LandingProblemSolution />
+        <LandingDemo />
 
         {/* Interest: Show metrics and features */}
         <LandingStats />
