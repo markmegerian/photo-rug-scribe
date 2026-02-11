@@ -44,7 +44,8 @@ export default function LandingDemo() {
             src="https://id-preview--a955a398-abf7-4e86-8b6f-4d670a014316.lovable.app/demo"
             width={420}
             height={900}
-            className="border-none rounded-3xl shadow-2xl"
+            className="border-none rounded-3xl shadow-2xl max-w-full"
+            style={{ aspectRatio: '420/900' }}
             allow="clipboard-write"
             title="RugBoost Interactive Demo"
             loading="lazy"
