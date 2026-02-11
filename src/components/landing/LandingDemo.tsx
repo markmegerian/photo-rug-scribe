@@ -1,7 +1,7 @@
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-import { trackEvent } from '@/lib/analytics';
-import { useEffect, useRef, useState } from 'react';
+import { trackCTAClick } from '@/lib/analytics';
+import { useEffect, useState } from 'react';
 
 export default function LandingDemo() {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
@@ -9,7 +9,7 @@ export default function LandingDemo() {
 
   useEffect(() => {
     if (isVisible && !hasTracked) {
-      trackEvent('demo_view', { location: 'landing_demo_section' });
+      trackCTAClick('demo_view', 'landing_demo_section');
       setHasTracked(true);
     }
   }, [isVisible, hasTracked]);
