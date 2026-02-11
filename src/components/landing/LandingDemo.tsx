@@ -50,9 +50,8 @@ export default function LandingDemo() {
               <div className="rounded-[30px] overflow-hidden bg-background">
                 <iframe
                   src="https://id-preview--a955a398-abf7-4e86-8b6f-4d670a014316.lovable.app/demo"
-                  width="420"
-                  height="900"
-                  style={{ border: 'none', maxWidth: '100%' }}
+                  className="w-[375px] h-[812px] sm:w-[420px] sm:h-[900px] max-w-[calc(100vw-48px)]"
+                  style={{ border: 'none', aspectRatio: '420/900' }}
                   allow="clipboard-write"
                   title="RugBoost Interactive Demo"
                   loading="lazy"
