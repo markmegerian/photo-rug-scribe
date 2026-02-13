@@ -28,19 +28,6 @@ const comparisonData = [{
   traditional: 'He said, she said arguments',
   rugboost: 'Photo evidence & signed approvals'
 }];
-const benefits = [{
-  label: 'Save 5+ hours every week',
-  icon: '⏱️'
-}, {
-  label: 'Eliminate pricing disputes',
-  icon: '💰'
-}, {
-  label: 'Delight clients with transparency',
-  icon: '😊'
-}, {
-  label: 'Grow referrals organically',
-  icon: '📈'
-}];
 export default function LandingComparison() {
   const {
     ref: headerRef,
@@ -104,15 +91,6 @@ export default function LandingComparison() {
             </div>)}
         </div>
 
-        {/* Benefits Grid */}
-        <div className={cn("grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 transition-all duration-700 delay-300", tableVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4")}>
-          {benefits.map((benefit, index) => (
-            <div key={index} className="flex items-center gap-3 bg-card rounded-xl p-4 shadow-card border border-border">
-              <span className="text-2xl">{benefit.icon}</span>
-              <span className="text-sm font-medium text-foreground">{benefit.label}</span>
-            </div>
-          ))}
-        </div>
 
         {/* CTA */}
         <div className={cn("text-center transition-all duration-700 delay-500", tableVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4")}>
