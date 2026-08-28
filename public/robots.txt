@@ -12,3 +12,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /blog-admin
+
+Sitemap: https://rugboost.com/sitemap.xml

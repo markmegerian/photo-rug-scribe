@@ -214,7 +214,7 @@ const DeviceFrame = forwardRef<HTMLDivElement, DeviceFrameProps>(({
                   }}
                 >
                   <div 
-                    className="bg-green-500 rounded-sm"
+                    className="bg-foreground rounded-sm"
                     style={{ 
                       width: 20 * scale, 
                       height: 8 * scale,

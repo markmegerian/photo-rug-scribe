@@ -85,13 +85,13 @@ const MockPhotoCapture = forwardRef<HTMLDivElement>((_, ref) => {
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                   step.captured 
-                    ? 'bg-green-500/10' 
+                    ? 'bg-muted' 
                     : step.current 
                       ? 'bg-primary/10' 
                       : 'bg-muted'
                 }`}>
                   {step.captured ? (
-                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <CheckCircle className="h-5 w-5 text-foreground" />
                   ) : (
                     <Image className={`h-5 w-5 ${step.current ? 'text-primary' : 'text-muted-foreground'}`} />
                   )}
@@ -111,7 +111,7 @@ const MockPhotoCapture = forwardRef<HTMLDivElement>((_, ref) => {
                 </span>
               )}
               {step.captured && (
-                <span className="text-xs text-green-500 font-medium">Done</span>
+                <span className="text-xs text-foreground font-medium">Done</span>
               )}
             </div>
           ))}

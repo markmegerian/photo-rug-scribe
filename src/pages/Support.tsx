@@ -67,6 +67,7 @@ const Support = () => {
       {/* Contact Section */}
       <section className="py-12 px-4 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
+          <h2 className="sr-only">Contact options</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>

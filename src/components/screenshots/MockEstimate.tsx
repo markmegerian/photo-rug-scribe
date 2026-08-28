@@ -52,8 +52,8 @@ const MockEstimate = forwardRef<HTMLDivElement>((_, ref) => {
                         <Lock className="h-3 w-3 text-primary" />
                       </div>
                     ) : (
-                      <div className="w-5 h-5 rounded bg-green-500/10 flex items-center justify-center">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
+                      <div className="w-5 h-5 rounded bg-muted flex items-center justify-center">
+                        <CheckCircle className="h-3 w-3 text-foreground" />
                       </div>
                     )}
                     <span className="text-sm text-foreground">{service.name}</span>

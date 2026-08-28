@@ -4,8 +4,8 @@ import { PlayCircle, Clock, CheckCircle, Plus, Search, Bell, Settings } from 'lu
 
 const statusConfig = {
   active: { icon: PlayCircle, color: 'bg-blue-500', textColor: 'text-blue-600', bgColor: 'bg-blue-500/10' },
-  'in-progress': { icon: Clock, color: 'bg-amber-500', textColor: 'text-amber-600', bgColor: 'bg-amber-500/10' },
-  completed: { icon: CheckCircle, color: 'bg-green-500', textColor: 'text-green-600', bgColor: 'bg-green-500/10' },
+  'in-progress': { icon: Clock, color: 'bg-foreground', textColor: 'text-foreground', bgColor: 'bg-muted' },
+  completed: { icon: CheckCircle, color: 'bg-foreground', textColor: 'text-foreground', bgColor: 'bg-muted' },
 };
 
 const MockDashboard = forwardRef<HTMLDivElement>((_, ref) => {

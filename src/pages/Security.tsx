@@ -128,9 +128,9 @@ export default function Security() {
                 <div className="h-14 w-14 rounded-none bg-primary/10 flex items-center justify-center mb-5">
                   <feature.icon className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
+                <h2 className="text-xl font-semibold text-foreground mb-3">
                   {feature.title}
-                </h3>
+                </h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
