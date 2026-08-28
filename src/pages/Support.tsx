@@ -4,7 +4,7 @@ import { Mail, Clock, HelpCircle, Shield, FileText, ChevronRight } from 'lucide-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import rugboostLogo from '@/assets/rugboost-logo.svg';
+import rugboostLogo from '@/assets/rugboost-horizontal.svg';
 import ContactForm from '@/components/support/ContactForm';
 
 const Support = () => {
@@ -41,8 +41,7 @@ const Support = () => {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-8 w-8" />
-            <span className="font-display text-lg font-bold text-foreground">Rugboost</span>
+            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
           </Link>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
@@ -202,7 +201,7 @@ const Support = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <img src={rugboostLogo} alt="Rugboost" className="h-6 w-6" />
+              <img src={rugboostLogo} alt="Rugboost" className="h-5 w-auto" />
               <span className="text-sm text-muted-foreground">
                 © {new Date().getFullYear()} Rugboost. All rights reserved.
               </span>
