@@ -50,9 +50,9 @@ export default function LandingHowItWorks() {
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
             Simple Process
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             From drop-off to estimate in minutes
-          </h2>
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             A streamlined workflow that saves you hours every week.
           </p>

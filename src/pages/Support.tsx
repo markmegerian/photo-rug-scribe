@@ -50,6 +50,7 @@ const Support = () => {
           </div>
         </div>
       </header>
+      <main>
 
       {/* Hero Section */}
       <section className="py-16 md:py-24 px-4">
@@ -195,6 +196,8 @@ const Support = () => {
           </Button>
         </div>
       </section>
+
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-border py-8 px-4">
