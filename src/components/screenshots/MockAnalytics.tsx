@@ -26,28 +26,23 @@ const MockAnalytics = forwardRef<HTMLDivElement>((_, ref) => {
         {/* Metric Cards - 2x2 Grid */}
         <div className="grid grid-cols-2 gap-3">
           {[
-            { icon: Briefcase, label: 'Total Jobs', value: demoAnalytics.totalJobs.toString(), change: '+12%', color: 'primary' },
-            { icon: DollarSign, label: 'Revenue', value: `$${(demoAnalytics.totalRevenue / 1000).toFixed(0)}K`, change: '+18%', color: 'green-500' },
-            { icon: DollarSign, label: 'Avg Job', value: `$${demoAnalytics.avgJobValue}`, change: '+8%', color: 'accent' },
-            { icon: Target, label: 'Completion', value: `${demoAnalytics.completionRate}%`, change: '+2%', color: 'amber-500' },
+            { icon: Briefcase, label: 'Total Jobs', value: demoAnalytics.totalJobs.toString(), change: '+12%' },
+            { icon: DollarSign, label: 'Revenue', value: `$${(demoAnalytics.totalRevenue / 1000).toFixed(0)}K`, change: '+18%' },
+            { icon: DollarSign, label: 'Avg Job', value: `$${demoAnalytics.avgJobValue}`, change: '+8%' },
+            { icon: Target, label: 'Completion', value: `${demoAnalytics.completionRate}%`, change: '+2%' },
           ].map((metric, i) => {
             const Icon = metric.icon;
             return (
               <div key={i} className="bg-card rounded-xl border border-border p-4 shadow-sm">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className={`w-8 h-8 rounded-lg bg-${metric.color}/10 flex items-center justify-center`}
-                    style={{ backgroundColor: metric.color === 'primary' ? 'hsl(var(--primary) / 0.1)' : 
-                             metric.color === 'accent' ? 'hsl(var(--accent) / 0.1)' : 
-                             metric.color === 'green-500' ? 'rgb(34 197 94 / 0.1)' : 'rgb(245 158 11 / 0.1)' }}>
-                    <Icon className="h-4 w-4" style={{ 
-                      color: metric.color === 'primary' ? 'hsl(var(--primary))' : 
-                             metric.color === 'accent' ? 'hsl(var(--accent))' : 
-                             metric.color === 'green-500' ? 'rgb(34 197 94)' : 'rgb(245 158 11)' }} />
+                  <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
+                    <Icon className="h-4 w-4 text-foreground" />
                   </div>
+
                   <span className="text-xs text-muted-foreground">{metric.label}</span>
                 </div>
                 <p className="text-xl font-bold text-foreground">{metric.value}</p>
-                <p className="text-xs text-green-500 flex items-center gap-1 mt-1">
+                <p className="text-xs text-foreground flex items-center gap-1 mt-1">
                   <TrendingUp className="h-3 w-3" />
                   {metric.change} this month
                 </p>

@@ -195,7 +195,7 @@ const PrivacyPolicy = () => {
               
               <p className="pl-11 text-foreground/80">
                 If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at{' '}
-                <a href="mailto:privacy@rugboost.com" className="text-primary hover:underline">
+                <a href="mailto:privacy@rugboost.com" className="text-primary underline">
                   privacy@rugboost.com
                 </a>
               </p>

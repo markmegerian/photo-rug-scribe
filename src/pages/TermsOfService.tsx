@@ -255,7 +255,7 @@ const TermsOfService = () => {
               <h2 className="font-display text-xl font-semibold text-foreground">Contact Us</h2>
               <p className="text-foreground/80">
                 If you have questions about these Terms of Service, please contact us at{' '}
-                <a href="mailto:legal@rugboost.com" className="text-primary hover:underline">
+                <a href="mailto:legal@rugboost.com" className="text-primary underline">
                   legal@rugboost.com
                 </a>
               </p>

@@ -83,9 +83,9 @@ export default function LandingHowItWorks() {
                   </div>
                 </div>
                 
-                <h3 className="font-display text-xl font-extrabold text-foreground mb-2">
+                <h2 className="font-display text-xl font-extrabold text-foreground mb-2">
                   {step.title}
-                </h3>
+                </h2>
                 <p className="text-muted-foreground mb-4 leading-relaxed">
                   {step.description}
                 </p>

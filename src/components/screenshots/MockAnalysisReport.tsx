@@ -64,8 +64,8 @@ const MockAnalysisReport = forwardRef<HTMLDivElement>((_, ref) => {
         {/* Condition Assessment */}
         <div className="bg-card rounded-xl border border-border p-5 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+              <CheckCircle className="h-5 w-5 text-foreground" />
             </div>
             <div>
               <h2 className="font-display text-base font-bold text-foreground">Very Good</h2>
@@ -80,7 +80,7 @@ const MockAnalysisReport = forwardRef<HTMLDivElement>((_, ref) => {
         {/* Issues Identified */}
         <div className="bg-card rounded-xl border border-border p-5 shadow-sm">
           <h2 className="font-display text-base font-bold text-foreground mb-4 flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-500" />
+            <AlertTriangle className="h-5 w-5 text-foreground" />
             Issues Identified
           </h2>
           <div className="space-y-3">
@@ -90,8 +90,8 @@ const MockAnalysisReport = forwardRef<HTMLDivElement>((_, ref) => {
               'Two small moth nibbles requiring reweaving',
               'Original selvedge showing slight wear',
             ].map((issue, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 bg-amber-500/5 rounded-lg border border-amber-500/10">
-                <div className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0" />
+              <div key={i} className="flex items-start gap-3 p-3 bg-muted rounded-lg border border-border">
+                <div className="w-1.5 h-1.5 rounded-full bg-foreground mt-1.5 flex-shrink-0" />
                 <p className="text-sm text-foreground">{issue}</p>
               </div>
             ))}
