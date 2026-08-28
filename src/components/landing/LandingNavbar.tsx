@@ -49,7 +49,7 @@ export default function LandingNavbar() {
           </Link>
 
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               link.isRoute ? (
                 <Link
@@ -72,7 +72,7 @@ export default function LandingNavbar() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <Button variant="ghost" asChild>
               <Link to="/support">Contact</Link>
             </Button>
@@ -83,7 +83,7 @@ export default function LandingNavbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
@@ -93,7 +93,7 @@ export default function LandingNavbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden py-4 border-t border-border bg-background">
+          <div className="lg:hidden py-4 border-t border-border bg-background">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 link.isRoute ? (
