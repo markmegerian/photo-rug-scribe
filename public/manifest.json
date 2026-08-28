@@ -1,6 +1,7 @@
 {
   "name": "Rugboost",
   "short_name": "Rugboost",
+  "id": "/",
   "description": "AI rug inspection and business management",
   "start_url": "/",
   "display": "standalone",
