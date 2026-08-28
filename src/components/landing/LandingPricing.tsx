@@ -96,10 +96,10 @@ export default function LandingPricing() {
   }, [cardsVisible]);
 
   return (
-    <section id="pricing" className="py-16 md:py-24 bg-gradient-to-b from-background to-muted/30">
+    <section id="pricing" className="py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Trial banner */}
-        <div className="max-w-2xl mx-auto mb-12 p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-center gap-3 text-center">
+        <div className="max-w-2xl mx-auto mb-12 p-4 rounded-none bg-muted border border-border flex items-center justify-center gap-3 text-center">
           <Zap className="h-5 w-5 text-primary flex-shrink-0" />
           <p className="text-sm">
             <span className="font-semibold text-foreground">14-day free trial</span>
@@ -115,15 +115,15 @@ export default function LandingPricing() {
                 className={cn(
                   "relative flex flex-col transition-all duration-700 ease-out",
                   plan.highlighted
-                    ? 'border-primary shadow-lg ring-2 ring-primary/20 scale-[1.02] z-10'
-                    : 'border-border shadow-card',
+                    ? 'border-foreground border-2 z-10'
+                    : 'border-border ',
                   cardsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 )}
                 style={cardsVisible ? getDelay(index) : {}}
               >
                 {plan.badge && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-xs font-semibold text-primary-foreground shadow-md">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-foreground text-xs font-semibold text-primary-foreground ">
                       <Star className="h-3 w-3" />
                       {plan.badge}
                     </span>

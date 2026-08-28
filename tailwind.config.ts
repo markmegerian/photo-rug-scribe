@@ -55,19 +55,25 @@ export default {
   				foreground: 'hsl(var(--card-foreground))'
   			},
   			rugboost: {
-  				blue: 'hsl(var(--rugboost-blue))',
-  				'blue-light': 'hsl(var(--rugboost-blue-light))',
-  				purple: 'hsl(var(--rugboost-purple))',
-  				'purple-light': 'hsl(var(--rugboost-purple-light))'
+  				blue: 'hsl(var(--ink))',
+  				'blue-light': 'hsl(var(--ink-soft))',
+  				purple: 'hsl(var(--ink-soft))',
+  				'purple-light': 'hsl(var(--ink-mute))'
+  			},
+  			ink: {
+  				DEFAULT: 'hsl(var(--ink))',
+  				soft: 'hsl(var(--ink-soft))',
+  				mute: 'hsl(var(--ink-mute))'
   			},
   			cream: {
-  				DEFAULT: 'hsl(var(--cream))',
-  				dark: 'hsl(var(--cream-dark))'
+  				DEFAULT: 'hsl(var(--paper))',
+  				dark: 'hsl(var(--paper-dim))'
   			},
   			navy: {
-  				DEFAULT: 'hsl(var(--navy))',
-  				light: 'hsl(var(--navy-light))'
+  				DEFAULT: 'hsl(var(--ink))',
+  				light: 'hsl(var(--ink-soft))'
   			},
+
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
   				foreground: 'hsl(var(--sidebar-foreground))',

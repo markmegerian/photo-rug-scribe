@@ -166,7 +166,7 @@ export default function BlogAdmin() {
       title: '',
       excerpt: '',
       content: '',
-      author: 'RugBoost Team',
+      author: 'Rugboost Team',
       publishedAt: new Date().toISOString().split('T')[0],
       readTime: 5,
       category: 'Business',

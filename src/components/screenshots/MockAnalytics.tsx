@@ -8,7 +8,7 @@ const MockAnalytics = forwardRef<HTMLDivElement>((_, ref) => {
       {/* Header */}
       <header className="border-b border-border bg-card px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-foreground flex items-center justify-center shadow-md">
             <span className="text-white font-bold text-lg">R</span>
           </div>
           <div className="flex-1">
@@ -67,7 +67,7 @@ const MockAnalytics = forwardRef<HTMLDivElement>((_, ref) => {
               return (
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
                   <div 
-                    className={`w-full rounded-t-md transition-all ${isHighlighted ? 'bg-gradient-to-t from-primary to-primary/70' : 'bg-gradient-to-t from-muted-foreground/30 to-muted-foreground/20'}`}
+                    className={`w-full rounded-t-md transition-all ${isHighlighted ? 'bg-foreground' : 'bg-muted-foreground/25'}`}
                     style={{ height: `${height}%` }}
                   />
                   <span className="text-[10px] text-muted-foreground font-medium">{month.month.slice(0, 1)}</span>
@@ -88,7 +88,7 @@ const MockAnalytics = forwardRef<HTMLDivElement>((_, ref) => {
               return (
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
                   <div 
-                    className={`w-full rounded-t-md transition-all ${isHighlighted ? 'bg-gradient-to-t from-accent to-accent/70' : 'bg-gradient-to-t from-muted-foreground/30 to-muted-foreground/20'}`}
+                    className={`w-full rounded-t-md transition-all ${isHighlighted ? 'bg-foreground/60' : 'bg-muted-foreground/25'}`}
                     style={{ height: `${height}%` }}
                   />
                   <span className="text-[10px] text-muted-foreground font-medium">{month.month.slice(0, 1)}</span>

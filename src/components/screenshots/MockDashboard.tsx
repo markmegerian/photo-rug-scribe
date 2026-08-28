@@ -15,11 +15,11 @@ const MockDashboard = forwardRef<HTMLDivElement>((_, ref) => {
       <header className="border-b border-border bg-card px-5 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
+            <div className="w-10 h-10 rounded-xl bg-foreground flex items-center justify-center shadow-md">
               <span className="text-white font-bold text-lg">R</span>
             </div>
             <div>
-              <h1 className="font-display text-lg font-bold text-foreground">RugBoost</h1>
+              <h1 className="font-display text-lg font-bold text-foreground">Rugboost</h1>
               <p className="text-xs text-muted-foreground">Job Dashboard</p>
             </div>
           </div>

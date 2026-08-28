@@ -83,7 +83,7 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
       )}>
         {/* Icon and subtitle */}
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <div className="h-10 w-10 rounded-none bg-primary/10 flex items-center justify-center">
             <feature.icon className="h-5 w-5 text-primary" />
           </div>
           <span className="text-sm font-medium text-primary">{feature.subtitle}</span>
@@ -119,7 +119,7 @@ function FeatureRow({ feature, index }: { feature: typeof features[0]; index: nu
         </ul>
 
         {/* Metric callout */}
-        <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-muted/50 border border-border">
+        <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-none bg-muted/50 border border-border">
           <span className="text-xl sm:text-2xl font-bold text-primary">{feature.metric.value}</span>
           <span className="text-xs sm:text-sm text-muted-foreground">{feature.metric.label}</span>
         </div>
@@ -169,7 +169,7 @@ export default function LandingFeatures() {
             Everything you need to scale
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            From AI-powered inspections to seamless client portals—RugBoost handles every step of your workflow.
+            From AI-powered inspections to seamless client portals—Rugboost handles every step of your workflow.
           </p>
         </div>
 

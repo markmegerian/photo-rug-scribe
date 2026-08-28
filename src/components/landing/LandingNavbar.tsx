@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import rugboostLogo from '@/assets/rugboost-logo.svg';
+import rugboostLogo from '@/assets/rugboost-horizontal.svg';
 import { cn } from '@/lib/utils';
 import { trackCTAClick, trackNavClick } from '@/lib/analytics';
 
@@ -38,16 +38,16 @@ export default function LandingNavbar() {
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
       scrolled 
-        ? "bg-background/95 backdrop-blur-md border-b border-border shadow-soft" 
+        ? "bg-background/95 backdrop-blur-md border-b border-border" 
         : "bg-transparent border-b border-transparent"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <img src={rugboostLogo} alt="RugBoost" className="h-8 w-auto" />
-            <span className="font-display text-xl font-bold text-foreground">RugBoost</span>
+          <Link to="/" className="flex items-center" aria-label="Rugboost home">
+            <img src={rugboostLogo} alt="Rugboost" className="h-5 sm:h-6 w-auto" />
           </Link>
+
 
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
@@ -55,7 +55,7 @@ export default function LandingNavbar() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -63,7 +63,7 @@ export default function LandingNavbar() {
                 <button
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
-                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {link.label}
                 </button>

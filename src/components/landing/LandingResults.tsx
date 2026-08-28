@@ -16,8 +16,8 @@ const results = [
     label: 'Time Saved Weekly',
     description: 'Per employee on inspection tasks',
     icon: Clock,
-    color: 'text-accent',
-    bgColor: 'bg-accent/10',
+    color: 'text-foreground',
+    bgColor: 'bg-foreground/5',
   },
   {
     metric: '$12,400',
@@ -32,15 +32,15 @@ const results = [
     label: 'Client Satisfaction',
     description: 'Clients prefer digital experience',
     icon: Users,
-    color: 'text-accent',
-    bgColor: 'bg-accent/10',
+    color: 'text-foreground',
+    bgColor: 'bg-foreground/5',
   },
 ];
 
 const caseStudy = {
   company: 'Pacific Rug Care',
   location: 'San Francisco, CA',
-  quote: "We went from spending 4 hours a day on inspections and estimates to under 30 minutes. Our clients love the portal, and we've seen a 40% increase in referrals since switching to RugBoost.",
+  quote: "We went from spending 4 hours a day on inspections and estimates to under 30 minutes. Our clients love the portal, and we've seen a 40% increase in referrals since switching to Rugboost.",
   author: 'Michael Chen',
   role: 'Owner',
   results: [
@@ -73,7 +73,7 @@ export default function LandingResults() {
             The numbers speak for themselves
           </h2>
           <p className="text-lg text-background/70 max-w-2xl mx-auto">
-            See the measurable impact RugBoost has on businesses like yours.
+            See the measurable impact Rugboost has on businesses like yours.
           </p>
         </div>
 
@@ -86,12 +86,12 @@ export default function LandingResults() {
             <div 
               key={result.label}
               className={cn(
-                "relative p-6 rounded-2xl bg-background/5 border border-background/10 backdrop-blur-sm transition-all duration-700 hover:bg-background/10",
+                "relative p-6 rounded-none bg-background/5 border border-background/10 backdrop-blur-sm transition-all duration-700 hover:bg-background/10",
                 metricsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
               style={{ transitionDelay: metricsVisible ? `${index * 100}ms` : '0ms' }}
             >
-              <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center mb-4", result.bgColor)}>
+              <div className={cn("h-12 w-12 rounded-none flex items-center justify-center mb-4", result.bgColor)}>
                 <result.icon className={cn("h-6 w-6", result.color)} />
               </div>
               <p className="font-display text-4xl font-bold text-background mb-1">
@@ -111,7 +111,7 @@ export default function LandingResults() {
         <div 
           ref={caseStudyRef}
           className={cn(
-            "relative rounded-3xl bg-background/5 border border-background/10 p-8 md:p-12 transition-all duration-700",
+            "relative rounded-none bg-background/5 border border-background/10 p-8 md:p-12 transition-all duration-700",
             caseStudyVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
@@ -124,7 +124,7 @@ export default function LandingResults() {
             {/* Quote side */}
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="h-14 w-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-lg font-bold text-primary-foreground">
+                <div className="h-14 w-14 rounded-full bg-foreground flex items-center justify-center text-lg font-bold text-primary-foreground">
                   MC
                 </div>
                 <div>
@@ -149,7 +149,7 @@ export default function LandingResults() {
                   <div 
                     key={item.label}
                     className={cn(
-                      "flex items-center justify-between p-4 rounded-xl bg-background/5 transition-all duration-500",
+                      "flex items-center justify-between p-4 rounded-none bg-background/5 transition-all duration-500",
                       caseStudyVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
                     )}
                     style={{ transitionDelay: caseStudyVisible ? `${index * 100 + 300}ms` : '0ms' }}

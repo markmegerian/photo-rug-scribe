@@ -1,17 +1,17 @@
 {
-  "name": "RugBoost",
+  "name": "Rugboost",
   "short_name": "RugBoost",
-  "description": "AI-Powered Rug Inspection & Business Management",
-  "start_url": "/landing",
+  "description": "AI rug inspection and business management",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7f6f4",
-  "theme_color": "#2174C6",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "64x64",
-      "type": "image/x-icon"
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     },
     {
       "src": "/pwa-192x192.png",
@@ -24,27 +24,16 @@
       "type": "image/png"
     },
     {
-      "src": "/pwa-maskable-512x512.png",
+      "src": "/pwa-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/screenshots/mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
+  "categories": [
+    "business",
+    "productivity"
   ],
-  "categories": ["business", "productivity"],
   "lang": "en-US",
   "dir": "ltr"
 }

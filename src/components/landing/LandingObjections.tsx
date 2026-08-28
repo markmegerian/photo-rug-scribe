@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 const objections = [{
   objection: "I'm not tech-savvy enough",
-  response: "If you can take a photo with your phone, you can use RugBoost. Our guided workflows walk you through every step. Plus, we offer free onboarding calls to get you comfortable.",
+  response: "If you can take a photo with your phone, you can use Rugboost. Our guided workflows walk you through every step. Plus, we offer free onboarding calls to get you comfortable.",
   proof: "Average user age: 52 • Adoption time: 1 day"
 }, {
   objection: "My team won't use new software",
-  response: "Unlike clunky enterprise software, RugBoost saves your team time from day one. When tools make their jobs easier, people actually use them. We've seen 95% adoption rates.",
+  response: "Unlike clunky enterprise software, Rugboost saves your team time from day one. When tools make their jobs easier, people actually use them. We've seen 95% adoption rates.",
   proof: "95% team adoption rate • No training required"
 }, {
   objection: "It's too expensive for my small business",
@@ -21,7 +21,7 @@ const objections = [{
   proof: "99.2% accuracy rate • Human-in-the-loop always"
 }, {
   objection: "I'm locked into my current system",
-  response: "We'll help you migrate for free. Export your data from any system, and our team will import it into RugBoost at no cost. Most migrations take less than 24 hours.",
+  response: "We'll help you migrate for free. Export your data from any system, and our team will import it into Rugboost at no cost. Most migrations take less than 24 hours.",
   proof: "Free migration assistance • 24-hour average turnaround"
 }, {
   objection: "What if I need to cancel?",
@@ -56,7 +56,7 @@ export default function LandingObjections() {
 
         {/* Objections Grid */}
         <div ref={objectionsRef} className="space-y-4">
-          {objections.map((item, index) => <div key={item.objection} className={cn("group relative rounded-2xl border border-border bg-card p-6 md:p-8 transition-all duration-700 hover:shadow-card hover:border-primary/20", objectionsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8")} style={{
+          {objections.map((item, index) => <div key={item.objection} className={cn("group relative rounded-none border border-border bg-card p-6 md:p-8 transition-all duration-700 hover: hover:border-primary/20", objectionsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8")} style={{
           transitionDelay: objectionsVisible ? `${index * 75}ms` : '0ms'
         }}>
               <div className="grid md:grid-cols-[1fr,2fr] gap-4 md:gap-8">

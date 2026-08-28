@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import rugboostLogo from '@/assets/rugboost-logo.svg';
+import rugboostLogo from '@/assets/rugboost-horizontal-white.svg';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
 
@@ -45,9 +45,8 @@ export default function LandingFooter() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <img src={rugboostLogo} alt="RugBoost" className="h-7 sm:h-8 w-auto brightness-0 invert" />
-              <span className="font-display text-lg sm:text-xl font-bold">RugBoost</span>
+            <div className="flex items-center mb-4">
+              <img src={rugboostLogo} alt="Rugboost" className="h-5 sm:h-6 w-auto" />
             </div>
             <p className="text-xs sm:text-sm text-background/60 leading-relaxed">
               AI-powered rug inspection and business management for modern professionals.
@@ -86,7 +85,7 @@ export default function LandingFooter() {
         {/* Bottom bar */}
         <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-background/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs sm:text-sm text-background/60">
-            © {new Date().getFullYear()} RugBoost. All rights reserved.
+            © {new Date().getFullYear()} Rugboost. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="https://twitter.com" className="text-background/60 hover:text-background transition-colors" aria-label="Follow us on X (Twitter)">

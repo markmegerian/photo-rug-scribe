@@ -41,8 +41,8 @@ const Support = () => {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-8 w-8" />
-            <span className="font-display text-lg font-bold text-foreground">RugBoost</span>
+            <img src={rugboostLogo} alt="Rugboost" className="h-8 w-8" />
+            <span className="font-display text-lg font-bold text-foreground">Rugboost</span>
           </Link>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
@@ -59,7 +59,7 @@ const Support = () => {
             Support & Help Center
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get help with RugBoost, the AI-powered platform for professional rug inspection and business management.
+            Get help with Rugboost, the AI-powered platform for professional rug inspection and business management.
           </p>
         </div>
       </section>
@@ -202,9 +202,9 @@ const Support = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <img src={rugboostLogo} alt="RugBoost" className="h-6 w-6" />
+              <img src={rugboostLogo} alt="Rugboost" className="h-6 w-6" />
               <span className="text-sm text-muted-foreground">
-                © {new Date().getFullYear()} RugBoost. All rights reserved.
+                © {new Date().getFullYear()} Rugboost. All rights reserved.
               </span>
             </div>
             <div className="flex items-center gap-6">

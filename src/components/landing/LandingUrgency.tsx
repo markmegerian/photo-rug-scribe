@@ -29,7 +29,7 @@ export default function LandingUrgency() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="py-16 md:py-20 bg-gradient-to-br from-accent via-primary to-accent overflow-hidden relative">
+    <section className="py-16 md:py-20 bg-foreground overflow-hidden relative">
       {/* Animated background */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
@@ -69,7 +69,7 @@ export default function LandingUrgency() {
             <div 
               key={bonus.title}
               className={cn(
-                "relative p-6 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 transition-all duration-500",
+                "relative p-6 rounded-none bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 transition-all duration-500",
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}
               style={{ transitionDelay: isVisible ? `${index * 100 + 200}ms` : '0ms' }}
@@ -96,7 +96,7 @@ export default function LandingUrgency() {
           <Button 
             size="xl" 
             variant="secondary"
-            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg gap-2 text-lg px-10"
+            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90  gap-2 text-lg px-10"
             asChild
           >
             <Link to="/support">

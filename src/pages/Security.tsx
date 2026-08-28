@@ -103,7 +103,7 @@ export default function Security() {
             {badges.map((badge) => (
               <div 
                 key={badge.name}
-                className="flex flex-col items-center px-8 py-5 rounded-xl bg-card border border-border shadow-sm"
+                className="flex flex-col items-center px-8 py-5 rounded-none bg-card border border-border shadow-sm"
               >
                 <span className="text-xl font-bold text-foreground">{badge.name}</span>
                 <span className="text-sm text-muted-foreground">{badge.description}</span>
@@ -120,12 +120,12 @@ export default function Security() {
               <div 
                 key={feature.title}
                 className={cn(
-                  "p-8 rounded-2xl bg-card border border-border shadow-card transition-all duration-700 hover:shadow-medium hover:-translate-y-1",
+                  "p-8 rounded-none bg-card border border-border  transition-all duration-700 hover: hover:-translate-y-1",
                   featuresVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 )}
                 style={{ transitionDelay: featuresVisible ? `${index * 75}ms` : '0ms' }}
               >
-                <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                <div className="h-14 w-14 rounded-none bg-primary/10 flex items-center justify-center mb-5">
                   <feature.icon className="h-7 w-7 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">
@@ -142,7 +142,7 @@ export default function Security() {
           <div 
             ref={promisesRef}
             className={cn(
-              "relative rounded-3xl bg-gradient-to-br from-primary/5 via-background to-accent/5 border border-border p-10 md:p-16 transition-all duration-700",
+              "relative rounded-none bg-muted/40 border border-border p-10 md:p-16 transition-all duration-700",
               promisesVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             )}
           >
@@ -172,9 +172,9 @@ export default function Security() {
               </div>
               <div className="hidden lg:flex items-center justify-center">
                 <div className="relative">
-                  <div className="h-56 w-56 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                    <div className="h-44 w-44 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center">
-                      <div className="h-32 w-32 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <div className="h-56 w-56 rounded-full bg-foreground/10 flex items-center justify-center">
+                    <div className="h-44 w-44 rounded-full bg-foreground/20 flex items-center justify-center">
+                      <div className="h-32 w-32 rounded-full bg-foreground flex items-center justify-center">
                         <Shield className="h-16 w-16 text-primary-foreground" />
                       </div>
                     </div>
@@ -182,7 +182,7 @@ export default function Security() {
                   <div className="absolute -top-2 -right-2 h-10 w-10 rounded-full bg-primary flex items-center justify-center">
                     <Lock className="h-5 w-5 text-primary-foreground" />
                   </div>
-                  <div className="absolute -bottom-2 -left-2 h-10 w-10 rounded-full bg-accent flex items-center justify-center">
+                  <div className="absolute -bottom-2 -left-2 h-10 w-10 rounded-full bg-foreground flex items-center justify-center">
                     <CheckCircle2 className="h-5 w-5 text-primary-foreground" />
                   </div>
                 </div>
