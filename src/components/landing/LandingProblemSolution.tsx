@@ -54,20 +54,20 @@ export default function LandingProblemSolution() {
         <div ref={contentRef} className={cn("grid lg:grid-cols-2 gap-8 lg:gap-12 items-start transition-all duration-700 ease-out", contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8")}>
           {/* Problems Column */}
           <div className="relative">
-            <div className="absolute -inset-4 bg-destructive/5 rounded-3xl -z-10" />
+            <div className="absolute -inset-4 bg-destructive/5 rounded-none -z-10" />
             <div className="p-6 sm:p-8">
               <div className="flex items-center gap-3 mb-8">
                 <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
                   <X className="h-5 w-5 text-destructive" />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-extrabold text-foreground">Without RugBoost</h3>
+                  <h3 className="font-display text-xl font-extrabold text-foreground">Without Rugboost</h3>
                   <p className="text-sm text-muted-foreground">Slow, inconsistent, frustrating</p>
                 </div>
               </div>
               
               <div className="space-y-4">
-                {problems.map((item, index) => <div key={index} className={cn("flex gap-4 p-4 rounded-xl bg-card border border-destructive/20 transition-all duration-500", contentVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4")} style={{
+                {problems.map((item, index) => <div key={index} className={cn("flex gap-4 p-4 rounded-none bg-card border border-destructive/20 transition-all duration-500", contentVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4")} style={{
                 transitionDelay: contentVisible ? `${index * 100 + 100}ms` : '0ms'
               }}>
                     <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-destructive/10 flex items-center justify-center">
@@ -84,20 +84,20 @@ export default function LandingProblemSolution() {
 
           {/* Solutions Column */}
           <div className="relative">
-            <div className="absolute -inset-4 bg-primary/5 rounded-3xl -z-10" />
+            <div className="absolute -inset-4 bg-primary/5 rounded-none -z-10" />
             <div className="p-6 sm:p-8">
               <div className="flex items-center gap-3 mb-8">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <CheckCircle className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-extrabold text-foreground">The RugBoost Way</h3>
+                  <h3 className="font-display text-xl font-extrabold text-foreground">The Rugboost Way</h3>
                   <p className="text-sm text-muted-foreground">Fast, accurate, delightful</p>
                 </div>
               </div>
               
               <div className="space-y-4">
-                {solutions.map((item, index) => <div key={index} className={cn("flex gap-4 p-4 rounded-xl bg-card border border-primary/20 transition-all duration-500", contentVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4")} style={{
+                {solutions.map((item, index) => <div key={index} className={cn("flex gap-4 p-4 rounded-none bg-card border border-primary/20 transition-all duration-500", contentVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4")} style={{
                 transitionDelay: contentVisible ? `${index * 100 + 300}ms` : '0ms'
               }}>
                     <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -115,7 +115,7 @@ export default function LandingProblemSolution() {
 
         {/* Transition arrow (desktop) */}
         <div className="hidden lg:flex justify-center -mt-8 relative z-10">
-          <div className={cn("flex items-center justify-center h-16 w-16 rounded-full bg-card border border-border shadow-medium transition-all duration-700 delay-500", contentVisible ? "opacity-100 scale-100" : "opacity-0 scale-75")}>
+          <div className={cn("flex items-center justify-center h-16 w-16 rounded-full bg-card border border-border  transition-all duration-700 delay-500", contentVisible ? "opacity-100 scale-100" : "opacity-0 scale-75")}>
             <ArrowRight className="h-6 w-6 text-primary" />
           </div>
         </div>

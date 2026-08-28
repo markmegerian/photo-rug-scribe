@@ -25,8 +25,8 @@ const MockAnalysisReport = forwardRef<HTMLDivElement>((_, ref) => {
 
       <div className="p-5 space-y-4 pb-20 overflow-auto">
         {/* AI Analysis Badge */}
-        <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-xl border border-primary/20">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+        <div className="flex items-center gap-3 px-4 py-3 bg-muted rounded-xl border border-primary/20">
+          <div className="w-10 h-10 rounded-full bg-foreground flex items-center justify-center">
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div>

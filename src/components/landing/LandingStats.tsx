@@ -5,7 +5,7 @@ const stats = [
   {
     value: '50,000+',
     label: 'Rugs Inspected',
-    description: 'by RugBoost users',
+    description: 'by Rugboost users',
   },
   {
     value: '5.2 hrs',
@@ -41,7 +41,7 @@ export default function LandingStats() {
             <div 
               key={stat.label} 
               className={cn(
-                "text-center p-4 rounded-xl transition-all duration-500",
+                "text-center p-4 rounded-none transition-all duration-500",
                 isVisible ? "opacity-100" : "opacity-0"
               )}
               style={{ transitionDelay: isVisible ? `${index * 80}ms` : '0ms' }}

@@ -10,7 +10,7 @@ const MockClientPortal = forwardRef<HTMLDivElement>((_, ref) => {
       {/* Header */}
       <header className="border-b border-border bg-card px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-foreground flex items-center justify-center shadow-md">
             <span className="text-white font-bold text-lg">R</span>
           </div>
           <div className="flex-1">
@@ -25,7 +25,7 @@ const MockClientPortal = forwardRef<HTMLDivElement>((_, ref) => {
 
       <div className="p-5 space-y-4 pb-48 overflow-auto">
         {/* Welcome Card */}
-        <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 rounded-xl border border-primary/20 p-5">
+        <div className="bg-muted rounded-xl border border-primary/20 p-5">
           <h2 className="font-display text-base font-bold text-foreground mb-2">
             Welcome to Your Portal
           </h2>

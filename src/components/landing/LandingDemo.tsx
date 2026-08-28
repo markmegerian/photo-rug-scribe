@@ -32,7 +32,7 @@ export default function LandingDemo() {
             Interactive Demo
           </span>
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            See RugBoost in action
+            See Rugboost in action
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Try the full experience yourself — snap a photo, get an instant AI analysis, and generate a professional estimate in seconds.
@@ -44,10 +44,10 @@ export default function LandingDemo() {
             src="https://id-preview--a955a398-abf7-4e86-8b6f-4d670a014316.lovable.app/demo"
             width={420}
             height={900}
-            className="border-none rounded-3xl shadow-2xl max-w-full"
+            className="border-none rounded-none  max-w-full"
             style={{ aspectRatio: '420/900' }}
             allow="clipboard-write"
-            title="RugBoost Interactive Demo"
+            title="Rugboost Interactive Demo"
             loading="lazy"
           />
         </div>

@@ -66,7 +66,7 @@ export default function LandingGetStarted() {
             <span className="text-primary">under 5 minutes</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            No complex setup, no IT department needed. If you can take a photo, you can use RugBoost.
+            No complex setup, no IT department needed. If you can take a photo, you can use Rugboost.
           </p>
         </div>
 
@@ -121,7 +121,7 @@ export default function LandingGetStarted() {
 
                 {/* Desktop number circle */}
                 <div className="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
-                  <div className="h-16 w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl shadow-lg border-4 border-background">
+                  <div className="h-16 w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl  border-4 border-background">
                     {step.number}
                   </div>
                 </div>

@@ -75,9 +75,9 @@ export default function MobileCarousel({ children, className }: MobileCarouselPr
             disabled={currentIndex === 0}
             className={cn(
               "hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2",
-              "h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-md",
+              "h-10 w-10 items-center justify-center rounded-full bg-card border border-border ",
               "disabled:opacity-30 disabled:cursor-not-allowed",
-              "hover:bg-accent transition-colors"
+              "hover:bg-muted transition-colors"
             )}
           >
             <ChevronLeft className="h-5 w-5" />
@@ -87,9 +87,9 @@ export default function MobileCarousel({ children, className }: MobileCarouselPr
             disabled={currentIndex === children.length - 1}
             className={cn(
               "hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2",
-              "h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-md",
+              "h-10 w-10 items-center justify-center rounded-full bg-card border border-border ",
               "disabled:opacity-30 disabled:cursor-not-allowed",
-              "hover:bg-accent transition-colors"
+              "hover:bg-muted transition-colors"
             )}
           >
             <ChevronRight className="h-5 w-5" />

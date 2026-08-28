@@ -30,7 +30,7 @@ const defaultPosts: BlogPost[] = [
     title: 'The Complete Guide to AI-Powered Rug Inspection',
     excerpt: 'Learn how artificial intelligence is revolutionizing the rug cleaning industry with faster, more accurate inspections.',
     content: '',
-    author: 'RugBoost Team',
+    author: 'Rugboost Team',
     publishedAt: '2024-01-15',
     readTime: 8,
     category: 'Technology',
@@ -42,7 +42,7 @@ const defaultPosts: BlogPost[] = [
     title: '5 Pricing Strategies That Increased Revenue by 40%',
     excerpt: 'Discover the pricing techniques that top rug cleaning businesses use to maximize their profit margins.',
     content: '',
-    author: 'RugBoost Team',
+    author: 'Rugboost Team',
     publishedAt: '2024-01-10',
     readTime: 6,
     category: 'Business',
@@ -54,7 +54,7 @@ const defaultPosts: BlogPost[] = [
     title: 'How Digital Portals Transform Client Relationships',
     excerpt: 'See how offering clients online access to their jobs leads to higher satisfaction and repeat business.',
     content: '',
-    author: 'RugBoost Team',
+    author: 'Rugboost Team',
     publishedAt: '2024-01-05',
     readTime: 5,
     category: 'Customer Success',
@@ -103,7 +103,7 @@ export default function LandingBlog() {
             <article
               key={post.id}
               className={cn(
-                "group bg-card rounded-2xl border border-border shadow-card overflow-hidden transition-all duration-700 ease-out hover:shadow-medium",
+                "group bg-card rounded-none border border-border  overflow-hidden transition-all duration-700 ease-out hover:",
                 postsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
               style={postsVisible ? getDelay(index) : {}}
@@ -118,7 +118,7 @@ export default function LandingBlog() {
                   />
                 </div>
               ) : (
-                <div className="aspect-[16/9] bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                <div className="aspect-[16/9] bg-muted flex items-center justify-center">
                   <span className="text-4xl opacity-30">📰</span>
                 </div>
               )}

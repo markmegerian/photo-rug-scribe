@@ -107,7 +107,7 @@ export default function PricingComparisonTable() {
       )}
     >
       {/* Desktop Table */}
-      <div className="hidden md:block overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+      <div className="hidden md:block overflow-hidden rounded-none border border-border bg-card shadow-sm">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
@@ -179,7 +179,7 @@ export default function PricingComparisonTable() {
       </div>
 
       {/* Mobile Scrollable Table */}
-      <div className="md:hidden overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+      <div className="md:hidden overflow-hidden rounded-none border border-border bg-card shadow-sm">
         <div className="overflow-x-auto">
           <Table className="min-w-[500px]">
             <TableHeader>

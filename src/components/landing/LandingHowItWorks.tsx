@@ -60,7 +60,7 @@ export default function LandingHowItWorks() {
 
         <div ref={stepsRef} className="relative">
           {/* Connection line (desktop) */}
-          <div className="hidden lg:block absolute top-24 left-[12%] right-[12%] h-0.5 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20" />
+          <div className="hidden lg:block absolute top-24 left-[12%] right-[12%] h-0.5 bg-border" />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
             {steps.map((step, index) => (
@@ -74,7 +74,7 @@ export default function LandingHowItWorks() {
               >
                 {/* Step circle */}
                 <div className="relative mx-auto mb-6">
-                  <div className="h-20 w-20 mx-auto rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-medium">
+                  <div className="h-20 w-20 mx-auto rounded-none bg-foreground flex items-center justify-center ">
                     <step.icon className="h-8 w-8 text-primary-foreground" />
                   </div>
                   {/* Step number */}
@@ -107,7 +107,7 @@ export default function LandingHowItWorks() {
           "mt-16 text-center transition-all duration-700 delay-500",
           stepsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-muted/50 border border-border">
+          <div className="inline-flex items-center gap-3 px-6 py-4 rounded-none bg-muted/50 border border-border">
             <div className="text-left">
               <p className="text-sm text-muted-foreground">Total time</p>
               <p className="text-2xl font-bold text-foreground">Under 3 minutes</p>

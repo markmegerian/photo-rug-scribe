@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const testimonials = [
   {
-    quote: "RugBoost cut our inspection time by 80%. What used to take 30 minutes now takes 5. Our clients love the professional reports, and we've eliminated nearly all pricing disputes.",
+    quote: "Rugboost cut our inspection time by 80%. What used to take 30 minutes now takes 5. Our clients love the professional reports, and we've eliminated nearly all pricing disputes.",
     author: "Michael Chen",
     role: "Owner",
     company: "Pacific Rug Care",
@@ -17,7 +17,7 @@ const testimonials = [
     category: "Efficiency",
   },
   {
-    quote: "I was skeptical about AI accuracy, but RugBoost identifies rug types and conditions better than most of my staff. It catches things we sometimes miss, and the estimates are spot-on.",
+    quote: "I was skeptical about AI accuracy, but Rugboost identifies rug types and conditions better than most of my staff. It catches things we sometimes miss, and the estimates are spot-on.",
     author: "Sarah Martinez",
     role: "Operations Manager",
     company: "Heritage Rugs",
@@ -37,7 +37,7 @@ const testimonials = [
     category: "Client Experience",
   },
   {
-    quote: "We tried other software but nothing stuck. RugBoost was different—my team actually uses it because it saves them time instead of adding work. Setup took 20 minutes.",
+    quote: "We tried other software but nothing stuck. Rugboost was different—my team actually uses it because it saves them time instead of adding work. Setup took 20 minutes.",
     author: "Jennifer Walsh",
     role: "Owner",
     company: "Elite Rug Services",
@@ -116,7 +116,7 @@ export default function LandingTestimonials() {
             <div
               key={testimonial.author}
               className={cn(
-                "relative bg-card rounded-2xl p-6 border border-border shadow-card hover:shadow-medium transition-all duration-700 ease-out group",
+                "relative bg-card rounded-none p-6 border border-border  hover: transition-all duration-700 ease-out group",
                 cardsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
               style={cardsVisible ? getDelay(index) : {}}
@@ -143,7 +143,7 @@ export default function LandingTestimonials() {
 
               {/* Author */}
               <div className="flex items-center gap-3 pt-4 border-t border-border">
-                <div className="h-11 w-11 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-sm font-bold text-primary-foreground">
+                <div className="h-11 w-11 rounded-full bg-foreground flex items-center justify-center text-sm font-bold text-primary-foreground">
                   {testimonial.avatar}
                 </div>
                 <div className="flex-1 min-w-0">

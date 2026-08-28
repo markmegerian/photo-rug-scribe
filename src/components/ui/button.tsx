@@ -5,24 +5,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none text-sm font-semibold tracking-wide ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft hover:shadow-medium active:scale-[0.98]",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-soft",
-        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-soft",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        warm: "bg-gradient-to-r from-rugboost-blue to-rugboost-purple text-primary-foreground shadow-medium hover:shadow-lg active:scale-[0.98]",
-        navy: "bg-navy text-cream hover:bg-navy-light shadow-soft",
+        default: "bg-primary text-primary-foreground hover:bg-primary/85 active:scale-[0.99]",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/70",
+        ghost: "hover:bg-muted hover:text-foreground",
+        link: "text-foreground underline-offset-4 hover:underline",
+        warm: "bg-foreground text-background hover:bg-foreground/85 active:scale-[0.99]",
+        navy: "border border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background",
       },
       size: {
-        default: "h-10 px-5 py-2",
-        sm: "h-9 rounded-md px-4",
-        lg: "h-12 rounded-lg px-8 text-base",
-        xl: "h-14 rounded-xl px-10 text-lg",
+        default: "h-11 px-6 py-2",
+        sm: "h-9 px-4",
+        lg: "h-12 px-8 text-base",
+        xl: "h-14 px-10 text-base",
         icon: "h-10 w-10",
       },
     },
@@ -32,6 +32,7 @@ const buttonVariants = cva(
     },
   },
 );
+
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,

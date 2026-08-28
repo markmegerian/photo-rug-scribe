@@ -28,7 +28,7 @@ const faqs = [
     answer: 'Yes. We use bank-level encryption for all data. Your client information and business data are stored securely and never shared with third parties. We are SOC 2 Type II compliant.',
   },
   {
-    question: 'Can I integrate RugBoost with my existing software?',
+    question: 'Can I integrate Rugboost with my existing software?',
     answer: 'Pro and Enterprise plans include API access for custom integrations. We also offer pre-built integrations with popular accounting and CRM software. Contact us for specific integration needs.',
   },
   {
@@ -58,7 +58,7 @@ export default function LandingFAQ() {
             Frequently asked questions
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground">
-            Everything you need to know about RugBoost.
+            Everything you need to know about Rugboost.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export default function LandingFAQ() {
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="bg-background rounded-xl border border-border px-4 sm:px-6 shadow-card data-[state=open]:shadow-medium transition-shadow"
+                className="bg-background rounded-none border border-border px-4 sm:px-6  data-[state=open]: transition-shadow"
               >
                 <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-4 sm:py-5 text-sm sm:text-base">
                   {faq.question}
@@ -89,7 +89,7 @@ export default function LandingFAQ() {
 
         {/* Contact CTA */}
         <div className={cn(
-          "mt-10 sm:mt-12 text-center p-6 sm:p-8 rounded-2xl bg-muted/50 border border-border transition-all duration-700 delay-300",
+          "mt-10 sm:mt-12 text-center p-6 sm:p-8 rounded-none bg-muted/50 border border-border transition-all duration-700 delay-300",
           contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           <h3 className="text-base sm:text-lg font-bold text-foreground mb-2">

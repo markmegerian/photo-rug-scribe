@@ -28,7 +28,7 @@ const successStories = [
     avatar: 'SC',
     image: '/placeholder.svg',
     headline: 'Saves 8 hours every week',
-    quote: "I used to spend half my day on inspections and estimates. Now I spend that time growing my business. RugBoost paid for itself in the first month.",
+    quote: "I used to spend half my day on inspections and estimates. Now I spend that time growing my business. Rugboost paid for itself in the first month.",
     metrics: [
       { label: 'Weekly Hours Saved', value: '8 hours', icon: Clock },
       { label: 'Pricing Accuracy', value: '100%', icon: Star },
@@ -44,7 +44,7 @@ const successStories = [
     avatar: 'MW',
     image: '/placeholder.svg',
     headline: 'Scaled from 2 to 8 employees',
-    quote: "Training new staff used to take weeks. With RugBoost's guided workflows, new hires are productive on day one. We scaled our team 4x this year.",
+    quote: "Training new staff used to take weeks. With Rugboost's guided workflows, new hires are productive on day one. We scaled our team 4x this year.",
     metrics: [
       { label: 'Team Growth', value: '4x', icon: TrendingUp },
       { label: 'Training Time', value: '1 day', icon: Clock },
@@ -77,7 +77,7 @@ export default function LandingSuccessStories() {
             Real results from real businesses
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Don't just take our word for it. See how RugBoost has transformed these businesses.
+            Don't just take our word for it. See how Rugboost has transformed these businesses.
           </p>
         </div>
 
@@ -87,7 +87,7 @@ export default function LandingSuccessStories() {
             <div 
               key={story.name}
               className={cn(
-                "relative bg-card rounded-3xl border border-border overflow-hidden shadow-card transition-all duration-700",
+                "relative bg-card rounded-none border border-border overflow-hidden  transition-all duration-700",
                 storiesVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
                 index % 2 === 1 && "lg:flex-row-reverse"
               )}
@@ -98,15 +98,15 @@ export default function LandingSuccessStories() {
                 index % 2 === 1 && "lg:[direction:rtl]"
               )}>
                 {/* Image/Video Side */}
-                <div className="relative aspect-video lg:aspect-auto bg-gradient-to-br from-primary/10 to-accent/10 lg:[direction:ltr]">
+                <div className="relative aspect-video lg:aspect-auto bg-muted lg:[direction:ltr]">
                   <div className="absolute inset-0 flex items-center justify-center">
                     {story.videoAvailable ? (
-                      <button className="group flex items-center justify-center h-20 w-20 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-110 transition-transform">
+                      <button className="group flex items-center justify-center h-20 w-20 rounded-full bg-primary text-primary-foreground  hover:scale-110 transition-transform">
                         <Play className="h-8 w-8 ml-1" />
                       </button>
                     ) : (
                       <div className="text-center p-8">
-                        <div className="h-24 w-24 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-3xl font-bold text-primary-foreground mx-auto mb-4">
+                        <div className="h-24 w-24 rounded-full bg-foreground flex items-center justify-center text-3xl font-bold text-primary-foreground mx-auto mb-4">
                           {story.avatar}
                         </div>
                         <p className="font-semibold text-foreground">{story.name}</p>
@@ -150,7 +150,7 @@ export default function LandingSuccessStories() {
 
                   {/* Author */}
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-sm font-bold text-primary-foreground">
+                    <div className="h-12 w-12 rounded-full bg-foreground flex items-center justify-center text-sm font-bold text-primary-foreground">
                       {story.avatar}
                     </div>
                     <div>
@@ -160,7 +160,7 @@ export default function LandingSuccessStories() {
                   </div>
 
                   {/* Metrics */}
-                  <div className="grid grid-cols-3 gap-4 p-4 rounded-xl bg-muted/50">
+                  <div className="grid grid-cols-3 gap-4 p-4 rounded-none bg-muted/50">
                     {story.metrics.map((metric) => (
                       <div key={metric.label} className="text-center">
                         <metric.icon className="h-5 w-5 text-primary mx-auto mb-1" />

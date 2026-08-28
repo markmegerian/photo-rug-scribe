@@ -36,7 +36,7 @@ const MockPhotoCapture = forwardRef<HTMLDivElement>((_, ref) => {
             <span className="text-sm font-bold text-primary">3 of 5</span>
           </div>
           <div className="h-2.5 bg-muted rounded-full overflow-hidden">
-            <div className="h-full w-3/5 bg-gradient-to-r from-primary to-accent rounded-full transition-all" />
+            <div className="h-full w-3/5 bg-foreground rounded-full transition-all" />
           </div>
         </div>
 
@@ -68,7 +68,7 @@ const MockPhotoCapture = forwardRef<HTMLDivElement>((_, ref) => {
           {/* Capture button */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
             <button className="w-16 h-16 rounded-full bg-white border-4 border-white/50 flex items-center justify-center shadow-lg hover:scale-105 transition-transform" aria-label="Capture photo">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent" />
+              <div className="w-12 h-12 rounded-full bg-foreground" />
             </button>
           </div>
         </div>

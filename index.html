@@ -22,7 +22,7 @@
     <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- iOS App Store / Capacitor Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -36,16 +36,16 @@
     <!-- The app icon will be auto-generated from AppIcon.appiconset in Xcode -->
     
     <!-- Fallback touch icon using existing favicon -->
-    <link rel="apple-touch-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
     
     <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#f7f5f3" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
     
-    <title>Rugboost - Refined Inspection</title>
+    <title>Rugboost — AI Rug Inspections in Under 60 Seconds</title>
     <meta name="description" content="Professional rug cleaning inspection app with AI-powered analysis, automated estimates, and client portal. Streamline your rug cleaning business workflow.">
     <meta name="keywords" content="rug cleaning, rug inspection, AI analysis, carpet cleaning, professional cleaning">
     <meta name="author" content="RugBoost" />
@@ -63,13 +63,14 @@
     
     
   
-    <link rel="icon" type="image/svg+xml" href="https://storage.googleapis.com/gpt-engineer-file-uploads/UAZGezYaP5VpDciEgiyPBTBIonQ2/uploads/1768589107611-gmit-icon-transparent.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.ico" sizes="any">
     
   
   
   
-  <meta property="og:title" content="Rugboost - Refined Inspection">
-  <meta name="twitter:title" content="Rugboost - Refined Inspection">
+  <meta property="og:title" content="Rugboost — AI Rug Inspections in Under 60 Seconds">
+  <meta name="twitter:title" content="Rugboost — AI Rug Inspections in Under 60 Seconds">
   <meta property="og:description" content="Professional rug cleaning inspection app with AI-powered analysis, automated estimates, and client portal. Streamline your rug cleaning business workflow.">
   <meta name="twitter:description" content="Professional rug cleaning inspection app with AI-powered analysis, automated estimates, and client portal. Streamline your rug cleaning business workflow.">
   <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/UAZGezYaP5VpDciEgiyPBTBIonQ2/social-images/social-1770518038386-IMG_5142.png">
@@ -85,7 +86,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          background: hsl(30, 25%, 97%);
+          background: #ffffff;
         }
         @supports (padding: env(safe-area-inset-top)) {
           .initial-loader {
@@ -96,8 +97,8 @@
         .initial-loader-spinner {
           width: 32px;
           height: 32px;
-          border: 3px solid hsl(220, 15%, 94%);
-          border-top-color: hsl(210, 70%, 45%);
+          border: 2px solid #e5e5e5;
+          border-top-color: #000000;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
         }

@@ -42,7 +42,7 @@ export default function BlogPage() {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="font-display text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              RugBoost Blog
+              Rugboost Blog
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Industry insights, best practices, and tips to help you grow your rug cleaning business.
@@ -54,9 +54,9 @@ export default function BlogPage() {
             {posts.map((post) => (
               <article
                 key={post.id}
-                className="group bg-card rounded-2xl border border-border shadow-card overflow-hidden hover:shadow-medium transition-shadow"
+                className="group bg-card rounded-none border border-border  overflow-hidden hover: transition-shadow"
               >
-                <div className="aspect-[16/9] bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                <div className="aspect-[16/9] bg-muted flex items-center justify-center">
                   <span className="text-4xl opacity-30">📰</span>
                 </div>
 

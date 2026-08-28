@@ -43,19 +43,19 @@ export default function LandingComparison() {
         <div ref={headerRef} className={cn("text-center mb-12 transition-all duration-700 ease-out", headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8")}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
             <Sparkles className="h-4 w-4" />
-            Why Choose RugBoost
+            Why Choose Rugboost
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4">
             The smarter way to run your{' '}
             <span className="text-primary">rug business</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            See exactly how RugBoost transforms every aspect of your operation.
+            See exactly how Rugboost transforms every aspect of your operation.
           </p>
         </div>
 
         {/* Comparison Table */}
-        <div ref={tableRef} className={cn("rounded-3xl border border-border overflow-hidden shadow-card mb-12 transition-all duration-700", tableVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8")}>
+        <div ref={tableRef} className={cn("rounded-none border border-border overflow-hidden  mb-12 transition-all duration-700", tableVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8")}>
           {/* Table Header */}
           <div className="grid grid-cols-3 bg-muted/50">
             <div className="p-4 md:p-6 font-semibold text-muted-foreground">
@@ -70,7 +70,7 @@ export default function LandingComparison() {
             <div className="p-4 md:p-6 font-semibold text-center bg-primary/5 border-l border-border">
               <div className="flex items-center justify-center gap-2">
                 <Check className="h-4 w-4 text-primary" />
-                <span className="text-primary">RugBoost</span>
+                <span className="text-primary">Rugboost</span>
               </div>
             </div>
           </div>

@@ -22,7 +22,7 @@ const MockEstimate = forwardRef<HTMLDivElement>((_, ref) => {
 
       <div className="p-5 space-y-4 pb-24 overflow-auto">
         {/* Summary Card */}
-        <div className="bg-gradient-to-br from-primary via-primary to-accent rounded-xl p-5 text-white shadow-lg">
+        <div className="bg-foreground rounded-xl p-5 text-white shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm opacity-90">Total Investment</p>
             <FileCheck className="h-5 w-5 opacity-80" />
