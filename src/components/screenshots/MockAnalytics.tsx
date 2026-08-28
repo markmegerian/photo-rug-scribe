@@ -12,7 +12,7 @@ const MockAnalytics = forwardRef<HTMLDivElement>((_, ref) => {
             <span className="text-white font-bold text-lg">R</span>
           </div>
           <div className="flex-1">
-            <h1 className="font-display text-lg font-bold text-foreground">Analytics</h1>
+            <p className="font-display text-lg font-bold text-foreground">Analytics</p>
             <p className="text-xs text-muted-foreground">Business Performance</p>
           </div>
           <button className="h-9 px-3 rounded-lg bg-muted flex items-center gap-2">

@@ -19,7 +19,7 @@ const MockDashboard = forwardRef<HTMLDivElement>((_, ref) => {
               <span className="text-white font-bold text-lg">R</span>
             </div>
             <div>
-              <h1 className="font-display text-lg font-bold text-foreground">Rugboost</h1>
+              <p className="font-display text-lg font-bold text-foreground">Rugboost</p>
               <p className="text-xs text-muted-foreground">Job Dashboard</p>
             </div>
           </div>

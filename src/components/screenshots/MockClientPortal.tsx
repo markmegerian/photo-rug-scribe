@@ -14,7 +14,7 @@ const MockClientPortal = forwardRef<HTMLDivElement>((_, ref) => {
             <span className="text-white font-bold text-lg">R</span>
           </div>
           <div className="flex-1">
-            <h1 className="font-display text-lg font-bold text-foreground">Your Rugs</h1>
+            <p className="font-display text-lg font-bold text-foreground">Your Rugs</p>
             <p className="text-xs text-muted-foreground">Katherine Morrison</p>
           </div>
           <button className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center" aria-label="User profile">

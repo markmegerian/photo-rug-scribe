@@ -154,6 +154,7 @@ const DeviceFrame = forwardRef<HTMLDivElement, DeviceFrameProps>(({
                 height: specs.displayHeight,
                 transform: `scale(${scale})`,
                 transformOrigin: 'top left',
+                paddingTop: 48,
               }}
             >
               {children}
@@ -164,6 +165,7 @@ const DeviceFrame = forwardRef<HTMLDivElement, DeviceFrameProps>(({
           <div 
             className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between"
             style={{ 
+              backgroundColor: 'hsl(var(--background))',
               height: 48 * scale, 
               paddingLeft: 24 * scale,
               paddingRight: 24 * scale,

@@ -19,7 +19,7 @@ const MockPhotoCapture = forwardRef<HTMLDivElement>((_, ref) => {
             <ArrowLeft className="h-4 w-4 text-muted-foreground" />
           </button>
           <div className="flex-1">
-            <h1 className="font-display text-lg font-bold text-foreground">Capture Photos</h1>
+            <p className="font-display text-lg font-bold text-foreground">Capture Photos</p>
             <p className="text-xs text-muted-foreground">RUG-001 • Antique Persian Tabriz</p>
           </div>
         </div>

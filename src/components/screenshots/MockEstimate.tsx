@@ -14,7 +14,7 @@ const MockEstimate = forwardRef<HTMLDivElement>((_, ref) => {
             <ArrowLeft className="h-4 w-4 text-muted-foreground" />
           </button>
           <div className="flex-1">
-            <h1 className="font-display text-lg font-bold text-foreground">Estimate Review</h1>
+            <p className="font-display text-lg font-bold text-foreground">Estimate Review</p>
             <p className="text-xs text-muted-foreground">3 rugs • Morrison Job</p>
           </div>
         </div>
