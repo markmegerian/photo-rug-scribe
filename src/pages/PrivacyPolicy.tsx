@@ -4,7 +4,7 @@ import { ArrowLeft, Shield, Lock, Eye, Database, Mail, Users } from 'lucide-reac
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import rugboostLogo from '@/assets/rugboost-logo.svg';
+import rugboostLogo from '@/assets/rugboost-horizontal.svg';
 
 const PrivacyPolicy = () => {
   return (
@@ -13,8 +13,7 @@ const PrivacyPolicy = () => {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-8 w-8" />
-            <span className="font-display text-lg font-bold text-foreground">Rugboost</span>
+            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
           </Link>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/" className="gap-2">

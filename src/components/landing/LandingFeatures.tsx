@@ -153,7 +153,7 @@ export default function LandingFeatures() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
 
   return (
-    <section id="features" className="py-12 md:py-24 bg-gradient-to-b from-muted/20 to-background">
+    <section id="features" className="py-12 md:py-24 overflow-x-hidden bg-gradient-to-b from-muted/20 to-background">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div 
           ref={headerRef}

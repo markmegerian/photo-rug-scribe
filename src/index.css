@@ -111,6 +111,31 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  /* Visible keyboard focus on the monochrome palette */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+
+  /* Dark surfaces (footer, CTA band) need an inverted focus ring */
+  .bg-foreground :focus-visible,
+  .dark :focus-visible {
+    outline-color: hsl(var(--background));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+
   /* Safe area aware sticky headers */
   .sticky-header {
     padding-top: max(env(safe-area-inset-top), 0px);
