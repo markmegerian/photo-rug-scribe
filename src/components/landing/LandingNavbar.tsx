@@ -7,12 +7,13 @@ import { cn } from '@/lib/utils';
 import { trackCTAClick, trackNavClick } from '@/lib/analytics';
 
 const navLinks = [
+  { label: 'Demo', href: '#demo' },
   { label: 'Features', href: '#features' },
-  { label: 'How It Works', href: '#how-it-works' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'FAQ', href: '#faq' },
   { label: 'Blog', href: '/blog', isRoute: true },
 ];
+
 
 export default function LandingNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);

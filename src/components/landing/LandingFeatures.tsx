@@ -1,8 +1,11 @@
 import { lazy, Suspense } from 'react';
 import DeviceFrame from '@/components/screenshots/DeviceFrame';
+import { Button } from '@/components/ui/button';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { trackCTAClick } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
-import { Sparkles, Clock, Users, TrendingUp, Camera, FileCheck } from 'lucide-react';
+import { Sparkles, ArrowRight, TrendingUp, FileCheck } from 'lucide-react';
+
 
 // Lazy load mock components
 const MockDashboard = lazy(() => import('@/components/screenshots/MockDashboard'));
