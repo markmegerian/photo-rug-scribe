@@ -13,29 +13,22 @@ import { MessageCircle } from 'lucide-react';
 const faqs = [
   {
     question: 'How accurate is the AI analysis?',
-    answer: 'Our AI has been trained on thousands of rug images and achieves over 95% accuracy in identifying rug types, origins, and common condition issues. For edge cases, you can always make manual adjustments.',
+    answer: 'Our AI is trained on thousands of rug images and achieves over 95% accuracy on type, origin, and common condition issues. You can adjust anything manually.',
   },
   {
-    question: 'Can I customize the pricing for my services?',
-    answer: 'Absolutely. You can set custom prices per square foot for each service, create pricing tiers based on rug type, and even set minimum charges. The AI uses your pricing to generate estimates automatically.',
+    question: 'Can I use my own pricing?',
+    answer: 'Yes. Set your own rates per service and rug type, and estimates generate automatically using your numbers.',
   },
   {
     question: 'How does the client portal work?',
-    answer: 'When you are ready, you can invite clients via email. They receive a secure link to view their rug inspections, approve estimates, make payments, and track job progress. No app download required.',
+    answer: 'Clients get a secure link to view inspections, approve estimates, pay, and track progress. No app download required.',
   },
   {
     question: 'Is my data secure?',
-    answer: 'Yes. We use bank-level encryption for all data. Your client information and business data are stored securely and never shared with third parties. We are SOC 2 Type II compliant.',
-  },
-  {
-    question: 'Can I integrate Rugboost with my existing software?',
-    answer: 'Pro and Enterprise plans include API access for custom integrations. We also offer pre-built integrations with popular accounting and CRM software. Contact us for specific integration needs.',
-  },
-  {
-    question: 'What happens after the free trial?',
-    answer: 'After 14 days, you can choose to subscribe to a paid plan. If you do not subscribe, your account will be read-only. You can export your data at any time. We do not auto-charge.',
+    answer: 'Yes. Bank-level encryption, never shared with third parties, and SOC 2 Type II compliant.',
   },
 ];
+
 
 export default function LandingFAQ() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
