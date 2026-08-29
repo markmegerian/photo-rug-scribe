@@ -167,7 +167,17 @@ export default function LandingFeatures() {
             <FeatureRow key={feature.id} feature={feature} index={index} />
           ))}
         </div>
+
+        <div className="mt-16 md:mt-24 text-center">
+          <Button size="lg" variant="warm" className="gap-2" asChild>
+            <a href="/support" onClick={() => trackCTAClick('Request a Demo', 'features')}>
+              Request a Demo
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
 }
+
