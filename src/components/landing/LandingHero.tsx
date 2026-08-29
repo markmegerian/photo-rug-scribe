@@ -40,48 +40,40 @@ export default function LandingHero() {
               textVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             )}
           >
-            {/* Social proof badge - hidden on very small screens */}
-            <div className="hidden sm:inline-flex items-center gap-3 px-4 py-2 border border-foreground/15 bg-background text-sm mb-7">
-              <div className="flex -space-x-2">
-                {['MC', 'SM', 'DT'].map((initials, i) => (
-                  <div 
-                    key={i} 
-                    className="h-7 w-7 rounded-full bg-foreground flex items-center justify-center text-[10px] text-background font-bold border-2 border-background"
-                  >
-                    {initials}
-                  </div>
-                ))}
-              </div>
-              <div className="text-left">
-                <span className="text-foreground font-semibold">500+</span>
-                <span className="text-muted-foreground"> rug professionals</span>
-              </div>
-            </div>
-            
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4rem] font-extrabold text-foreground leading-[1.02] mb-5 sm:mb-6">
-              Rug inspections that take{' '}
-              <span className="italic font-normal">minutes,</span>{' '}
-              not hours
-            </h1>
-            
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-7 sm:mb-9 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Rugboost uses AI to analyze rugs, generate accurate estimates, and delight clients with a modern digital experience—all in <span className="text-foreground font-medium">under 60 seconds</span>.
+            {/* Audience line */}
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-5">
+              For rug cleaning &amp; repair businesses
             </p>
 
-            
-            {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-6">
-              <Button size="lg" variant="warm" className="h-12 px-6 whitespace-nowrap gap-2 text-base" asChild>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4rem] font-extrabold text-foreground leading-[1.02] mb-5 sm:mb-6">
+              Photograph a rug. Send a priced repair report in{' '}
+              <span className="italic font-normal">60 seconds.</span>
+            </h1>
+
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-7 sm:mb-9 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              Rugboost replaces the 30-minute manual inspection: AI reads the rug, prices the work with your rates, and your client approves and pays online.
+            </p>
+
+            {/* Primary CTA */}
+            <div className="flex flex-col items-center lg:items-start gap-3 mb-7">
+              <Button size="lg" variant="warm" className="h-12 px-7 gap-2 text-base w-full sm:w-auto" asChild>
                 <a href="/support" onClick={() => trackCTAClick('Request a Demo', 'hero')}>
                   Request a Demo
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="h-12 px-6 text-base" onClick={() => { trackCTAClick('View Pricing', 'hero'); document.querySelector('#pricing')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                View Pricing
-              </Button>
+              <button
+                type="button"
+                className="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
+                onClick={() => {
+                  trackCTAClick('See the interactive demo', 'hero');
+                  document.querySelector('#demo')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Or try the interactive demo
+              </button>
             </div>
-            
+
             {/* Quick wins */}
             <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2">
               {quickWins.map((win, i) => (
@@ -91,6 +83,7 @@ export default function LandingHero() {
                 </div>
               ))}
             </div>
+
           </div>
 
           {/* Device Mockup */}
