@@ -8,10 +8,11 @@ import { Link } from 'react-router-dom';
 import { trackCTAClick } from '@/lib/analytics';
 
 const quickWins = [
-  "Inspections in under 60 seconds",
-  "Estimates clients approve online",
-  "Built for rug care businesses"
+  "Used by 500+ rug professionals",
+  "Your pricing, applied automatically",
+  "Clients approve and pay online"
 ];
+
 
 
 export default function LandingHero() {

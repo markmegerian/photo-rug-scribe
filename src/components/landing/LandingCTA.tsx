@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 import { trackCTAClick } from '@/lib/analytics';
 
 const benefits = [
-  "14-day free trial",
-  "No credit card required",
-  "Full feature access",
-  "Cancel anytime"
+  "Live walkthrough with your rugs",
+  "Setup help included",
+  "No commitment"
 ];
+
 
 export default function LandingCTA() {
   const { ref, isVisible } = useScrollAnimation();
