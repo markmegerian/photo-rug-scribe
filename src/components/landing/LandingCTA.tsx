@@ -35,13 +35,11 @@ export default function LandingCTA() {
           )}
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-background mb-6 leading-[1.05]">
-            Ready to transform your rug business?
+            Get your next inspection done in 60 seconds
           </h2>
 
-          
           <p className="text-lg sm:text-xl text-background/80 mb-8 max-w-2xl mx-auto">
-            Join 500+ rug cleaning professionals who save 5+ hours every week with Rugboost. 
-            Start your free trial today.
+            See Rugboost run on your own rugs, your own pricing, and your own workflow. A 20-minute demo is all it takes.
           </p>
 
           {/* Benefits row */}
@@ -54,12 +52,12 @@ export default function LandingCTA() {
             ))}
           </div>
 
-          {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Single primary CTA */}
+          <div className="flex justify-center">
             <Button 
               size="xl" 
               variant="secondary"
-              className="bg-background text-foreground hover:bg-background/85 gap-2"
+              className="bg-background text-foreground hover:bg-background/85 gap-2 w-full sm:w-auto"
               asChild
             >
               <Link to="/support" onClick={() => trackCTAClick('Request a Demo', 'bottom_cta')}>
@@ -67,14 +65,8 @@ export default function LandingCTA() {
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
-            <Button 
-              size="xl" 
-              variant="ghost"
-              className="text-background border-2 border-background/40 hover:bg-background/10 hover:text-background"
-            >
-              Watch Demo
-            </Button>
           </div>
+
 
           <p className="mt-8 text-sm text-background/60">
             Questions? <Link to="/support" className="underline hover:text-background/80 transition-colors">Talk to our team</Link>
