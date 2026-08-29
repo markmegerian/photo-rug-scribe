@@ -1,8 +1,11 @@
 import { lazy, Suspense } from 'react';
 import DeviceFrame from '@/components/screenshots/DeviceFrame';
+import { Button } from '@/components/ui/button';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { trackCTAClick } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
-import { Sparkles, Clock, Users, TrendingUp, Camera, FileCheck } from 'lucide-react';
+import { Sparkles, ArrowRight, TrendingUp, FileCheck } from 'lucide-react';
+
 
 // Lazy load mock components
 const MockDashboard = lazy(() => import('@/components/screenshots/MockDashboard'));
@@ -167,7 +170,17 @@ export default function LandingFeatures() {
             <FeatureRow key={feature.id} feature={feature} index={index} />
           ))}
         </div>
+
+        <div className="mt-16 md:mt-24 text-center">
+          <Button size="lg" variant="warm" className="gap-2" asChild>
+            <a href="/support" onClick={() => trackCTAClick('Request a Demo', 'features')}>
+              Request a Demo
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
 }
+
