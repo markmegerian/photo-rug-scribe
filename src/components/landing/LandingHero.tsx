@@ -8,10 +8,11 @@ import { Link } from 'react-router-dom';
 import { trackCTAClick } from '@/lib/analytics';
 
 const quickWins = [
-  "14-day free trial",
-  "No credit card required", 
-  "Setup in 5 minutes"
+  "Inspections in under 60 seconds",
+  "Estimates clients approve online",
+  "Built for rug care businesses"
 ];
+
 
 export default function LandingHero() {
   const { ref: textRef, isVisible: textVisible } = useScrollAnimation({ threshold: 0.2 });

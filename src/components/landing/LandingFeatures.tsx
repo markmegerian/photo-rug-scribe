@@ -22,42 +22,33 @@ const features = [
     icon: Sparkles,
     title: 'AI-Powered Inspections',
     subtitle: 'From 30 minutes to 30 seconds',
-    description: 'Our AI analyzes rug photos to identify type, origin, condition issues, and recommended services—instantly.',
-    highlights: ['Automatic rug type identification', 'Condition issue detection', 'Smart service recommendations'],
+    description: 'Photograph a rug and get type, origin, condition issues, and recommended services instantly.',
+    highlights: ['Automatic rug identification', 'Condition issue detection'],
     metric: { value: '94%', label: 'faster than manual' },
     MockComponent: MockAnalysisReport,
   },
   {
     id: 'estimate',
     icon: FileCheck,
-    title: 'Professional Estimates',
-    subtitle: 'One-tap approval flow',
-    description: 'Generate detailed, itemized estimates automatically based on AI analysis. Clients approve online with a single click.',
-    highlights: ['Itemized pricing breakdown', 'Required vs optional services', 'Instant client notifications'],
+    title: 'Estimates That Close',
+    subtitle: 'One-tap approval',
+    description: 'Itemized estimates generate themselves from your pricing rules — clients approve and pay online.',
+    highlights: ['Itemized pricing breakdown', 'Online approval and payment'],
     metric: { value: '68%', label: 'higher approval rate' },
     MockComponent: MockEstimate,
   },
   {
-    id: 'portal',
-    icon: Users,
-    title: 'Seamless Client Experience',
-    subtitle: "A portal they'll actually love",
-    description: 'Clients receive a personalized portal to view inspections, approve estimates, make payments, and track their rugs.',
-    highlights: ['Digital estimate approval', 'Secure online payments', 'Real-time job tracking'],
-    metric: { value: '3x', label: 'more referrals' },
-    MockComponent: MockClientPortal,
-  },
-  {
     id: 'analytics',
     icon: TrendingUp,
-    title: 'Business Intelligence',
+    title: 'Know Your Numbers',
     subtitle: 'Data-driven decisions',
-    description: 'Understand your business with real-time analytics. Track revenue, conversion rates, popular services, and team performance.',
-    highlights: ['Revenue & margin tracking', 'Service popularity insights', 'Team performance metrics'],
+    description: 'Track revenue, conversion rates, and team performance in real time.',
+    highlights: ['Revenue & margin tracking', 'Team performance metrics'],
     metric: { value: '23%', label: 'revenue increase avg' },
     MockComponent: MockAnalytics,
   },
 ];
+
 
 function FeatureRow({ feature, index }: { feature: typeof features[0]; index: number }) {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.15 });
@@ -162,15 +153,13 @@ export default function LandingFeatures() {
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-2 sm:mb-3">
-            Powerful Features
-          </p>
           <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground mb-3 sm:mb-4 leading-tight">
             Everything you need to scale
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            From AI-powered inspections to seamless client portals—Rugboost handles every step of your workflow.
+            Three things Rugboost does better than any manual process.
           </p>
+
         </div>
 
         <div className="space-y-16 md:space-y-32">
