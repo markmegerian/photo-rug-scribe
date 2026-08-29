@@ -153,15 +153,13 @@ export default function LandingFeatures() {
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-2 sm:mb-3">
-            Powerful Features
-          </p>
           <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground mb-3 sm:mb-4 leading-tight">
             Everything you need to scale
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            From AI-powered inspections to seamless client portals—Rugboost handles every step of your workflow.
+            Three things Rugboost does better than any manual process.
           </p>
+
         </div>
 
         <div className="space-y-16 md:space-y-32">
