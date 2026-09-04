@@ -17,12 +17,12 @@ import {
 const plans = [
   {
     name: 'Starter',
-    price: '$49',
+    price: '$200',
     period: '/month',
-    annualPrice: '$39',
-    description: 'Perfect for small operations getting started.',
+    annualPrice: null,
+    description: 'For single-location rug care businesses.',
     features: [
-      { text: 'Up to 2 staff users', tooltip: 'Add additional users for $15/month each' },
+      { text: 'Includes 2 staff users', tooltip: 'Each additional user is billed separately' },
       { text: 'Unlimited rug inspections', tooltip: null },
       { text: 'AI-powered analysis', tooltip: 'Identifies rug type, origin, and condition' },
       { text: 'Professional estimates', tooltip: 'Branded PDF estimates with your logo' },
@@ -30,18 +30,18 @@ const plans = [
       { text: 'Email support', tooltip: 'Response within 24 hours' },
     ],
     highlighted: false,
-    cta: 'Start Free Trial',
+    cta: 'Request a Demo',
     ctaVariant: 'outline' as const,
     savings: null,
   },
   {
     name: 'Pro',
-    price: '$129',
+    price: '$500',
     period: '/month',
-    annualPrice: '$99',
-    description: 'For growing businesses that need more power.',
+    annualPrice: null,
+    description: 'For growing teams that need more power.',
     features: [
-      { text: 'Up to 10 staff users', tooltip: 'Add additional users for $10/month each' },
+      { text: 'Includes 10 staff users', tooltip: 'Each additional user is billed separately' },
       { text: 'Everything in Starter, plus:', tooltip: null },
       { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
       { text: 'Custom email templates', tooltip: 'Automated notifications with your branding' },
@@ -51,19 +51,19 @@ const plans = [
       { text: 'API access', tooltip: 'Integrate with your existing systems' },
     ],
     highlighted: true,
-    cta: 'Start Free Trial',
+    cta: 'Request a Demo',
     ctaVariant: 'warm' as const,
     badge: 'Most Popular',
-    savings: 'Save $360/year with annual',
+    savings: null,
   },
   {
     name: 'Enterprise',
     price: 'Custom',
     period: '',
     annualPrice: null,
-    description: 'For large operations with custom needs.',
+    description: 'For multi-location operations with custom needs.',
     features: [
-      { text: 'Unlimited staff users', tooltip: null },
+      { text: 'Custom user allocation', tooltip: 'Additional users priced per agreement' },
       { text: 'Everything in Pro, plus:', tooltip: null },
       { text: 'White-label solution', tooltip: 'Your brand, your domain' },
       { text: 'Custom integrations', tooltip: 'Connect to any system you use' },
@@ -77,6 +77,7 @@ const plans = [
     savings: null,
   },
 ];
+
 
 const valueProps = [
   { metric: '5+ hrs', label: 'Saved weekly' },
@@ -98,14 +99,15 @@ export default function LandingPricing() {
   return (
     <section id="pricing" className="py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Trial banner */}
+        {/* Billing note */}
         <div className="max-w-2xl mx-auto mb-12 p-4 rounded-none bg-muted border border-border flex items-center justify-center gap-3 text-center">
           <Zap className="h-5 w-5 text-primary flex-shrink-0" />
           <p className="text-sm">
-            <span className="font-semibold text-foreground">14-day free trial</span>
-            <span className="text-muted-foreground"> • Full access • No credit card • Cancel anytime</span>
+            <span className="font-semibold text-foreground">Team-based pricing</span>
+            <span className="text-muted-foreground"> • Each additional user beyond your plan's included seats is an added monthly cost</span>
           </p>
         </div>
+
 
         <TooltipProvider>
           <div ref={cardsRef} className="grid md:grid-cols-3 gap-6 lg:gap-8">
@@ -217,7 +219,8 @@ export default function LandingPricing() {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground text-center mb-2">
-            All prices in USD. Annual billing saves you 2 months.
+            All prices in USD. Additional users are billed at an added monthly cost per seat.
+
           </p>
           <p className="text-sm text-muted-foreground text-center">
             Need a custom solution? <Link to="/support" className="text-primary hover:underline">Talk to sales</Link>
