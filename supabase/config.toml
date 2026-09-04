@@ -1,1 +1,4 @@
 project_id = "cgisdlcpfkvzvpprbuep"
+
+[functions.analyze-rug]
+verify_jwt = false

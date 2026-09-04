@@ -60,7 +60,7 @@ export default function LandingCTA() {
               className="bg-background text-foreground hover:bg-background/85 gap-2 w-full sm:w-auto"
               asChild
             >
-              <Link to="/support" onClick={() => trackCTAClick('Request a Demo', 'bottom_cta')}>
+              <Link to="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'bottom_cta')}>
                 Request a Demo
                 <ArrowRight className="h-5 w-5" />
               </Link>

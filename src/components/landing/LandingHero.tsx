@@ -58,7 +58,7 @@ export default function LandingHero() {
             {/* Primary CTA */}
             <div className="flex flex-col items-center lg:items-start gap-3 mb-7">
               <Button size="lg" variant="warm" className="h-12 px-7 gap-2 text-base w-full sm:w-auto" asChild>
-                <a href="/support" onClick={() => trackCTAClick('Request a Demo', 'hero')}>
+                <a href="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'hero')}>
                   Request a Demo
                   <ArrowRight className="h-4 w-4" />
                 </a>

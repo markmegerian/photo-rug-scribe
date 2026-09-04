@@ -221,7 +221,7 @@ export default function LandingPricing() {
                         <ArrowRight className="h-4 w-4" />
                       </a>
                     ) : (
-                      <Link to="/support">
+                      <Link to={`/request-demo?plan=${plan.name.toLowerCase()}`}>
                         {plan.cta}
                         <ArrowRight className="h-4 w-4" />
                       </Link>
