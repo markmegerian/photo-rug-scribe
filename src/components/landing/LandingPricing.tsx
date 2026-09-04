@@ -17,12 +17,12 @@ import {
 const plans = [
   {
     name: 'Starter',
-    price: '$49',
+    price: '$200',
     period: '/month',
-    annualPrice: '$39',
-    description: 'Perfect for small operations getting started.',
+    annualPrice: null,
+    description: 'For single-location rug care businesses.',
     features: [
-      { text: 'Up to 2 staff users', tooltip: 'Add additional users for $15/month each' },
+      { text: 'Includes 2 staff users', tooltip: 'Each additional user is billed separately' },
       { text: 'Unlimited rug inspections', tooltip: null },
       { text: 'AI-powered analysis', tooltip: 'Identifies rug type, origin, and condition' },
       { text: 'Professional estimates', tooltip: 'Branded PDF estimates with your logo' },
@@ -30,18 +30,18 @@ const plans = [
       { text: 'Email support', tooltip: 'Response within 24 hours' },
     ],
     highlighted: false,
-    cta: 'Start Free Trial',
+    cta: 'Request a Demo',
     ctaVariant: 'outline' as const,
     savings: null,
   },
   {
     name: 'Pro',
-    price: '$129',
+    price: '$500',
     period: '/month',
-    annualPrice: '$99',
-    description: 'For growing businesses that need more power.',
+    annualPrice: null,
+    description: 'For growing teams that need more power.',
     features: [
-      { text: 'Up to 10 staff users', tooltip: 'Add additional users for $10/month each' },
+      { text: 'Includes 10 staff users', tooltip: 'Each additional user is billed separately' },
       { text: 'Everything in Starter, plus:', tooltip: null },
       { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
       { text: 'Custom email templates', tooltip: 'Automated notifications with your branding' },
@@ -51,19 +51,19 @@ const plans = [
       { text: 'API access', tooltip: 'Integrate with your existing systems' },
     ],
     highlighted: true,
-    cta: 'Start Free Trial',
+    cta: 'Request a Demo',
     ctaVariant: 'warm' as const,
     badge: 'Most Popular',
-    savings: 'Save $360/year with annual',
+    savings: null,
   },
   {
     name: 'Enterprise',
     price: 'Custom',
     period: '',
     annualPrice: null,
-    description: 'For large operations with custom needs.',
+    description: 'For multi-location operations with custom needs.',
     features: [
-      { text: 'Unlimited staff users', tooltip: null },
+      { text: 'Custom user allocation', tooltip: 'Additional users priced per agreement' },
       { text: 'Everything in Pro, plus:', tooltip: null },
       { text: 'White-label solution', tooltip: 'Your brand, your domain' },
       { text: 'Custom integrations', tooltip: 'Connect to any system you use' },
@@ -77,6 +77,7 @@ const plans = [
     savings: null,
   },
 ];
+
 
 const valueProps = [
   { metric: '5+ hrs', label: 'Saved weekly' },
