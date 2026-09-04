@@ -6,13 +6,20 @@ import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { trackPricingView, trackPricingPlanClick } from '@/lib/analytics';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+const usageTiers = [
+  { label: '25 estimates / month', price: '$200' },
+  { label: '50 estimates / month', price: '$275' },
+  { label: '100 estimates / month', price: '$400' },
+  { label: '250 estimates / month', price: '$650' },
+];
 
 const plans = [
   {
@@ -22,8 +29,7 @@ const plans = [
     annualPrice: null,
     description: 'For single-location rug care businesses.',
     features: [
-      { text: 'Includes 2 staff users', tooltip: 'Each additional user is billed separately' },
-      { text: 'Unlimited rug inspections', tooltip: null },
+      { text: '25 rug inspection estimates / month', tooltip: 'Add more monthly estimates from the dropdown above' },
       { text: 'AI-powered analysis', tooltip: 'Identifies rug type, origin, and condition' },
       { text: 'Professional estimates', tooltip: 'Branded PDF estimates with your logo' },
       { text: 'Client portal access', tooltip: 'Clients can approve & pay online' },
@@ -41,8 +47,9 @@ const plans = [
     annualPrice: null,
     description: 'For growing teams that need more power.',
     features: [
-      { text: 'Includes 10 staff users', tooltip: 'Each additional user is billed separately' },
+      { text: 'High-volume estimate allowance', tooltip: 'Monthly volume set with you during onboarding' },
       { text: 'Everything in Starter, plus:', tooltip: null },
+
       { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
       { text: 'Custom email templates', tooltip: 'Automated notifications with your branding' },
       { text: 'Advanced pricing rules', tooltip: 'Per-type pricing, minimums, tiered rates' },
@@ -63,7 +70,7 @@ const plans = [
     annualPrice: null,
     description: 'For multi-location operations with custom needs.',
     features: [
-      { text: 'Custom user allocation', tooltip: 'Additional users priced per agreement' },
+      { text: 'Custom usage allowance', tooltip: 'Volume and team size set per agreement' },
       { text: 'Everything in Pro, plus:', tooltip: null },
       { text: 'White-label solution', tooltip: 'Your brand, your domain' },
       { text: 'Custom integrations', tooltip: 'Connect to any system you use' },
@@ -88,6 +95,7 @@ const valueProps = [
 export default function LandingPricing() {
   const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(plans.length, 150);
   const pricingTracked = useRef(false);
+  const [starterTier, setStarterTier] = useState(0);
 
   useEffect(() => {
     if (cardsVisible && !pricingTracked.current) {
@@ -103,10 +111,11 @@ export default function LandingPricing() {
         <div className="max-w-2xl mx-auto mb-12 p-4 rounded-none bg-muted border border-border flex items-center justify-center gap-3 text-center">
           <Zap className="h-5 w-5 text-primary flex-shrink-0" />
           <p className="text-sm">
-            <span className="font-semibold text-foreground">Team-based pricing</span>
-            <span className="text-muted-foreground"> • Each additional user beyond your plan's included seats is an added monthly cost</span>
+            <span className="font-semibold text-foreground">Usage-based pricing</span>
+            <span className="text-muted-foreground"> • Choose the monthly estimate volume that fits your shop and scale up any time</span>
           </p>
         </div>
+
 
 
         <TooltipProvider>
@@ -135,9 +144,33 @@ export default function LandingPricing() {
                 <CardHeader className="text-center pb-2">
                   <CardTitle className="font-display text-xl">{plan.name}</CardTitle>
                   <div className="mt-4">
-                    <span className="text-4xl font-bold text-foreground">{plan.price}</span>
+                    <span className="text-4xl font-bold text-foreground">
+                      {plan.name === 'Starter' ? usageTiers[starterTier].price : plan.price}
+                    </span>
                     <span className="text-muted-foreground">{plan.period}</span>
                   </div>
+                  {plan.name === 'Starter' && (
+                    <div className="mt-4 text-left">
+                      <label
+                        htmlFor="starter-usage"
+                        className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2"
+                      >
+                        Monthly usage
+                      </label>
+                      <select
+                        id="starter-usage"
+                        value={starterTier}
+                        onChange={(e) => setStarterTier(Number(e.target.value))}
+                        className="w-full rounded-none border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      >
+                        {usageTiers.map((tier, i) => (
+                          <option key={tier.label} value={i}>
+                            {tier.label} — {tier.price}/mo
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                   {plan.annualPrice && (
                     <p className="text-sm text-primary font-medium mt-1">
                       or {plan.annualPrice}/mo billed annually
@@ -146,13 +179,14 @@ export default function LandingPricing() {
                   <CardDescription className="mt-3">{plan.description}</CardDescription>
                 </CardHeader>
 
+
                 <CardContent className="flex-1 flex flex-col pt-4">
                   <ul className="space-y-3 mb-6 flex-1">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-foreground flex items-center gap-1.5">
-                          {feature.text}
+                          {plan.name === 'Starter' && i === 0 ? `${usageTiers[starterTier].label.replace(' / month', '')} rug inspection estimates / month` : feature.text}
                           {feature.tooltip && (
                             <Tooltip>
                               <TooltipTrigger asChild>
@@ -219,7 +253,7 @@ export default function LandingPricing() {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground text-center mb-2">
-            All prices in USD. Additional users are billed at an added monthly cost per seat.
+            All prices in USD. Team size and add-on usage are finalized during onboarding.
 
           </p>
           <p className="text-sm text-muted-foreground text-center">
