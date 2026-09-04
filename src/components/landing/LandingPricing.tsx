@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { trackPricingView, trackPricingPlanClick } from '@/lib/analytics';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -186,7 +186,7 @@ export default function LandingPricing() {
                       <li key={i} className="flex items-start gap-3">
                         <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-foreground flex items-center gap-1.5">
-                          {feature.text}
+                          {plan.name === 'Starter' && i === 0 ? `${usageTiers[starterTier].label.replace(' / month', '')} rug inspection estimates / month` : feature.text}
                           {feature.tooltip && (
                             <Tooltip>
                               <TooltipTrigger asChild>
@@ -253,7 +253,7 @@ export default function LandingPricing() {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground text-center mb-2">
-            All prices in USD. Additional users are billed at an added monthly cost per seat.
+            All prices in USD. Team size and add-on usage are finalized during onboarding.
 
           </p>
           <p className="text-sm text-muted-foreground text-center">
