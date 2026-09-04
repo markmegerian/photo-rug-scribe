@@ -99,14 +99,15 @@ export default function LandingPricing() {
   return (
     <section id="pricing" className="py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Trial banner */}
+        {/* Billing note */}
         <div className="max-w-2xl mx-auto mb-12 p-4 rounded-none bg-muted border border-border flex items-center justify-center gap-3 text-center">
           <Zap className="h-5 w-5 text-primary flex-shrink-0" />
           <p className="text-sm">
-            <span className="font-semibold text-foreground">14-day free trial</span>
-            <span className="text-muted-foreground"> • Full access • No credit card • Cancel anytime</span>
+            <span className="font-semibold text-foreground">Team-based pricing</span>
+            <span className="text-muted-foreground"> • Each additional user beyond your plan's included seats is an added monthly cost</span>
           </p>
         </div>
+
 
         <TooltipProvider>
           <div ref={cardsRef} className="grid md:grid-cols-3 gap-6 lg:gap-8">
