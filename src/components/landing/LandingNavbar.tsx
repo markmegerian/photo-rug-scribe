@@ -78,7 +78,7 @@ export default function LandingNavbar() {
               <Link to="/support">Contact</Link>
             </Button>
             <Button variant="warm" asChild>
-              <Link to="/support" onClick={() => trackCTAClick('Request a Demo', 'navbar')}>Request a Demo</Link>
+              <Link to="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'navbar')}>Request a Demo</Link>
             </Button>
           </div>
 
@@ -121,7 +121,7 @@ export default function LandingNavbar() {
                   <Link to="/support">Contact</Link>
                 </Button>
                 <Button variant="warm" className="w-full" asChild>
-                  <Link to="/support">Request a Demo</Link>
+                  <Link to="/request-demo">Request a Demo</Link>
                 </Button>
               </div>
             </div>

@@ -195,7 +195,7 @@ export default function LandingDemo() {
 
         <div className="mt-8 text-center">
           <Button size="lg" variant="warm" className="gap-2" asChild>
-            <a href="/support" onClick={() => trackCTAClick('Request a Demo', 'demo_section')}>
+            <a href="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'demo_section')}>
               See it on your own rugs
               <ArrowRight className="h-4 w-4" />
             </a>

@@ -16,6 +16,10 @@ const BlogAdminAuth = lazy(() => import("./pages/BlogAdminAuth"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const Support = lazy(() => import("./pages/Support"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const RequestDemo = lazy(() => import("./pages/RequestDemo"));
+const ThankYou = lazy(() => import("./pages/ThankYou"));
+const LiveDemo = lazy(() => import("./pages/LiveDemo"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback component
@@ -38,6 +42,10 @@ const App = () => (
             <Route path="/landing" element={<Navigate to="/" replace />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/security" element={<Security />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/request-demo" element={<RequestDemo />} />
+            <Route path="/thank-you" element={<ThankYou />} />
+            <Route path="/live-demo" element={<LiveDemo />} />
             
             {/* Blog */}
             <Route path="/blog" element={<BlogPage />} />

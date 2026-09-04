@@ -14,83 +14,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const usageTiers = [
-  { label: '25 estimates / month', price: '$200' },
-  { label: '50 estimates / month', price: '$275' },
-  { label: '100 estimates / month', price: '$400' },
-  { label: '250 estimates / month', price: '$650' },
-];
+import { plans, usageTiers } from '@/data/plans';
 
-const plans = [
-  {
-    name: 'Starter',
-    price: '$200',
-    period: '/month',
-    annualPrice: null,
-    description: 'For single-location rug care businesses.',
-    features: [
-      { text: '25 rug inspection estimates / month', tooltip: 'Add more monthly estimates from the dropdown above' },
-      { text: 'AI-powered analysis', tooltip: 'Identifies rug type, origin, and condition' },
-      { text: 'Professional estimates', tooltip: 'Branded PDF estimates with your logo' },
-      { text: 'Client portal access', tooltip: 'Clients can approve & pay online' },
-      { text: 'Email support', tooltip: 'Response within 24 hours' },
-    ],
-    highlighted: false,
-    cta: 'Request a Demo',
-    ctaVariant: 'outline' as const,
-    savings: null,
-  },
-  {
-    name: 'Pro',
-    price: '$500',
-    period: '/month',
-    annualPrice: null,
-    description: 'For growing teams that need more power.',
-    features: [
-      { text: 'High-volume estimate allowance', tooltip: 'Monthly volume set with you during onboarding' },
-      { text: 'Everything in Starter, plus:', tooltip: null },
-
-      { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
-      { text: 'Custom email templates', tooltip: 'Automated notifications with your branding' },
-      { text: 'Advanced pricing rules', tooltip: 'Per-type pricing, minimums, tiered rates' },
-      { text: 'Priority support', tooltip: 'Response within 4 hours + screen sharing' },
-      { text: 'Custom branding', tooltip: 'White-label client portal' },
-      { text: 'API access', tooltip: 'Integrate with your existing systems' },
-    ],
-    highlighted: true,
-    cta: 'Request a Demo',
-    ctaVariant: 'warm' as const,
-    badge: 'Most Popular',
-    savings: null,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    annualPrice: null,
-    description: 'For multi-location operations with custom needs.',
-    features: [
-      { text: 'Custom usage allowance', tooltip: 'Volume and team size set per agreement' },
-      { text: 'Everything in Pro, plus:', tooltip: null },
-      { text: 'White-label solution', tooltip: 'Your brand, your domain' },
-      { text: 'Custom integrations', tooltip: 'Connect to any system you use' },
-      { text: 'Dedicated account manager', tooltip: 'Personal point of contact' },
-      { text: 'SLA guarantee', tooltip: '99.9% uptime commitment' },
-      { text: 'On-premise option', tooltip: 'Host on your own servers' },
-    ],
-    highlighted: false,
-    cta: 'Contact Sales',
-    ctaVariant: 'outline' as const,
-    savings: null,
-  },
-];
-
-
-const valueProps = [
-  { metric: '5+ hrs', label: 'Saved weekly' },
-  { metric: '$12,400', label: 'Avg. revenue increase' },
-  { metric: '847%', label: 'Average ROI' },
-];
 
 export default function LandingPricing() {
   const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(plans.length, 150);
@@ -171,11 +96,6 @@ export default function LandingPricing() {
                       </select>
                     </div>
                   )}
-                  {plan.annualPrice && (
-                    <p className="text-sm text-primary font-medium mt-1">
-                      or {plan.annualPrice}/mo billed annually
-                    </p>
-                  )}
                   <CardDescription className="mt-3">{plan.description}</CardDescription>
                 </CardHeader>
 
@@ -202,14 +122,8 @@ export default function LandingPricing() {
                     ))}
                   </ul>
 
-                  {plan.savings && (
-                    <p className="text-xs text-center text-primary font-medium mb-4">
-                      {plan.savings}
-                    </p>
-                  )}
-
                   <Button
-                    variant={plan.ctaVariant}
+                    variant={plan.highlighted ? 'default' : 'outline'}
                     size="lg"
                     className="w-full gap-2"
                     asChild
@@ -221,7 +135,7 @@ export default function LandingPricing() {
                         <ArrowRight className="h-4 w-4" />
                       </a>
                     ) : (
-                      <Link to="/support">
+                      <Link to={`/request-demo?plan=${plan.name.toLowerCase()}`}>
                         {plan.cta}
                         <ArrowRight className="h-4 w-4" />
                       </Link>
