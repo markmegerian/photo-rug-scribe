@@ -144,9 +144,33 @@ export default function LandingPricing() {
                 <CardHeader className="text-center pb-2">
                   <CardTitle className="font-display text-xl">{plan.name}</CardTitle>
                   <div className="mt-4">
-                    <span className="text-4xl font-bold text-foreground">{plan.price}</span>
+                    <span className="text-4xl font-bold text-foreground">
+                      {plan.name === 'Starter' ? usageTiers[starterTier].price : plan.price}
+                    </span>
                     <span className="text-muted-foreground">{plan.period}</span>
                   </div>
+                  {plan.name === 'Starter' && (
+                    <div className="mt-4 text-left">
+                      <label
+                        htmlFor="starter-usage"
+                        className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2"
+                      >
+                        Monthly usage
+                      </label>
+                      <select
+                        id="starter-usage"
+                        value={starterTier}
+                        onChange={(e) => setStarterTier(Number(e.target.value))}
+                        className="w-full rounded-none border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      >
+                        {usageTiers.map((tier, i) => (
+                          <option key={tier.label} value={i}>
+                            {tier.label} — {tier.price}/mo
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                   {plan.annualPrice && (
                     <p className="text-sm text-primary font-medium mt-1">
                       or {plan.annualPrice}/mo billed annually
@@ -154,6 +178,7 @@ export default function LandingPricing() {
                   )}
                   <CardDescription className="mt-3">{plan.description}</CardDescription>
                 </CardHeader>
+
 
                 <CardContent className="flex-1 flex flex-col pt-4">
                   <ul className="space-y-3 mb-6 flex-1">
