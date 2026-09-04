@@ -219,7 +219,8 @@ export default function LandingPricing() {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground text-center mb-2">
-            All prices in USD. Annual billing saves you 2 months.
+            All prices in USD. Additional users are billed at an added monthly cost per seat.
+
           </p>
           <p className="text-sm text-muted-foreground text-center">
             Need a custom solution? <Link to="/support" className="text-primary hover:underline">Talk to sales</Link>
