@@ -96,11 +96,6 @@ export default function LandingPricing() {
                       </select>
                     </div>
                   )}
-                  {plan.annualPrice && (
-                    <p className="text-sm text-primary font-medium mt-1">
-                      or {plan.annualPrice}/mo billed annually
-                    </p>
-                  )}
                   <CardDescription className="mt-3">{plan.description}</CardDescription>
                 </CardHeader>
 
@@ -127,14 +122,8 @@ export default function LandingPricing() {
                     ))}
                   </ul>
 
-                  {plan.savings && (
-                    <p className="text-xs text-center text-primary font-medium mb-4">
-                      {plan.savings}
-                    </p>
-                  )}
-
                   <Button
-                    variant={plan.ctaVariant}
+                    variant={plan.highlighted ? 'default' : 'outline'}
                     size="lg"
                     className="w-full gap-2"
                     asChild
