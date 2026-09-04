@@ -95,6 +95,7 @@ const valueProps = [
 export default function LandingPricing() {
   const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(plans.length, 150);
   const pricingTracked = useRef(false);
+  const [starterTier, setStarterTier] = useState(0);
 
   useEffect(() => {
     if (cardsVisible && !pricingTracked.current) {
@@ -110,10 +111,11 @@ export default function LandingPricing() {
         <div className="max-w-2xl mx-auto mb-12 p-4 rounded-none bg-muted border border-border flex items-center justify-center gap-3 text-center">
           <Zap className="h-5 w-5 text-primary flex-shrink-0" />
           <p className="text-sm">
-            <span className="font-semibold text-foreground">Team-based pricing</span>
-            <span className="text-muted-foreground"> • Each additional user beyond your plan's included seats is an added monthly cost</span>
+            <span className="font-semibold text-foreground">Usage-based pricing</span>
+            <span className="text-muted-foreground"> • Choose the monthly estimate volume that fits your shop and scale up any time</span>
           </p>
         </div>
+
 
 
         <TooltipProvider>
