@@ -6,14 +6,16 @@ import { cn } from '@/lib/utils';
 const footerLinks = {
   Product: [
     { label: 'Features', href: '#features' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'How It Works', href: '#how-it-works' },
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'Live Demo', href: '/live-demo' },
     { label: 'FAQ', href: '#faq' },
   ],
   Company: [
+    { label: 'Request a Demo', href: '/request-demo' },
     { label: 'Contact', href: '/support' },
     { label: 'Blog', href: '/blog' },
   ],
+
   Legal: [
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Terms of Service', href: '/terms-of-service' },
