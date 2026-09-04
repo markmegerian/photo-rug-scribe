@@ -14,6 +14,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+const usageTiers = [
+  { label: '25 estimates / month', price: '$200' },
+  { label: '50 estimates / month', price: '$275' },
+  { label: '100 estimates / month', price: '$400' },
+  { label: '250 estimates / month', price: '$650' },
+];
+
 const plans = [
   {
     name: 'Starter',
@@ -22,8 +29,7 @@ const plans = [
     annualPrice: null,
     description: 'For single-location rug care businesses.',
     features: [
-      { text: 'Includes 2 staff users', tooltip: 'Each additional user is billed separately' },
-      { text: 'Unlimited rug inspections', tooltip: null },
+      { text: '25 rug inspection estimates / month', tooltip: 'Add more monthly estimates from the dropdown above' },
       { text: 'AI-powered analysis', tooltip: 'Identifies rug type, origin, and condition' },
       { text: 'Professional estimates', tooltip: 'Branded PDF estimates with your logo' },
       { text: 'Client portal access', tooltip: 'Clients can approve & pay online' },
@@ -41,8 +47,9 @@ const plans = [
     annualPrice: null,
     description: 'For growing teams that need more power.',
     features: [
-      { text: 'Includes 10 staff users', tooltip: 'Each additional user is billed separately' },
+      { text: 'High-volume estimate allowance', tooltip: 'Monthly volume set with you during onboarding' },
       { text: 'Everything in Starter, plus:', tooltip: null },
+
       { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
       { text: 'Custom email templates', tooltip: 'Automated notifications with your branding' },
       { text: 'Advanced pricing rules', tooltip: 'Per-type pricing, minimums, tiered rates' },
