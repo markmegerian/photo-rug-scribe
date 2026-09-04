@@ -70,7 +70,7 @@ const plans = [
     annualPrice: null,
     description: 'For multi-location operations with custom needs.',
     features: [
-      { text: 'Custom user allocation', tooltip: 'Additional users priced per agreement' },
+      { text: 'Custom usage allowance', tooltip: 'Volume and team size set per agreement' },
       { text: 'Everything in Pro, plus:', tooltip: null },
       { text: 'White-label solution', tooltip: 'Your brand, your domain' },
       { text: 'Custom integrations', tooltip: 'Connect to any system you use' },
