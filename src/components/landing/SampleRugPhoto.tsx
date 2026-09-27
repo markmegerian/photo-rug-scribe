@@ -1,9 +1,9 @@
 import rugPhoto from '@/assets/demo-rug-1.jpg';
 import { sampleServices, setActiveSampleService } from './sampleProposal';
 
-export default function SampleRugPhoto({ priority = false, active }: { priority?: boolean; active?: string }) {
+export default function SampleRugPhoto({ priority = false, active, className = "" }: { priority?: boolean; active?: string; className?: string }) {
   return (
-    <div className="relative aspect-square overflow-hidden bg-muted">
+    <div className={`relative aspect-square overflow-hidden bg-muted ${className}`}>
       <img
         src={rugPhoto}
         alt="Sample wool rug with numbered markers on the field, the fringed end, and a high-traffic area"
