@@ -307,7 +307,7 @@ export default function LiveDemo() {
           <div className="text-center mt-12">
             <Button size="lg" asChild className="gap-2">
               <Link to="/request-demo">
-                Request a Demo
+                Request a demo
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

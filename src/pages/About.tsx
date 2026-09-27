@@ -180,8 +180,8 @@ export default function About() {
               Book a personalized demo and we will walk through recommendations and a client proposal together.
             </p>
             <Button size="lg" asChild className="gap-2">
-              <Link to="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'about_page')}>
-                Request a Demo
+              <Link to="/request-demo" onClick={() => trackCTAClick('Request a demo', 'about_page')}>
+                Request a demo
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

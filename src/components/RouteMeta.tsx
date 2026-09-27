@@ -29,7 +29,7 @@ const STATIC: Record<string, Meta> = {
   },
   "/request-demo": {
     title: "Request a Walkthrough — RugBoost",
-    description: "Request a RugBoost walkthrough. Share your details and we’ll contact you to arrange a time.",
+    description: "Request a RugBoost demo. Share your details and we’ll contact you to arrange a time.",
   },
   "/live-demo": {
     title: "Live Demo — Try an AI Rug Assessment | RugBoost",
@@ -57,7 +57,7 @@ const STATIC: Record<string, Meta> = {
   },
   "/thank-you": {
     title: "Thank You — RugBoost",
-    description: "Thanks for requesting a RugBoost walkthrough. We’ll contact you to arrange a time.",
+    description: "Thanks for requesting a RugBoost demo. We’ll contact you to arrange a time.",
     noindex: true,
   },
 };
