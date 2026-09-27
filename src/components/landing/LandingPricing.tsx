@@ -90,7 +90,7 @@ export default function LandingPricing() {
                       >
                         {usageTiers.map((tier, i) => (
                           <option key={tier.label} value={i}>
-                            {tier.label} — {tier.price}/mo
+                            {tier.count} per month — {tier.price}/mo
                           </option>
                         ))}
                       </select>
@@ -106,7 +106,7 @@ export default function LandingPricing() {
                       <li key={i} className="flex items-start gap-3">
                         <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-foreground flex items-center gap-1.5">
-                          {plan.name === 'Starter' && i === 0 ? `${usageTiers[starterTier].label.replace(' / month', '')} rug inspection estimates / month` : feature.text}
+                          {plan.name === 'Starter' && i === 0 ? usageTiers[starterTier].label : feature.text}
                           {feature.tooltip && (
                             <Tooltip>
                               <TooltipTrigger asChild>
@@ -154,20 +154,12 @@ export default function LandingPricing() {
         )}>
           <div className="flex flex-wrap justify-center gap-3 mb-6">
             <Badge variant="outline" className="gap-2 px-4 py-2 text-sm">
-              <Shield className="h-4 w-4 text-primary" />
-              SOC 2 Type II
-            </Badge>
-            <Badge variant="outline" className="gap-2 px-4 py-2 text-sm">
               <Lock className="h-4 w-4 text-primary" />
-              256-bit Encryption
-            </Badge>
-            <Badge variant="outline" className="gap-2 px-4 py-2 text-sm">
-              <CreditCard className="h-4 w-4 text-primary" />
-              30-Day Money Back
+              Encrypted connections (HTTPS)
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground text-center mb-2">
-            All prices in USD. Team size and add-on usage are finalized during onboarding.
+            All prices in USD. Starter can be expanded to 250 estimates per month ($650). Pro includes the additional features listed, with its monthly allowance agreed during onboarding.
 
           </p>
           <p className="text-sm text-muted-foreground text-center">

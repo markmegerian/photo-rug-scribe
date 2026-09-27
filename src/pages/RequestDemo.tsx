@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Loader2, Send, ArrowLeft, Check } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Loader2, Send, ArrowLeft } from 'lucide-react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,29 +10,24 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { trackContactFormSubmit } from '@/lib/analytics';
-import { plans } from '@/data/plans';
 import rugboostLogo from '@/assets/rugboost-horizontal.svg';
 
 const demoSchema = z.object({
   name: z.string().trim().min(1, { message: 'Please enter your name' }).max(100, { message: 'Name must be less than 100 characters' }),
   email: z.string().trim().email({ message: 'Please enter a valid email address' }).max(255, { message: 'Email must be less than 255 characters' }),
   company: z.string().trim().max(120, { message: 'Business name must be less than 120 characters' }).optional(),
-  plan: z.string().trim().max(50),
-  inquiry: z.string().trim().min(1, { message: 'Please tell us a little about your business' }).max(1000, { message: 'Please keep it under 1000 characters' }),
+  inquiry: z.string().trim().max(1000, { message: 'Please keep your message under 1000 characters' }).optional(),
 });
 
 export default function RequestDemo() {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const initialPlan = plans.find((p) => p.id === searchParams.get('plan'))?.name ?? '';
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: '',
     email: '',
     company: '',
-    plan: initialPlan,
     inquiry: '',
     website: '', // honeypot
   });
@@ -59,15 +54,17 @@ export default function RequestDemo() {
 
     setIsSubmitting(true);
     try {
-      const { plan, company, inquiry, name, email } = result.data;
+      const { company, inquiry, name, email } = result.data;
       const { error } = await supabase.functions.invoke('send-contact-email', {
         body: {
           name,
           email,
-          subject: `Demo request${plan ? ` — ${plan} plan` : ''}`,
-          message: [company ? `Business: ${company}` : null, plan ? `Plan of interest: ${plan}` : null, '', inquiry]
-            .filter((line) => line !== null)
-            .join('\n'),
+          subject: 'Walkthrough request',
+          message: [
+            `Company: ${company || 'Not provided'}`,
+            '',
+            inquiry || 'No message provided.',
+          ].join('\n'),
           website: form.website,
         },
       });
@@ -103,17 +100,17 @@ export default function RequestDemo() {
         <div className="container mx-auto max-w-2xl">
           <div className="text-center mb-10">
             <h1 className="font-display text-3xl md:text-4xl font-extrabold text-foreground mb-3">
-              Request a Demo
+              Request a walkthrough
             </h1>
             <p className="text-muted-foreground">
-              Tell us about your business and we'll walk you through RugBoost on a live call.
+              See how RugBoost can support your team and improve the client proposal experience. Share your details and we’ll contact you to arrange a walkthrough.
             </p>
           </div>
 
           <Card>
             <CardHeader>
               <CardTitle>Your details</CardTitle>
-              <CardDescription>We reply within one business day.</CardDescription>
+              <CardDescription>Name and email are required. Everything else is optional.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -124,36 +121,17 @@ export default function RequestDemo() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} maxLength={255} placeholder="jane@rugshop.com" required />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="company">Business name (optional)</Label>
-                    <Input id="company" name="company" value={form.company} onChange={handleChange} maxLength={120} placeholder="Smith Rug Care" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="plan">Plan of interest</Label>
-                    <select
-                      id="plan"
-                      name="plan"
-                      value={form.plan}
-                      onChange={handleChange}
-                      className="w-full rounded-none border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring h-10"
-                    >
-                      <option value="">Not sure yet</option>
-                      {plans.map((p) => (
-                        <option key={p.id} value={p.name}>
-                          {p.name}
-                        </option>
-                      ))}
-                    </select>
+                    <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} maxLength={255} placeholder="jane@example.com" required />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="inquiry">What would you like to see?</Label>
+                    <Label htmlFor="company">Company (optional)</Label>
+                    <Input id="company" name="company" value={form.company} onChange={handleChange} maxLength={120} placeholder="Smith Rug Care" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="inquiry">Message (optional)</Label>
                   <Textarea
                     id="inquiry"
                     name="inquiry"
@@ -161,8 +139,7 @@ export default function RequestDemo() {
                     onChange={handleChange}
                     rows={5}
                     maxLength={1000}
-                    placeholder="We inspect about 40 rugs a month and want faster estimates…"
-                    required
+                    placeholder="Anything you would like us to know before the walkthrough"
                   />
                 </div>
 
@@ -180,14 +157,13 @@ export default function RequestDemo() {
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      Send request
+                      Request a walkthrough
                     </>
                   )}
                 </Button>
 
-                <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5">
-                  <Check className="h-3.5 w-3.5" />
-                  No credit card. No obligation.
+                <p className="text-xs text-muted-foreground text-center">
+                  This sends a request only. No appointment is booked until we contact you to arrange a time.
                 </p>
               </form>
             </CardContent>

@@ -31,9 +31,9 @@ const values = [
 const dataPractices = [
   {
     icon: Lock,
-    title: 'Encrypted end to end',
+    title: 'Encrypted in transit',
     description:
-      'Rug photos, inspection reports, and client details are encrypted in transit and at rest. Access is limited to your account and the people you invite.',
+      'Rug photos and client details travel over encrypted HTTPS connections. Access is limited to your account and the people you invite.',
   },
   {
     icon: Database,

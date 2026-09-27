@@ -24,8 +24,8 @@ export default function ThankYou() {
             {name ? `Thanks, ${name}.` : 'Thanks — your request is in.'}
           </h1>
           <p className="text-muted-foreground mb-8">
-            We received your demo request and will reply by email within one business day with a
-            time that works for you.
+            We received your walkthrough request. Someone from RugBoost will contact you by email to
+            arrange a time.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button size="lg" asChild className="gap-2">

@@ -9,18 +9,13 @@ import { Link } from 'react-router-dom';
 const securityFeatures = [
   {
     icon: Lock,
-    title: '256-bit Encryption',
-    description: 'Bank-level encryption for all data in transit and at rest. Your data is protected by the same security used by major financial institutions.',
-  },
-  {
-    icon: Shield,
-    title: 'SOC 2 Type II Certified',
-    description: 'We undergo rigorous annual audits to ensure our security controls meet the highest standards in the industry.',
+    title: 'Encrypted connections',
+    description: 'Data sent between your browser and RugBoost travels over encrypted HTTPS connections.',
   },
   {
     icon: Server,
     title: 'Secure Cloud Infrastructure',
-    description: 'Hosted on enterprise-grade cloud infrastructure with 99.99% uptime SLA and automatic backups.',
+    description: 'Hosted on managed cloud infrastructure with access controls on stored data.',
   },
   {
     icon: Eye,
@@ -29,30 +24,19 @@ const securityFeatures = [
   },
   {
     icon: FileCheck,
-    title: 'GDPR & CCPA Compliant',
-    description: 'Full compliance with international privacy regulations. Request data deletion anytime.',
-  },
-  {
-    icon: Award,
-    title: 'Regular Security Audits',
-    description: 'Third-party penetration testing and vulnerability assessments keep your data safe.',
+    title: 'Deletion on request',
+    description: 'Contact us to request deletion of your account data.',
   },
 ];
 
 const badges = [
-  { name: 'SOC 2', description: 'Type II Certified' },
-  { name: 'GDPR', description: 'Compliant' },
-  { name: 'CCPA', description: 'Compliant' },
-  { name: 'SSL', description: 'Secured' },
-  { name: '99.99%', description: 'Uptime SLA' },
+  { name: 'HTTPS', description: 'Encrypted connections' },
 ];
 
 const dataPromises = [
   'Your data is never sold to third parties',
-  'You own 100% of your data, always',
-  'Export your data anytime in standard formats',
-  'Delete your account and data with one click',
-  'No hidden data collection or tracking',
+  'Your business and client data belongs to you',
+  'Request deletion of your data at any time',
 ];
 
 export default function Security() {
@@ -87,11 +71,10 @@ export default function Security() {
               Security & Privacy
             </div>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Enterprise-grade security,{' '}
-              <span className="text-primary">built in</span>
+              Security and privacy
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              We take security seriously so you can focus on your business. Your data is protected by industry-leading security measures.
+              How RugBoost protects your business and client information.
             </p>
           </div>
 
@@ -193,11 +176,11 @@ export default function Security() {
           {/* CTA */}
           <div className="mt-16 text-center">
             <p className="text-muted-foreground mb-4">
-              Ready to get started with enterprise-grade security?
+              Have questions about how we handle your data?
             </p>
-            <Button variant="warm" size="lg" asChild>
-              <Link to="/support">
-                Start Your Free Trial
+            <Button size="lg" asChild>
+              <Link to="/request-demo">
+                Book a demo
               </Link>
             </Button>
           </div>
