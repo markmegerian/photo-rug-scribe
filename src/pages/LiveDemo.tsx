@@ -14,10 +14,12 @@ const MAX_DIMENSION = 1400;
 
 interface Finding {
   issue: string;
+  location?: string;
   severity: string;
 }
 interface Service {
   name: string;
+  detail?: string;
   price: number;
 }
 interface Report {
@@ -271,7 +273,10 @@ export default function LiveDemo() {
                       <ul className="space-y-2">
                         {report.findings?.map((f, i) => (
                           <li key={i} className="flex items-start justify-between gap-3 text-sm border-b border-border pb-2">
-                            <span className="text-foreground">{f.issue}</span>
+                            <span className="text-foreground">
+                              {f.issue}
+                              {f.location && <span className="block text-xs text-muted-foreground">{f.location}</span>}
+                            </span>
                             <span className="text-muted-foreground whitespace-nowrap">{f.severity}</span>
                           </li>
                         ))}
@@ -283,7 +288,10 @@ export default function LiveDemo() {
                       <ul className="space-y-2">
                         {report.services?.map((s, i) => (
                           <li key={i} className="flex items-start justify-between gap-3 text-sm border-b border-border pb-2">
-                            <span className="text-foreground">{s.name}</span>
+                            <span className="text-foreground">
+                              {s.name}
+                              {s.detail && <span className="block text-xs text-muted-foreground">{s.detail}</span>}
+                            </span>
                             <span className="text-foreground font-medium whitespace-nowrap">
                               ${Number(s.price).toLocaleString()}
                             </span>
