@@ -20,15 +20,11 @@ const Support = () => {
     },
     {
       question: "How do clients access their portal?",
-      answer: "When you enable the client portal for a job, we send your client a secure link via email. They can view their rugs, review estimates, approve services, and make payments—all without needing to create an account."
-    },
-    {
-      question: "How does payment processing work?",
-      answer: "Clients can pay securely through the client portal using credit or debit cards. Payments are processed through Stripe, and you'll receive notifications when payments are completed. Track all receivables from your dashboard."
+      answer: "When you enable the client portal for a job, we send your client a secure link via email. They can view their rugs, review annotated photos and itemized estimates, and approve or decline individual services."
     },
     {
       question: "Can I customize my pricing?",
-      answer: "Yes! Go to Settings to configure your service prices. The AI uses your custom pricing when generating estimates, ensuring accurate quotes that match your business rates."
+      answer: "Yes. Go to Settings to configure your service prices. The AI uses your custom pricing when generating estimates, ensuring accurate quotes that match your business rates."
     },
     {
       question: "Is my data secure?",

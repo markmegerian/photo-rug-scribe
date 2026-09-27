@@ -9,10 +9,7 @@ import ScrollToHash from "@/components/ScrollToHash";
 
 // Lazy load pages
 const LandingPage = lazy(() => import("./pages/LandingPage"));
-const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const Security = lazy(() => import("./pages/Security"));
-const BlogPage = lazy(() => import("./pages/BlogPage"));
-const BlogPostPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPostPage })));
 const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));
 const BlogAdminAuth = lazy(() => import("./pages/BlogAdminAuth"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -45,7 +42,7 @@ const App = () => (
             {/* Landing */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/landing" element={<Navigate to="/" replace />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/how-it-works" element={<Navigate to="/#how-it-works" replace />} />
             <Route path="/security" element={<Security />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/request-demo" element={<RequestDemo />} />
@@ -54,8 +51,9 @@ const App = () => (
             <Route path="/about" element={<About />} />
             
             {/* Blog */}
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            {/* No published articles yet: send visitors home */}
+            <Route path="/blog" element={<Navigate to="/" replace />} />
+            <Route path="/blog/:slug" element={<Navigate to="/" replace />} />
             <Route path="/blog-admin" element={<BlogAdmin />} />
             <Route path="/blog-admin/auth" element={<BlogAdminAuth />} />
             
