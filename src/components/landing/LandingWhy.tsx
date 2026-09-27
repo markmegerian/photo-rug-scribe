@@ -1,4 +1,4 @@
-import { MessageSquareCheck, PhoneOff, BadgeCheck, Store } from 'lucide-react';
+import { MessageSquare, PhoneOff, BadgeCheck, Store } from 'lucide-react';
 
 const cards = [
   {
