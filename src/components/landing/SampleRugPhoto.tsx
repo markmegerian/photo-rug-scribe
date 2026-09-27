@@ -3,7 +3,7 @@ import { sampleServices, setActiveSampleService } from './sampleProposal';
 
 export default function SampleRugPhoto({ priority = false, active, className = "" }: { priority?: boolean; active?: string; className?: string }) {
   return (
-    <div className={`relative aspect-square overflow-hidden bg-muted ${className}`}>
+    <div className={`relative aspect-square bg-muted ${className}`}>
       <img
         src={rugPhoto}
         alt="Sample wool rug with numbered markers on the field, the fringed end, and a high-traffic area"
