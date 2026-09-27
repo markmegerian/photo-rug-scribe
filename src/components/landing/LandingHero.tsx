@@ -63,7 +63,7 @@ export default function LandingHero() {
           <p className="mt-3 text-sm text-muted-foreground">A personal walkthrough. No obligation.</p>
         </div>
 
-        <div className="border border-border bg-card shadow-medium" aria-label="Sample Rugboost workflow">
+        <div className="border border-border bg-card shadow-medium" aria-label="Sample RugBoost workflow">
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Sample workflow · illustrative data
@@ -113,7 +113,6 @@ export default function LandingHero() {
                 role="tabpanel"
                 id={`workflow-panel-${activeTab}`}
                 aria-labelledby={`workflow-tab-${activeTab}`}
-                tabIndex={0}
               >
                 {activeTab === 'inspect' && (
                   <div>

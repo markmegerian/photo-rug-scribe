@@ -27,7 +27,7 @@ const steps = [
 export default function LandingFeatures() {
   return (
     <>
-      <section aria-label="Rugboost benefits" className="border-b border-border bg-muted/40">
+      <section aria-label="RugBoost benefits" className="border-b border-border bg-muted/40">
         <div className="mx-auto grid max-w-7xl divide-y divide-border px-5 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6 lg:px-8">
           {benefits.map((benefit) => (
             <div key={benefit.label} className="flex min-h-20 items-center gap-3 py-5 sm:px-6 sm:first:pl-0 sm:last:pr-0">

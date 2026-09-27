@@ -16,48 +16,48 @@ const STATIC: Record<string, Meta> = {
       "Software built for rug cleaners to document inspections, create estimates with their pricing, and get customer approval from one connected workflow.",
   },
   "/how-it-works": {
-    title: "How It Works — Rugboost",
-    description: "See how Rugboost turns rug photos into an AI inspection, a priced estimate, and a client-ready report in four simple steps.",
+    title: "How It Works — RugBoost",
+    description: "See how RugBoost turns rug photos into an AI inspection, a priced estimate, and a client-ready report in four simple steps.",
   },
   "/security": {
-    title: "Security — Rugboost",
-    description: "How Rugboost protects your business and client data with encryption, access controls, and secure infrastructure.",
+    title: "Security — RugBoost",
+    description: "How RugBoost protects your business and client data with encryption, access controls, and secure infrastructure.",
   },
   "/pricing": {
-    title: "Pricing — Rugboost",
-    description: "Rugboost plans for rug cleaning businesses: Starter at $200/month, Pro at $500/month, and custom Enterprise pricing with usage-based estimate volumes.",
+    title: "Pricing — RugBoost",
+    description: "RugBoost plans for rug cleaning businesses: Starter at $200/month, Pro at $500/month, and custom Enterprise pricing with usage-based estimate volumes.",
   },
   "/request-demo": {
-    title: "Request a Demo — Rugboost",
-    description: "Book a personalized Rugboost demo and see how AI rug inspections and instant estimates can work for your business.",
+    title: "Request a Demo — RugBoost",
+    description: "Book a personalized RugBoost demo and see how AI rug inspections and instant estimates can work for your business.",
   },
   "/live-demo": {
-    title: "Live Demo — Try AI Rug Inspection | Rugboost",
+    title: "Live Demo — Try AI Rug Inspection | RugBoost",
     description: "Upload your own rug photos and get a real AI inspection with findings, recommended services, and a priced repair report.",
   },
   "/about": {
-    title: "About Us — Rugboost",
-    description: "Who Rugboost is, our mission to modernize rug cleaning and repair businesses, and how we protect your rug and client data.",
+    title: "About Us — RugBoost",
+    description: "Who RugBoost is, our mission to modernize rug cleaning and repair businesses, and how we protect your rug and client data.",
   },
   "/blog": {
-    title: "Blog — Insights for Rug Professionals | Rugboost",
+    title: "Blog — Insights for Rug Professionals | RugBoost",
     description: "Tips, pricing strategies, and industry insights to help rug cleaning and repair businesses grow.",
   },
   "/support": {
-    title: "Support & Contact — Rugboost",
-    description: "Get in touch with the Rugboost team for product questions, account help, or partnership inquiries.",
+    title: "Support & Contact — RugBoost",
+    description: "Get in touch with the RugBoost team for product questions, account help, or partnership inquiries.",
   },
   "/privacy-policy": {
-    title: "Privacy Policy — Rugboost",
-    description: "How Rugboost collects, uses, and protects your personal and business information.",
+    title: "Privacy Policy — RugBoost",
+    description: "How RugBoost collects, uses, and protects your personal and business information.",
   },
   "/terms-of-service": {
-    title: "Terms of Service — Rugboost",
-    description: "The terms and conditions that govern your use of Rugboost's website and services.",
+    title: "Terms of Service — RugBoost",
+    description: "The terms and conditions that govern your use of RugBoost's website and services.",
   },
   "/thank-you": {
-    title: "Thank You — Rugboost",
-    description: "Thanks for requesting a Rugboost demo. Our team will be in touch shortly.",
+    title: "Thank You — RugBoost",
+    description: "Thanks for requesting a RugBoost demo. Our team will be in touch shortly.",
     noindex: true,
   },
 };
@@ -88,9 +88,9 @@ function resolve(pathname: string): Meta {
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "Product",
-        name: "Rugboost",
+        name: "RugBoost",
         description: STATIC[path].description,
-        brand: { "@type": "Brand", name: "Rugboost" },
+        brand: { "@type": "Brand", name: "RugBoost" },
         offers: plans
           .filter((p) => /^\$\d/.test(p.price))
           .map((p) => ({
@@ -109,7 +109,7 @@ function resolve(pathname: string): Meta {
     const post = getBlogPosts().find((p) => p.slug === slug);
     if (post) {
       return {
-        title: `${post.metaTitle || post.title} | Rugboost`,
+        title: `${post.metaTitle || post.title} | RugBoost`,
         description: post.metaDescription || post.excerpt,
         jsonLd: {
           "@context": "https://schema.org",
@@ -118,7 +118,7 @@ function resolve(pathname: string): Meta {
           description: post.metaDescription || post.excerpt,
           datePublished: post.publishedAt,
           author: { "@type": "Organization", name: post.author },
-          publisher: { "@type": "Organization", name: "Rugboost", logo: { "@type": "ImageObject", url: `${BASE}/pwa-512x512.png` } },
+          publisher: { "@type": "Organization", name: "RugBoost", logo: { "@type": "ImageObject", url: `${BASE}/pwa-512x512.png` } },
           mainEntityOfPage: `${BASE}${path}`,
           ...(post.coverImage?.startsWith("http") ? { image: post.coverImage } : {}),
         },
@@ -127,12 +127,12 @@ function resolve(pathname: string): Meta {
   }
 
   if (path.startsWith("/blog-admin")) {
-    return { title: "Blog Admin — Rugboost", description: "Rugboost content administration.", noindex: true };
+    return { title: "Blog Admin — RugBoost", description: "RugBoost content administration.", noindex: true };
   }
 
   return (
     STATIC[path] ?? {
-      title: "Page Not Found — Rugboost",
+      title: "Page Not Found — RugBoost",
       description: "The page you are looking for does not exist.",
       noindex: true,
     }

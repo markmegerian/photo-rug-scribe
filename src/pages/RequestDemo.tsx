@@ -88,7 +88,7 @@ export default function RequestDemo() {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
+            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
           </Link>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/">
@@ -106,7 +106,7 @@ export default function RequestDemo() {
               Request a Demo
             </h1>
             <p className="text-muted-foreground">
-              Tell us about your shop and we'll walk you through Rugboost on a live call.
+              Tell us about your shop and we'll walk you through RugBoost on a live call.
             </p>
           </div>
 
