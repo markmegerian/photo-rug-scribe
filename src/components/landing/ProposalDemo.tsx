@@ -47,9 +47,9 @@ function ServiceRow({ id, expanded, source }: { id: string; expanded: boolean; s
       </div>
       {showDetail && (
         <dl className={`grid gap-2 px-4 pb-4 pl-12 text-sm leading-relaxed ${expanded ? 'sm:text-base' : ''}`}>
-          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Observed</dt><dd>{s.found}</dd></div>
-          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Why it’s recommended</dt><dd>{s.why}</dd></div>
-          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Client benefit</dt><dd>{s.benefit}</dd></div>
+          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Observed</dt><dd>{s.found}</dd></div>
+          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Why it’s recommended</dt><dd>{s.why}</dd></div>
+          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Client benefit</dt><dd>{s.benefit}</dd></div>
         </dl>
       )}
     </li>
