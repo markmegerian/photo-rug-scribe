@@ -2,7 +2,7 @@ import { MessageSquare, PhoneOff, BadgeCheck, Store } from 'lucide-react';
 
 const cards = [
   {
-    icon: MessageSquareCheck,
+    icon: MessageSquare,
     title: 'Recommend with confidence',
     body: 'Newer staff can spot fringe wear, moth damage, or a rug that needs protection, and explain it the way a veteran would.',
   },
