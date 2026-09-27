@@ -26,7 +26,7 @@ function ServiceRow({ id, expanded, source }: { id: string; expanded: boolean; s
       <div className="flex items-center gap-3 px-4 py-2">
         <input
           type="checkbox"
-          className="h-5 w-5 shrink-0 cursor-pointer accent-terracotta"
+          className="proposal-check"
           checked={on}
           onChange={() => toggleSampleService(s.id, source)}
           aria-label={`Include ${s.name}, $${s.price}`}
@@ -37,19 +37,19 @@ function ServiceRow({ id, expanded, source }: { id: string; expanded: boolean; s
           aria-expanded={showDetail}
           className="flex min-h-11 flex-1 items-center justify-between gap-3 text-left text-sm focus-visible:outline-none focus-visible:underline"
         >
-          <span className="flex items-center gap-2 font-bold">
+          <span className="flex items-center gap-2 font-semibold">
             <span aria-hidden="true" className={`flex h-5 w-5 items-center justify-center rounded-full text-[11px] ${isActive ? 'bg-foreground text-background' : 'border border-foreground'}`}>{s.marker}</span>
             {s.name}
             {s.optional && <span className="text-xs font-semibold text-muted-foreground">Optional</span>}
           </span>
-          <span className="font-extrabold tabular-nums">${s.price}</span>
+          <span className="font-semibold tabular-nums">${s.price}</span>
         </button>
       </div>
       {showDetail && (
         <dl className={`grid gap-2 px-4 pb-4 pl-12 text-sm leading-relaxed ${expanded ? 'sm:text-base' : ''}`}>
-          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Observed</dt><dd>{s.found}</dd></div>
-          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Why it’s recommended</dt><dd>{s.why}</dd></div>
-          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Client benefit</dt><dd>{s.benefit}</dd></div>
+          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Observed</dt><dd>{s.found}</dd></div>
+          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Why it’s recommended</dt><dd>{s.why}</dd></div>
+          <div><dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Client benefit</dt><dd>{s.benefit}</dd></div>
         </dl>
       )}
     </li>
@@ -62,7 +62,7 @@ function Outcome({ source }: { source: string }) {
     <div className="border-t border-border p-4">
       <div className="flex items-baseline justify-between">
         <span className="text-sm font-semibold">Selected total <span className="font-normal text-muted-foreground">({count} of {sampleServices.length})</span></span>
-        <span className="text-2xl font-extrabold tabular-nums" aria-live="polite">${total}</span>
+        <span className="text-2xl font-semibold tabular-nums" aria-live="polite">${total}</span>
       </div>
       {approved ? (
         <div role="status" className="mt-3 flex items-center justify-between gap-3 bg-muted px-3 py-2 text-sm">
@@ -87,9 +87,9 @@ export default function ProposalDemo({ open, onOpenChange }: { open: boolean; on
 
   return (
     <>
-      <aside aria-label="Sample client proposal" className="border border-border bg-card shadow-medium">
+      <aside aria-label="Sample client proposal" className="overflow-hidden rounded-[12px] border border-border bg-card">
         <div className="flex items-center justify-between border-b border-border px-4 py-2 text-xs">
-          <span className="font-semibold uppercase tracking-[0.16em]">Sample client proposal</span>
+          <span className="font-semibold uppercase tracking-[0.08em]">Sample client proposal</span>
           <span className="text-muted-foreground">Illustrative · 8' × 10' wool rug</span>
         </div>
         <div className="grid sm:grid-cols-[0.85fr_1.15fr]">
@@ -116,7 +116,7 @@ export default function ProposalDemo({ open, onOpenChange }: { open: boolean; on
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent onCloseAutoFocus={(e) => { if (returnFocus.current) { e.preventDefault(); returnFocus.current.focus(); } }} className="h-[100dvh] max-h-[100dvh] w-full max-w-none gap-0 overflow-y-auto p-0 sm:h-auto sm:max-h-[92vh] sm:max-w-5xl">
           <div className="border-b border-border px-5 py-4 pr-12">
-            <DialogTitle className="text-xl font-extrabold">Sample client proposal</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">Sample client proposal</DialogTitle>
             <DialogDescription className="mt-1 text-sm">{DISCLOSURE}</DialogDescription>
           </div>
           <div className="grid md:grid-cols-[0.9fr_1.1fr]">

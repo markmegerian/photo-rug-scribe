@@ -13,7 +13,7 @@ import MobileDemoBar from "@/components/landing/MobileDemoBar";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="landing min-h-screen bg-background">
       <LandingNavbar />
       <main>
         <LandingHero />

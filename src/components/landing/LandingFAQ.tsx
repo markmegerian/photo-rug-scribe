@@ -17,11 +17,11 @@ export const faqs = [
 
 export default function LandingFAQ() {
   return (
-    <section id="faq" className="border-b border-border py-14 sm:py-20">
-      <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 md:grid-cols-[0.65fr_1.35fr] lg:gap-20 lg:px-8">
+    <section id="faq" className="bg-muted py-16 lg:py-24">
+      <div className="mx-auto grid max-w-[1120px] gap-8 px-6 md:grid-cols-[0.65fr_1.35fr] lg:gap-20 lg:px-8">
         <div>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">Questions</p>
-          <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Common questions.</h2>
+          <p className="mb-3 text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">Questions</p>
+          <h2 className="font-serif font-normal text-[30px] leading-[1.1] tracking-[-0.01em] text-foreground lg:text-[40px]">Common questions.</h2>
         </div>
         <Accordion type="single" collapsible className="border-t border-border">
           {faqs.map((faq, index) => (
