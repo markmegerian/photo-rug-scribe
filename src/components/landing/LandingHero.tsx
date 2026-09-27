@@ -75,10 +75,10 @@ export default function LandingHero() {
             For cleaning companies &amp; rug retailers
           </p>
           <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.02] text-foreground sm:text-5xl lg:text-6xl">
-            Help your team sell more rug care.
+            Rug care expertise that builds client confidence.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Equip your staff to recommend relevant services. Give customers the photos, explanations, and pricing they need to understand the work and approve with confidence.
+            RugBoost equips cleaning companies and rug retailers to identify service opportunities, communicate their value, and guide clients toward informed approval.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Button size="lg" asChild>
