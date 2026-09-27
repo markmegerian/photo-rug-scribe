@@ -93,7 +93,10 @@ export default function ProposalDemo({ open, onOpenChange }: { open: boolean; on
           <span className="text-muted-foreground">Illustrative · 8' × 10' wool rug</span>
         </div>
         <div className="grid sm:grid-cols-[0.85fr_1.15fr]">
-          <SampleRugPhoto priority active={active} className="sm:aspect-auto sm:h-full sm:min-h-[260px]" />
+          <div>
+            <SampleRugPhoto priority active={active} />
+            <p className="hidden p-4 text-xs leading-relaxed text-muted-foreground sm:block">Illustrative findings. Select a numbered marker to read what was observed and why each service is recommended.</p>
+          </div>
           <div className="flex flex-col">
             <ul className="flex-1">
               {sampleServices.map((s) => <ServiceRow key={s.id} id={s.id} expanded={false} source="hero" />)}
