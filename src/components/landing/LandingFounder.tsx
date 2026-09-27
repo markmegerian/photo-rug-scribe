@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { trackCTAClick } from '@/lib/analytics';
 
 export default function LandingFounder() {
   return (
