@@ -78,7 +78,7 @@ export default function LandingDemo() {
             Two photos in. A priced repair report out.
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Add the sample rug photos below and watch Rugboost build the report your client sees.
+            Add the sample rug photos below and watch RugBoost build the report your client sees.
           </p>
         </div>
 

@@ -13,7 +13,7 @@ const TermsOfService = () => {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
+            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
           </Link>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/" className="gap-2">
@@ -36,7 +36,7 @@ const TermsOfService = () => {
             {/* Introduction */}
             <section>
               <p className="text-foreground/90 leading-relaxed">
-                Welcome to Rugboost. By accessing or using our platform, you agree to be bound by these Terms of Service. Please read them carefully before using our services.
+                Welcome to RugBoost. By accessing or using our platform, you agree to be bound by these Terms of Service. Please read them carefully before using our services.
               </p>
             </section>
 
@@ -53,7 +53,7 @@ const TermsOfService = () => {
               
               <div className="space-y-3 pl-11 text-foreground/80">
                 <p>
-                  By creating an account or using Rugboost, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.
+                  By creating an account or using RugBoost, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.
                 </p>
                 <p>
                   If you do not agree to these terms, you may not access or use our services.
@@ -74,7 +74,7 @@ const TermsOfService = () => {
               
               <div className="space-y-3 pl-11 text-foreground/80">
                 <p>
-                  Rugboost provides a platform for rug cleaning and restoration professionals to:
+                  RugBoost provides a platform for rug cleaning and restoration professionals to:
                 </p>
                 <ul className="list-disc list-inside space-y-1">
                   <li>Capture and organize rug inspection photos</li>
@@ -135,7 +135,7 @@ const TermsOfService = () => {
                 
                 <p className="mt-4"><strong>Platform Fees:</strong></p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li>Rugboost may charge platform fees for payment processing</li>
+                  <li>RugBoost may charge platform fees for payment processing</li>
                   <li>Fee structures will be clearly communicated to service providers</li>
                   <li>Fees are subject to change with reasonable notice</li>
                 </ul>
@@ -161,7 +161,7 @@ const TermsOfService = () => {
                   <li>AI analysis is a tool to assist, not replace, professional judgment</li>
                   <li>Service providers should review and adjust AI-generated estimates as needed</li>
                   <li>Final estimates and service recommendations are the responsibility of the service provider</li>
-                  <li>Rugboost is not liable for inaccuracies in AI-generated content</li>
+                  <li>RugBoost is not liable for inaccuracies in AI-generated content</li>
                 </ul>
               </div>
             </section>
@@ -202,7 +202,7 @@ const TermsOfService = () => {
                   To the maximum extent permitted by law:
                 </p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li>Rugboost provides the platform "as is" without warranties of any kind</li>
+                  <li>RugBoost provides the platform "as is" without warranties of any kind</li>
                   <li>We are not liable for any indirect, incidental, or consequential damages</li>
                   <li>Our total liability shall not exceed the amount paid by you in the past 12 months</li>
                   <li>We are not responsible for disputes between service providers and their clients</li>

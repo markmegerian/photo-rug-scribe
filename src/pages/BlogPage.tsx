@@ -42,7 +42,7 @@ export default function BlogPage() {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="font-display text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Rugboost Blog
+              RugBoost Blog
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Industry insights, best practices, and tips to help you grow your rug cleaning business.

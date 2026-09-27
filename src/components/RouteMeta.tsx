@@ -11,13 +11,13 @@ type Meta = { title: string; description: string; canonical?: string; noindex?: 
 
 const STATIC: Record<string, Meta> = {
   "/": {
-    title: "RugBoost — Help Your Team Sell More Rug Care",
+    title: "RugBoost — Rug Care Expertise That Builds Client Confidence",
     description:
-      "For cleaning companies and rug retailers: RugBoost helps staff recommend relevant rug services and gives customers the photos, explanations, and pricing to approve with confidence.",
+      "RugBoost helps cleaning companies and rug retailers recommend relevant rug care services and give clients annotated photos, detailed service explanations, and transparent pricing for informed approval.",
   },
   "/how-it-works": {
     title: "How It Works — RugBoost",
-    description: "See how RugBoost turns rug photos into an AI inspection, a priced estimate, and a client-ready report in four simple steps.",
+    description: "See how RugBoost helps your team upload rug photos, review recommendations and pricing, and send a proposal for client approval.",
   },
   "/security": {
     title: "Security — RugBoost",
@@ -25,23 +25,23 @@ const STATIC: Record<string, Meta> = {
   },
   "/pricing": {
     title: "Pricing — RugBoost",
-    description: "RugBoost plans for rug cleaning businesses: Starter at $200/month, Pro at $500/month, and custom Enterprise pricing with usage-based estimate volumes.",
+    description: "RugBoost plans for cleaning companies and rug retailers: Starter at $200/month, Pro at $500/month, and custom Enterprise pricing with usage-based estimate volumes.",
   },
   "/request-demo": {
     title: "Request a Demo — RugBoost",
-    description: "Book a personalized RugBoost demo and see how AI rug inspections and instant estimates can work for your business.",
+    description: "Book a personalized RugBoost demo and see how RugBoost helps your team recommend rug care services and present clear client proposals.",
   },
   "/live-demo": {
-    title: "Live Demo — Try AI Rug Inspection | RugBoost",
-    description: "Upload your own rug photos and get a real AI inspection with findings, recommended services, and a priced repair report.",
+    title: "Live Demo — Try an AI Rug Assessment | RugBoost",
+    description: "Upload photos of a rug and see an AI-assisted assessment with observed condition notes, suggested services, and example pricing for your team to review.",
   },
   "/about": {
     title: "About Us — RugBoost",
-    description: "Who RugBoost is, our mission to modernize rug cleaning and repair businesses, and how we protect your rug and client data.",
+    description: "Who is behind RugBoost, why it helps teams recommend rug care services and explain their value, and how we protect your data.",
   },
   "/blog": {
     title: "Blog — Insights for Rug Professionals | RugBoost",
-    description: "Tips, pricing strategies, and industry insights to help rug cleaning and repair businesses grow.",
+    description: "Tips, pricing strategies, and industry insights to help cleaning companies and rug retailers offer rug care services.",
   },
   "/support": {
     title: "Support & Contact — RugBoost",

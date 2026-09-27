@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 const objections = [{
   objection: "I'm not tech-savvy enough",
-  response: "If you can take a photo with your phone, you can use Rugboost. Our guided workflows walk you through every step. Plus, we offer free onboarding calls to get you comfortable.",
+  response: "If you can take a photo with your phone, you can use RugBoost. Our guided workflows walk you through every step. Plus, we offer free onboarding calls to get you comfortable.",
   proof: "Average user age: 52 • Adoption time: 1 day"
 }, {
   objection: "My team won't use new software",
-  response: "Unlike clunky enterprise software, Rugboost saves your team time from day one. When tools make their jobs easier, people actually use them. We've seen 95% adoption rates.",
+  response: "Unlike clunky enterprise software, RugBoost saves your team time from day one. When tools make their jobs easier, people actually use them. We've seen 95% adoption rates.",
   proof: "95% team adoption rate • No training required"
 }, {
   objection: "It's too expensive for my small business",
@@ -21,7 +21,7 @@ const objections = [{
   proof: "99.2% accuracy rate • Human-in-the-loop always"
 }, {
   objection: "I'm locked into my current system",
-  response: "We'll help you migrate for free. Export your data from any system, and our team will import it into Rugboost at no cost. Most migrations take less than 24 hours.",
+  response: "We'll help you migrate for free. Export your data from any system, and our team will import it into RugBoost at no cost. Most migrations take less than 24 hours.",
   proof: "Free migration assistance • 24-hour average turnaround"
 }, {
   objection: "What if I need to cancel?",

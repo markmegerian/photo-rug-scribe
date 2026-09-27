@@ -157,8 +157,9 @@ export default function LiveDemo() {
               Upload your own rug photos
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Add up to three photos of a real rug and RugBoost will generate an inspection and
-              priced repair report, exactly like it does inside the app.
+              Add up to three photos of a rug to see an AI-assisted assessment: observed construction
+              and condition notes, suggested services, and example pricing. In RugBoost, your team reviews
+              and adjusts these before anything reaches a client.
             </p>
           </div>
 

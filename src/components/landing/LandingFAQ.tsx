@@ -3,15 +3,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 export const faqs = [
   {
     question: 'Can I use my own service pricing?',
-    answer: 'Yes. Prepare estimates using your own services and rates, then review the details before sending them to the customer.',
+    answer: 'Yes. Proposals use your own services and rates, and your team can adjust any price before sending.',
   },
   {
     question: 'What does my customer see?',
-    answer: 'A link to their rug photos, inspection findings, and itemized estimate, with a simple way to review and approve the recommended work.',
+    answer: 'Clients see annotated rug photos, an explanation of each recommended service, and itemized pricing. They can approve selected services and decline others.',
   },
   {
     question: 'Does AI make the final decisions?',
-    answer: 'No. AI assists with inspection notes and recommendations. Your team reviews the findings, services, and pricing before sharing the estimate.',
+    answer: 'No. AI suggests findings and services. Your team reviews every recommendation and price before a proposal is sent.',
   },
 ];
 

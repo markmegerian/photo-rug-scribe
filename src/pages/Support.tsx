@@ -11,7 +11,7 @@ const Support = () => {
   const faqs = [
     {
       question: "How does AI rug analysis work?",
-      answer: "Our AI analyzes photos of your rugs to identify fiber types, origins, construction methods, and existing damage. Simply capture photos using our guided workflow, and receive detailed analysis with restoration recommendations and cost estimates within seconds."
+      answer: "Our AI analyzes photos of your rugs to identify fiber types, origins, construction methods, and existing damage. Simply capture photos using our guided workflow, and receive suggested findings, service recommendations, and pricing for your team to review before sending a proposal."
     },
     {
       question: "How do I create and manage jobs?",
@@ -41,7 +41,7 @@ const Support = () => {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
+            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
           </Link>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
@@ -59,7 +59,7 @@ const Support = () => {
             Support & Help Center
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get help with Rugboost, the AI-powered platform for professional rug inspection and business management.
+            Get help with RugBoost, the platform that helps your team recommend rug care services and present clear client proposals.
           </p>
         </div>
       </section>
@@ -205,9 +205,9 @@ const Support = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <img src={rugboostLogo} alt="Rugboost" className="h-5 w-auto" />
+              <img src={rugboostLogo} alt="RugBoost" className="h-5 w-auto" />
               <span className="text-sm text-muted-foreground">
-                © {new Date().getFullYear()} Rugboost. All rights reserved.
+                © {new Date().getFullYear()} RugBoost. All rights reserved.
               </span>
             </div>
             <div className="flex items-center gap-6">

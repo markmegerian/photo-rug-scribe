@@ -61,7 +61,7 @@ export default function LandingProblemSolution() {
                   <X className="h-5 w-5 text-destructive" />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-extrabold text-foreground">Without Rugboost</h3>
+                  <h3 className="font-display text-xl font-extrabold text-foreground">Without RugBoost</h3>
                   <p className="text-sm text-muted-foreground">Slow, inconsistent, frustrating</p>
                 </div>
               </div>
@@ -91,7 +91,7 @@ export default function LandingProblemSolution() {
                   <CheckCircle className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-extrabold text-foreground">The Rugboost Way</h3>
+                  <h3 className="font-display text-xl font-extrabold text-foreground">The RugBoost Way</h3>
                   <p className="text-sm text-muted-foreground">Fast, accurate, delightful</p>
                 </div>
               </div>

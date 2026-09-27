@@ -106,7 +106,7 @@ export default function RequestDemo() {
               Request a Demo
             </h1>
             <p className="text-muted-foreground">
-              Tell us about your shop and we'll walk you through RugBoost on a live call.
+              Tell us about your business and we'll walk you through RugBoost on a live call.
             </p>
           </div>
 

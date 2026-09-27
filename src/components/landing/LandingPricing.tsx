@@ -37,7 +37,7 @@ export default function LandingPricing() {
           <Zap className="h-5 w-5 text-primary flex-shrink-0" />
           <p className="text-sm">
             <span className="font-semibold text-foreground">Usage-based pricing</span>
-            <span className="text-muted-foreground"> • Choose the monthly estimate volume that fits your shop and scale up any time</span>
+            <span className="text-muted-foreground"> • Choose the monthly estimate volume that fits your business and scale up any time</span>
           </p>
         </div>
 

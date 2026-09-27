@@ -10,15 +10,15 @@ import { trackCTAClick } from '@/lib/analytics';
 const values = [
   {
     icon: Camera,
-    title: 'Built for the trade',
+    title: 'Grounded in rug care',
     description:
-      'Rugboost was designed alongside working rug cleaning and repair shops. Every feature exists because a real business needed it — inspections, estimates, client approvals, and payments in one place.',
+      'RugBoost is shaped by hands-on rug care experience. It focuses on the moments that matter most: spotting what a rug needs, recommending the right service, and explaining it to the client.',
   },
   {
     icon: FileText,
-    title: 'Clarity over paperwork',
+    title: 'Clarity for every client',
     description:
-      'A rug inspection should take minutes, not an evening of paperwork. We turn a few photos into a professional, priced repair report your clients can approve from their phone.',
+      'Clients decide with confidence when they understand the work. RugBoost presents annotated photos, service explanations, and itemized pricing, and lets clients approve the services they choose.',
   },
   {
     icon: UserCheck,
@@ -39,7 +39,7 @@ const dataPractices = [
     icon: Database,
     title: 'Used only to serve you',
     description:
-      'Photos you upload are used to generate your inspection reports and nothing else. We do not sell, share, or mine your rug or client data for advertising.',
+      'Photos you upload are used to prepare your recommendations and proposals and nothing else. We do not sell, share, or mine your rug or client data for advertising.',
   },
   {
     icon: Trash2,
@@ -63,15 +63,15 @@ export default function About() {
         <section className="py-16 md:py-24 px-5 sm:px-6 lg:px-8 border-b border-border">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-4">
-              About Rugboost
+              About RugBoost
             </p>
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-5">
               Modern tools for a centuries-old craft
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Rug cleaning and repair is a skilled trade built on trust. Rugboost exists to help
-              those businesses present that expertise professionally — with fast inspections,
-              transparent estimates, and a client experience that matches the quality of the work.
+              Rug care is a skilled trade built on trust. RugBoost helps cleaning companies and rug
+              retailers share that expertise: supporting staff as they recommend services, and giving
+              clients the information they need to make informed decisions.
             </p>
           </div>
         </section>
@@ -89,15 +89,16 @@ export default function About() {
               Our mission
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Most rug businesses still quote repairs from memory, paper forms, and phone tag.
-              That costs them jobs — clients hesitate when an estimate takes days or arrives as a
-              number with no explanation.
+              RugBoost was created by Mark Megerian, a rug care professional. In that work, a recurring
+              challenge is not the cleaning itself but the conversation around it: recognizing what a rug
+              needs, and explaining why a service is worth it. A price without an explanation is hard for
+              any client to approve.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Our mission is simple: give every rug professional the ability to photograph a rug,
-              generate an honest, itemized repair report in about a minute, and let the client
-              approve and pay from a secure link. Better information, faster — so good work wins
-              more often.
+              RugBoost supports staff at cleaning companies and rug retailers in recommending relevant
+              services, then turns those recommendations into a professional proposal with annotated
+              photos, clear explanations, and transparent pricing. Your team reviews everything before
+              it is sent, and clients choose which services to approve.
             </p>
           </div>
         </section>
@@ -173,10 +174,10 @@ export default function About() {
         <section className="py-14 md:py-20 px-5 sm:px-6 lg:px-8 bg-card border-t border-border">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
-              See Rugboost on your own rugs
+              See RugBoost in action
             </h2>
             <p className="text-muted-foreground mb-8">
-              Book a personalized demo and we will walk through a real inspection together.
+              Book a personalized demo and we will walk through recommendations and a client proposal together.
             </p>
             <Button size="lg" asChild className="gap-2">
               <Link to="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'about_page')}>
