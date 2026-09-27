@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader2, Send, ArrowLeft } from 'lucide-react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,11 @@ const demoSchema = z.object({
 export default function RequestDemo() {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const PLANS: Record<string, string> = { starter: 'Starter', pro: 'Pro', enterprise: 'Enterprise' };
+  const planName = PLANS[params.get('plan') ?? ''];
+  const estimates = ['25', '50', '100', '250'].includes(params.get('estimates') ?? '') && planName === 'Starter' ? params.get('estimates') : null;
+  const planContext = planName ? `${planName} plan${estimates ? ` (${estimates} estimates per month)` : ''}` : null;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -60,9 +65,10 @@ export default function RequestDemo() {
         body: {
           name,
           email,
-          subject: 'Walkthrough request',
+          subject: planName === 'Enterprise' ? 'Enterprise sales inquiry' : 'Demo request',
           message: [
             `Company: ${company || 'Not provided'}`,
+            `Plan interest: ${planContext || 'Not specified'}`,
             '',
             inquiry || 'No message provided.',
           ].join('\n'),
@@ -90,11 +96,12 @@ export default function RequestDemo() {
         <div className="container mx-auto max-w-2xl">
           <div className="text-center mb-10">
             <h1 className="font-display text-3xl md:text-4xl font-extrabold text-foreground mb-3">
-              Request a walkthrough
+              Request a demo
             </h1>
             <p className="text-muted-foreground">
-              See how RugBoost can support your team and improve the client proposal experience. Share your details and we’ll contact you to arrange a walkthrough.
+              Share your details and our team will contact you to arrange a personal walkthrough of RugBoost.
             </p>
+            {planContext && <p className="mt-3 text-sm font-semibold text-foreground">You’re asking about: {planContext}</p>}
           </div>
 
           <Card>
@@ -129,7 +136,7 @@ export default function RequestDemo() {
                     onChange={handleChange}
                     rows={5}
                     maxLength={1000}
-                    placeholder="Anything you would like us to know before the walkthrough"
+                    placeholder="Anything you would like us to know before the demo"
                   />
                 </div>
 
@@ -147,7 +154,7 @@ export default function RequestDemo() {
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      Request a walkthrough
+                      Request a demo
                     </>
                   )}
                 </Button>

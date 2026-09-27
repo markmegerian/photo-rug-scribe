@@ -4,8 +4,7 @@ import rugboostLogo from '@/assets/rugboost-horizontal-white.svg';
 const links = [
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/support' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Contact & support', href: '/support' },
   { label: 'Live Demo', href: '/live-demo' },
   { label: 'Security', href: '/security' },
   { label: 'Privacy', href: '/privacy-policy' },

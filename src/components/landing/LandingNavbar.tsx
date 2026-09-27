@@ -54,7 +54,7 @@ export default function LandingNavbar() {
 
           <div className="ml-auto flex items-center gap-2 lg:ml-0">
             <Button size="sm" asChild className="h-11 px-3 sm:px-5">
-              <Link to="/request-demo" onClick={() => trackCTAClick('Book a demo', 'navbar')}>Book a demo</Link>
+              <Link to="/request-demo" onClick={() => trackCTAClick('Request a demo', 'navbar')}>Request a demo</Link>
             </Button>
             <Button
               ref={menuButtonRef}

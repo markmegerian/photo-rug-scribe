@@ -9,15 +9,14 @@ export default function LandingCTA() {
       <div className="mx-auto max-w-4xl px-5 text-center sm:px-6 lg:px-8">
         <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">See RugBoost in action.</h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-background/75 sm:text-lg">
-          A personal walkthrough of how your team moves from rug photos to reviewed recommendations and a client proposal.
+          A personal walkthrough of how your team goes from rug photos to reviewed recommendations and a client proposal. Share your details and we’ll contact you to arrange a time.
         </p>
         <Button size="lg" variant="secondary" asChild className="mt-8">
-          <Link to="/request-demo" onClick={() => trackCTAClick('Book a demo', 'bottom_cta')}>
-            Book a demo
+          <Link to="/request-demo" onClick={() => trackCTAClick('Request a demo', 'bottom_cta')}>
+            Request a demo
             <ArrowRight aria-hidden="true" />
           </Link>
         </Button>
-        <p className="mt-3 text-sm text-background/60">A personal walkthrough. No obligation.</p>
       </div>
     </section>
   );
