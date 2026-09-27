@@ -10,7 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { trackContactFormSubmit } from '@/lib/analytics';
-import rugboostLogo from '@/assets/rugboost-horizontal.svg';
+import LandingNavbar from '@/components/landing/LandingNavbar';
+import LandingFooter from '@/components/landing/LandingFooter';
 
 const demoSchema = z.object({
   name: z.string().trim().min(1, { message: 'Please enter your name' }).max(100, { message: 'Name must be less than 100 characters' }),
@@ -82,19 +83,8 @@ export default function RequestDemo() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
-          </Link>
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </Link>
-          </Button>
-        </div>
-      </header>
+      <LandingNavbar />
+      <div className="h-16" aria-hidden="true" />
 
       <main className="py-12 md:py-20 px-4">
         <div className="container mx-auto max-w-2xl">
@@ -170,6 +160,7 @@ export default function RequestDemo() {
           </Card>
         </div>
       </main>
+      <LandingFooter />
     </div>
   );
 }

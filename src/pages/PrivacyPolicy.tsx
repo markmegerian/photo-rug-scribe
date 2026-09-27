@@ -4,25 +4,14 @@ import { ArrowLeft, Shield, Lock, Eye, Database, Mail, Users } from 'lucide-reac
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import rugboostLogo from '@/assets/rugboost-horizontal.svg';
+import LandingNavbar from '@/components/landing/LandingNavbar';
+import LandingFooter from '@/components/landing/LandingFooter';
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
-          </Link>
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/" className="gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Link>
-          </Button>
-        </div>
-      </header>
+      <LandingNavbar />
+      <div className="h-16" aria-hidden="true" />
 
       {/* Content */}
       <main className="container mx-auto px-4 py-12 max-w-4xl">
@@ -213,6 +202,7 @@ const PrivacyPolicy = () => {
           </CardContent>
         </Card>
       </main>
+      <LandingFooter />
     </div>
   );
 };
