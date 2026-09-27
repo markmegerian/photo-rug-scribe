@@ -31,7 +31,7 @@ export default function MobileDemoBar() {
   return (
     <div className={`fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 backdrop-blur-md transition-transform duration-200 sm:hidden fixed-bottom ${visible ? 'translate-y-0' : 'pointer-events-none translate-y-full'}`} aria-hidden={!visible}>
       <Button className="w-full" asChild tabIndex={visible ? undefined : -1}>
-        <Link to="/request-demo" onClick={() => trackCTAClick('Book a demo', 'mobile_sticky')}>Book a demo</Link>
+        <Link to="/request-demo" onClick={() => trackCTAClick('Request a demo', 'mobile_sticky')}>Request a demo</Link>
       </Button>
     </div>
   );

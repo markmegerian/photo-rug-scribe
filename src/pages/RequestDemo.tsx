@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader2, Send, ArrowLeft } from 'lucide-react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { trackContactFormSubmit } from '@/lib/analytics';
-import rugboostLogo from '@/assets/rugboost-horizontal.svg';
+import LandingNavbar from '@/components/landing/LandingNavbar';
+import LandingFooter from '@/components/landing/LandingFooter';
 
 const demoSchema = z.object({
   name: z.string().trim().min(1, { message: 'Please enter your name' }).max(100, { message: 'Name must be less than 100 characters' }),
@@ -22,6 +23,11 @@ const demoSchema = z.object({
 export default function RequestDemo() {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const PLANS: Record<string, string> = { starter: 'Starter', pro: 'Pro', enterprise: 'Enterprise' };
+  const planName = PLANS[params.get('plan') ?? ''];
+  const estimates = ['25', '50', '100', '250'].includes(params.get('estimates') ?? '') && planName === 'Starter' ? params.get('estimates') : null;
+  const planContext = planName ? `${planName} plan${estimates ? ` (${estimates} estimates per month)` : ''}` : null;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -59,9 +65,10 @@ export default function RequestDemo() {
         body: {
           name,
           email,
-          subject: 'Walkthrough request',
+          subject: planName === 'Enterprise' ? 'Enterprise sales inquiry' : 'Demo request',
           message: [
             `Company: ${company || 'Not provided'}`,
+            `Plan interest: ${planContext || 'Not specified'}`,
             '',
             inquiry || 'No message provided.',
           ].join('\n'),
@@ -82,29 +89,19 @@ export default function RequestDemo() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
-          </Link>
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </Link>
-          </Button>
-        </div>
-      </header>
+      <LandingNavbar />
+      <div className="h-16" aria-hidden="true" />
 
       <main className="py-12 md:py-20 px-4">
         <div className="container mx-auto max-w-2xl">
           <div className="text-center mb-10">
             <h1 className="font-display text-3xl md:text-4xl font-extrabold text-foreground mb-3">
-              Request a walkthrough
+              Request a demo
             </h1>
             <p className="text-muted-foreground">
-              See how RugBoost can support your team and improve the client proposal experience. Share your details and we’ll contact you to arrange a walkthrough.
+              Share your details and our team will contact you to arrange a personal walkthrough of RugBoost.
             </p>
+            {planContext && <p className="mt-3 text-sm font-semibold text-foreground">You’re asking about: {planContext}</p>}
           </div>
 
           <Card>
@@ -139,7 +136,7 @@ export default function RequestDemo() {
                     onChange={handleChange}
                     rows={5}
                     maxLength={1000}
-                    placeholder="Anything you would like us to know before the walkthrough"
+                    placeholder="Anything you would like us to know before the demo"
                   />
                 </div>
 
@@ -157,7 +154,7 @@ export default function RequestDemo() {
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      Request a walkthrough
+                      Request a demo
                     </>
                   )}
                 </Button>
@@ -170,6 +167,7 @@ export default function RequestDemo() {
           </Card>
         </div>
       </main>
+      <LandingFooter />
     </div>
   );
 }

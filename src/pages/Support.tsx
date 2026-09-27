@@ -4,7 +4,8 @@ import { Mail, Clock, HelpCircle, Shield, FileText, ChevronRight } from 'lucide-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import rugboostLogo from '@/assets/rugboost-horizontal.svg';
+import LandingNavbar from '@/components/landing/LandingNavbar';
+import LandingFooter from '@/components/landing/LandingFooter';
 import ContactForm from '@/components/support/ContactForm';
 
 const Support = () => {
@@ -19,15 +20,11 @@ const Support = () => {
     },
     {
       question: "How do clients access their portal?",
-      answer: "When you enable the client portal for a job, we send your client a secure link via email. They can view their rugs, review estimates, approve services, and make payments—all without needing to create an account."
-    },
-    {
-      question: "How does payment processing work?",
-      answer: "Clients can pay securely through the client portal using credit or debit cards. Payments are processed through Stripe, and you'll receive notifications when payments are completed. Track all receivables from your dashboard."
+      answer: "When you enable the client portal for a job, we send your client a secure link via email. They can view their rugs, review annotated photos and itemized estimates, and approve or decline individual services."
     },
     {
       question: "Can I customize my pricing?",
-      answer: "Yes! Go to Settings to configure your service prices. The AI uses your custom pricing when generating estimates, ensuring accurate quotes that match your business rates."
+      answer: "Yes. Go to Settings to configure your service prices. The AI uses your custom pricing when generating estimates, ensuring accurate quotes that match your business rates."
     },
     {
       question: "Is my data secure?",
@@ -37,19 +34,8 @@ const Support = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
-          </Link>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/">Home</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <LandingNavbar />
+      <div className="h-16" aria-hidden="true" />
       <main>
 
       {/* Hero Section */}
@@ -199,31 +185,7 @@ const Support = () => {
       </section>
 
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border py-8 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <img src={rugboostLogo} alt="RugBoost" className="h-5 w-auto" />
-              <span className="text-sm text-muted-foreground">
-                © {new Date().getFullYear()} RugBoost. All rights reserved.
-              </span>
-            </div>
-            <div className="flex items-center gap-6">
-              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Privacy
-              </Link>
-              <Link to="/terms-of-service" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Terms
-              </Link>
-              <a href="mailto:support@rugboost.com" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Contact
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <LandingFooter />
     </div>
   );
 };

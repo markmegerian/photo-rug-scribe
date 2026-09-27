@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import rugboostLogo from '@/assets/rugboost-horizontal.svg';
+import LandingNavbar from '@/components/landing/LandingNavbar';
+import LandingFooter from '@/components/landing/LandingFooter';
 
 export default function ThankYou() {
   const location = useLocation();
@@ -9,13 +10,8 @@ export default function ThankYou() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b border-border">
-        <div className="container mx-auto flex items-center px-4 py-4">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
-          </Link>
-        </div>
-      </header>
+      <LandingNavbar />
+      <div className="h-16" aria-hidden="true" />
 
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-xl text-center">
@@ -24,7 +20,7 @@ export default function ThankYou() {
             {name ? `Thanks, ${name}.` : 'Thanks — your request is in.'}
           </h1>
           <p className="text-muted-foreground mb-8">
-            We received your walkthrough request. Someone from RugBoost will contact you by email to
+            We received your demo request. Someone from RugBoost will contact you by email to
             arrange a time.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -40,6 +36,7 @@ export default function ThankYou() {
           </div>
         </div>
       </main>
+      <LandingFooter />
     </div>
   );
 }

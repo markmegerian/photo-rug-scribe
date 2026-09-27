@@ -130,12 +130,12 @@ export default function LandingPricing() {
                     onClick={() => trackPricingPlanClick(plan.name)}
                   >
                     {plan.name === 'Enterprise' ? (
-                      <a href="mailto:sales@rugboost.com">
+                      <Link to="/request-demo?plan=enterprise">
                         {plan.cta}
                         <ArrowRight className="h-4 w-4" />
-                      </a>
+                      </Link>
                     ) : (
-                      <Link to={`/request-demo?plan=${plan.name.toLowerCase()}`}>
+                      <Link to={`/request-demo?plan=${plan.id}${plan.id === 'starter' ? `&estimates=${usageTiers[starterTier].count}` : ''}`}>
                         {plan.cta}
                         <ArrowRight className="h-4 w-4" />
                       </Link>
@@ -159,11 +159,11 @@ export default function LandingPricing() {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground text-center mb-2">
-            All prices in USD. Starter can be expanded to 250 estimates per month ($650). Pro includes the additional features listed, with its monthly allowance agreed during onboarding.
+            All prices in USD. Starter can be expanded to 250 estimates per month ($650). Contact us to discuss Pro plan details.
 
           </p>
           <p className="text-sm text-muted-foreground text-center">
-            Need a custom solution? <Link to="/support" className="text-primary hover:underline">Talk to sales</Link>
+            Need a custom solution? <Link to="/request-demo?plan=enterprise" className="text-primary underline">Talk to sales</Link>
           </p>
         </div>
       </div>

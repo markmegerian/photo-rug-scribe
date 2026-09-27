@@ -25,8 +25,8 @@ export const sampleServices: SampleService[] = [
     found: 'Ground-in soil across the field, dulling the colors.',
     why: 'Grit settles deep in the pile, where vacuuming cannot reach it. Over time it acts like sandpaper on the fibers.',
     benefit: 'Removes embedded soil, brings back the depth of the colors, and helps the rug wear more slowly.',
-    x: 50,
-    y: 40,
+    x: 32,
+    y: 33,
   },
   {
     id: 'fringe',
@@ -53,22 +53,43 @@ export const sampleServices: SampleService[] = [
   },
 ];
 
-let state: Record<string, boolean> = { cleaning: true, fringe: true, protect: false };
+type SampleState = { selected: Record<string, boolean>; active: string; approved: boolean };
+const initial: SampleState = { selected: { cleaning: true, fringe: true, protect: false }, active: 'cleaning', approved: false };
+let state: SampleState = initial;
 const listeners = new Set<() => void>();
+const emit = () => listeners.forEach((l) => l());
 
 export function toggleSampleService(id: string, source: string) {
-  state = { ...state, [id]: !state[id] };
-  trackEvent('sample_proposal_toggle', { service: id, included: state[id], source });
-  listeners.forEach((l) => l());
+  state = { ...state, approved: false, selected: { ...state.selected, [id]: !state.selected[id] } };
+  trackEvent('sample_proposal_toggle', { service: id, included: state.selected[id], source });
+  emit();
+}
+
+/** Focus a service's explanation. Never changes selection. */
+export function setActiveSampleService(id: string) {
+  state = { ...state, active: id };
+  emit();
+}
+
+/** Local sample only: nothing is submitted anywhere. */
+export function approveSample(source: string) {
+  state = { ...state, approved: true };
+  trackEvent('sample_proposal_approve', { source });
+  emit();
+}
+
+export function resetSample() {
+  state = initial;
+  emit();
 }
 
 export function useSampleSelection() {
-  const selected = useSyncExternalStore(
+  const s = useSyncExternalStore(
     (l) => { listeners.add(l); return () => listeners.delete(l); },
     () => state,
     () => state,
   );
-  const total = sampleServices.reduce((s, x) => (selected[x.id] ? s + x.price : s), 0);
-  const count = sampleServices.filter((x) => selected[x.id]).length;
-  return { selected, total, count };
+  const total = sampleServices.reduce((t, x) => (s.selected[x.id] ? t + x.price : t), 0);
+  const count = sampleServices.filter((x) => s.selected[x.id]).length;
+  return { selected: s.selected, active: s.active, approved: s.approved, total, count };
 }

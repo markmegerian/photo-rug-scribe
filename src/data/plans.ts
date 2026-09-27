@@ -37,7 +37,7 @@ export const plans: Plan[] = [
       { text: 'Email support', tooltip: null },
     ],
     highlighted: false,
-    cta: 'Request a Demo',
+    cta: 'Request a demo',
   },
   {
     id: 'pro',
@@ -46,7 +46,7 @@ export const plans: Plan[] = [
     period: '/month',
     description: 'For growing teams that need more power.',
     features: [
-      { text: 'Monthly estimate allowance agreed during onboarding', tooltip: null },
+      { text: 'Monthly estimate allowance: ask us for details', tooltip: null },
       { text: 'Everything in Starter, plus:', tooltip: null },
       { text: 'Analytics dashboard', tooltip: 'Revenue, conversions, service popularity' },
       { text: 'Custom email templates', tooltip: 'Automated notifications with your branding' },
@@ -56,7 +56,7 @@ export const plans: Plan[] = [
     ],
     highlighted: true,
     badge: 'Most Popular',
-    cta: 'Request a Demo',
+    cta: 'Request a demo',
   },
   {
     id: 'enterprise',
@@ -83,7 +83,7 @@ export interface ComparisonRow {
 }
 
 export const comparisonRows: ComparisonRow[] = [
-  { feature: 'Monthly rug inspection estimates', starter: '25–250 (by usage tier)', pro: 'Agreed at onboarding', enterprise: 'Custom' },
+  { feature: 'Monthly rug inspection estimates', starter: '25–250 (by usage tier)', pro: 'Ask us for details', enterprise: 'Custom' },
   { feature: 'AI photo analysis', starter: true, pro: true, enterprise: true },
   { feature: 'Branded PDF estimates', starter: true, pro: true, enterprise: true },
   { feature: 'Client portal & online approval', starter: true, pro: true, enterprise: true },

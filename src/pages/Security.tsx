@@ -180,7 +180,7 @@ export default function Security() {
             </p>
             <Button size="lg" asChild>
               <Link to="/request-demo">
-                Book a demo
+                Request a demo
               </Link>
             </Button>
           </div>
