@@ -1,24 +1,9 @@
 import { Store, Sparkles } from 'lucide-react';
 
 const benefits = [
-  {
-    number: '01',
-    title: 'Recognize the opportunity.',
-    description:
-      'Help your staff spot potential care needs and identify relevant services—even when rug cleaning and repair aren’t their specialty.',
-  },
-  {
-    number: '02',
-    title: 'Make the case for the work.',
-    description:
-      'RugBoost turns inspection findings into customer-facing recommendations that explain what is being proposed, why it matters, and what the customer gains.',
-  },
-  {
-    number: '03',
-    title: 'Move the sale toward approval.',
-    description:
-      'Bring photos, service explanations, and itemized pricing together in a professional proposal customers can review and approve from their phone.',
-  },
+  { number: '01', title: 'Upload rug photos.', description: 'Your team photographs the rug. RugBoost flags areas that may need attention and suggests relevant services.' },
+  { number: '02', title: 'Review recommendations and pricing.', description: 'Your team checks every suggested service and price, adjusting anything before it reaches the client.' },
+  { number: '03', title: 'Send a proposal for client approval.', description: 'Clients see annotated photos and clear explanations, then approve the services they want and decline the rest.' },
 ];
 
 const audiences = [
@@ -44,11 +29,8 @@ export default function LandingFeatures() {
           <div className="max-w-2xl">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">How it works</p>
             <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
-              Build understanding. Earn trust. Make approval easier.
+              From photos to an approved proposal.
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Customers feel more comfortable deciding when they can see what you found, understand the recommended care, and know exactly what it costs. RugBoost brings that information together in a professional proposal they can review at their own pace.
-            </p>
             <p className="mt-4 text-sm font-semibold text-foreground">Clear recommendations. Transparent prices. Customer choice.</p>
           </div>
 
