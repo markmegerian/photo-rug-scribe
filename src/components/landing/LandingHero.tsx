@@ -8,8 +8,8 @@ import rugPhoto from '@/assets/demo-rug-1.jpg';
 type WorkflowTab = 'needs' | 'recommend' | 'approve';
 
 const tabs: { id: WorkflowTab; label: string }[] = [
-  { id: 'needs', label: 'Care needs' },
-  { id: 'recommend', label: 'Recommend' },
+  { id: 'needs', label: 'Staff view' },
+  { id: 'recommend', label: 'Proposal' },
   { id: 'approve', label: 'Approve' },
 ];
 
@@ -44,10 +44,10 @@ export default function LandingHero() {
             For cleaning companies &amp; rug retailers
           </p>
           <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.02] text-foreground sm:text-5xl lg:text-6xl">
-            Help your team sell rug care with confidence.
+            Help your team sell more rug care.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            RugBoost helps your staff spot potential cleaning and repair needs, recommend your services, and explain their value—so more opportunities can become approved work.
+            RugBoost helps your staff identify service opportunities, explains the value of the recommended work to your customers, and presents clear estimates ready for approval.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Button size="lg" asChild>
@@ -60,13 +60,13 @@ export default function LandingHero() {
               See how it works
             </a>
           </div>
-          <p className="mt-3 text-sm text-muted-foreground">Give your staff guidance. Give your customers clarity.</p>
+          <p className="mt-3 text-sm text-muted-foreground">Guidance for your team. A compelling proposal for your customer.</p>
         </div>
 
         <div className="border border-border bg-card shadow-medium" aria-label="Sample RugBoost workflow">
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Sample recommendation · illustrative data
+              Sample customer proposal · illustrative data
             </p>
             <span className="text-xs text-muted-foreground">8' × 10' hand-knotted rug</span>
           </div>
@@ -86,7 +86,7 @@ export default function LandingHero() {
             </div>
 
             <div className="flex min-h-[410px] flex-col p-4 sm:p-5">
-              <div className="grid grid-cols-3 border border-border" role="tablist" aria-label="Sample recommendation stages">
+              <div className="grid grid-cols-3 border border-border" role="tablist" aria-label="Sample proposal stages">
                 {tabs.map((tab, index) => (
                   <button
                     key={tab.id}
@@ -121,7 +121,7 @@ export default function LandingHero() {
                       <h2 className="text-lg font-extrabold">Potential care needs</h2>
                     </div>
                     <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                      What to look for, flagged for your team to confirm.
+                      What your staff sees: potential needs flagged for them to confirm, with relevant services suggested.
                     </p>
                     <ul className="divide-y divide-border border-y border-border text-sm">
                       <li className="py-3"><p className="font-semibold">Ground-in soil</p><p className="text-muted-foreground">Dulled color across the field</p></li>
@@ -132,24 +132,29 @@ export default function LandingHero() {
 
                 {activeTab === 'recommend' && (
                   <div>
-                    <div className="mb-4 flex items-center gap-2">
+                    <div className="mb-3 flex items-center gap-2">
                       <ClipboardCheck className="h-5 w-5" aria-hidden="true" />
-                      <h2 className="text-lg font-extrabold">Recommended services</h2>
+                      <h2 className="text-lg font-extrabold">Your rug care proposal</h2>
                     </div>
-                    <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                      Your services and rates, with a plain-language reason to share with the customer.
-                    </p>
-                    <dl className="divide-y divide-border border-y border-border text-sm">
-                      <div className="py-3">
-                        <div className="flex justify-between gap-3"><dt className="font-semibold">Deep cleaning</dt><dd className="font-semibold">$440</dd></div>
-                        <p className="mt-1 text-muted-foreground">Removes embedded soil that wears down fibers and restores color.</p>
-                      </div>
-                      <div className="py-3">
-                        <div className="flex justify-between gap-3"><dt className="font-semibold">Fringe repair</dt><dd className="font-semibold">$180</dd></div>
-                        <p className="mt-1 text-muted-foreground">Secures the ends so wear doesn't spread into the rug.</p>
-                      </div>
-                      <div className="flex justify-between gap-3 py-4 text-base font-extrabold"><dt>Estimate total</dt><dd>$620</dd></div>
-                    </dl>
+                    <p className="mb-4 text-xs text-muted-foreground">What the customer sees</p>
+                    <ul className="space-y-3 text-sm">
+                      {[
+                        { found: 'Ground-in soil across the field', service: 'Deep cleaning', price: '$440', why: 'Removes embedded grit that grinds down fibers, and brings back the depth of the original colors.' },
+                        { found: 'Loose, missing knots at both ends', service: 'Fringe repair', price: '$180', why: 'Secures the ends so wear stops spreading into the rug, protecting its value and appearance.' },
+                      ].map((item) => (
+                        <li key={item.service} className="border border-border">
+                          <div className="flex items-baseline justify-between gap-3 border-b border-border px-3 py-2">
+                            <span className="font-extrabold">{item.service}</span>
+                            <span className="font-extrabold">{item.price}</span>
+                          </div>
+                          <div className="px-3 py-2">
+                            <p className="text-xs text-muted-foreground"><span className="font-semibold text-foreground">Found:</span> {item.found}</p>
+                            <p className="mt-2 border-l-2 border-foreground pl-2 leading-relaxed"><span className="font-semibold">Why it matters:</span> {item.why}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-3 flex justify-between border-t border-border pt-3 text-base font-extrabold"><span>Estimate total</span><span>$620</span></div>
                   </div>
                 )}
 
@@ -175,7 +180,7 @@ export default function LandingHero() {
                 )}
               </div>
               <p className="mt-4 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">
-                Rug photo → Potential care needs → Recommended services → Customer estimate → Approval. Your team reviews every recommendation before it is sent.
+                What was found → Recommended service → Why it matters → Price → Approval. Your team reviews every recommendation before it is sent.
               </p>
             </div>
           </div>
