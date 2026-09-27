@@ -13,7 +13,7 @@ const STATIC: Record<string, Meta> = {
   "/": {
     title: "RugBoost — Help Your Team Sell More Rug Care",
     description:
-      "For cleaning companies and rug retailers: RugBoost helps staff identify rug service opportunities, explains the value to customers, and presents clear estimates ready for approval.",
+      "For cleaning companies and rug retailers: RugBoost helps staff recommend relevant rug services and gives customers the photos, explanations, and pricing to approve with confidence.",
   },
   "/how-it-works": {
     title: "How It Works — RugBoost",

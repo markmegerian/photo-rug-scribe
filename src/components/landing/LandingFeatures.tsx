@@ -26,13 +26,13 @@ const audiences = [
     icon: Sparkles,
     title: 'For cleaning companies',
     description:
-      'Help your team recognize relevant rug services and communicate their value beyond a routine cleaning quote.',
+      'Help your team recognize relevant services beyond routine cleaning, and explain them clearly to every customer.',
   },
   {
     icon: Store,
     title: 'For rug retailers',
     description:
-      'Equip your sales staff to offer rug care with clear recommendations and a professional customer presentation.',
+      'Support employees who sell rugs but may have limited cleaning and repair knowledge, with clear recommendations and a professional customer proposal.',
   },
 ];
 
@@ -44,11 +44,12 @@ export default function LandingFeatures() {
           <div className="max-w-2xl">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">How it works</p>
             <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
-              From what your staff finds to what your customer approves.
+              Build understanding. Earn trust. Make approval easier.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Whether you clean rugs or sell them, RugBoost recommends services based on each rug’s needs, and your team reviews every recommendation before it goes to the customer.
+              Customers feel more comfortable deciding when they can see what you found, understand the recommended care, and know exactly what it costs. RugBoost brings that information together in a professional proposal they can review at their own pace.
             </p>
+            <p className="mt-4 text-sm font-semibold text-foreground">Clear recommendations. Transparent prices. Customer choice.</p>
           </div>
 
           <ol className="mt-10 grid border-y border-border md:grid-cols-3 md:divide-x md:divide-border">
