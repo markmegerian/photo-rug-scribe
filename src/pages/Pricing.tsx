@@ -45,7 +45,7 @@ export default function Pricing() {
                       <th key={p.id} scope="col" className="p-4 text-sm font-semibold text-foreground text-center">
                         {p.name}
                         <span className="block text-xs font-normal text-muted-foreground">
-                          {p.price}
+                          {p.id === 'starter' ? 'from ' : ''}{p.price}
                           {p.period}
                         </span>
                       </th>
