@@ -3,7 +3,7 @@ import LandingHero from "@/components/landing/LandingHero";
 import LandingValueProp from "@/components/landing/LandingValueProp";
 import LandingFeatures from "@/components/landing/LandingFeatures";
 import LandingProposal from "@/components/landing/LandingProposal";
-import LandingFAQ from "@/components/landing/LandingFAQ";
+import LandingWhy from "@/components/landing/LandingWhy";
 import LandingCTA from "@/components/landing/LandingCTA";
 import LandingFooter from "@/components/landing/LandingFooter";
 import MobileDemoBar from "@/components/landing/MobileDemoBar";
