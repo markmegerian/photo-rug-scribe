@@ -1,55 +1,58 @@
-import { Camera, FileText, Smartphone } from 'lucide-react';
+import { Store, Sparkles } from 'lucide-react';
 
 const benefits = [
-  { icon: Camera, label: 'Photos and findings together' },
-  { icon: FileText, label: 'Estimates using your rates' },
-  { icon: Smartphone, label: 'Customer approval by phone' },
-];
-
-const steps = [
   {
     number: '01',
-    title: 'Capture what you see.',
-    description: 'Photograph the rug and document its condition. AI-assisted inspection notes help you prepare the report, with your team in control.',
+    title: 'Recognize opportunities your team might miss.',
+    description:
+      'A rug may need more than cleaning. Help your staff identify potential repair and restoration needs and understand which of your services may be appropriate.',
   },
   {
     number: '02',
-    title: 'Put a price to the work.',
-    description: 'Build a clear, itemized estimate using your services and rates. Review the recommendations before sharing them.',
+    title: 'Know what to recommend—and how to explain it.',
+    description:
+      'Support your staff with inspection findings, service recommendations, and estimates using your pricing. Give them a clear starting point for the customer conversation.',
   },
   {
     number: '03',
-    title: 'Make approval easy.',
-    description: 'Send one link. Customers can see their rug, understand the recommended care, and approve the work from their phone.',
+    title: 'Make it easier for customers to say yes.',
+    description:
+      'Present rug photos, recommended services, and itemized pricing together. Help customers understand the proposed work and approve it from their phone.',
+  },
+];
+
+const audiences = [
+  {
+    icon: Sparkles,
+    title: 'For cleaning companies',
+    description:
+      'Help your team recognize service opportunities beyond routine cleaning and present a more complete care recommendation.',
+  },
+  {
+    icon: Store,
+    title: 'For rug retailers',
+    description:
+      'Give your sales staff the guidance to discuss cleaning and repairs with the same confidence they bring to selling rugs.',
   },
 ];
 
 export default function LandingFeatures() {
   return (
     <>
-      <section aria-label="RugBoost benefits" className="border-b border-border bg-muted/40">
-        <div className="mx-auto grid max-w-7xl divide-y divide-border px-5 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6 lg:px-8">
-          {benefits.map((benefit) => (
-            <div key={benefit.label} className="flex min-h-20 items-center gap-3 py-5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
-              <benefit.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
-              <p className="text-sm font-semibold text-foreground">{benefit.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section id="how-it-works" className="scroll-mt-16 border-b border-border py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">How it works</p>
-            <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">One rug. One record. A clear next step.</h2>
+            <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
+              Guidance for your staff. Clarity for your customers.
+            </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Keep the inspection, the estimate, and the customer’s decision connected. So your team can move the work forward.
+              Photos, AI-assisted findings, estimates, and a customer link support your team's judgment at every step.
             </p>
           </div>
 
           <ol className="mt-10 grid border-y border-border md:grid-cols-3 md:divide-x md:divide-border">
-            {steps.map((step) => (
+            {benefits.map((step) => (
               <li key={step.number} className="border-b border-border py-7 last:border-b-0 md:border-b-0 md:px-7 md:first:pl-0 md:last:pr-0 lg:py-9">
                 <span className="text-xs font-semibold text-muted-foreground">{step.number}</span>
                 <h3 className="mt-4 text-xl font-extrabold text-foreground">{step.title}</h3>
@@ -57,6 +60,23 @@ export default function LandingFeatures() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section aria-labelledby="audience-heading" className="border-b border-border bg-muted/40 py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <h2 id="audience-heading" className="max-w-2xl text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
+            Built for the people already talking to your customers.
+          </h2>
+          <div className="mt-10 grid gap-px border border-border bg-border md:grid-cols-2">
+            {audiences.map((a) => (
+              <div key={a.title} className="bg-background p-6 sm:p-8">
+                <a.icon className="h-5 w-5" aria-hidden="true" />
+                <h3 className="mt-4 text-xl font-extrabold text-foreground">{a.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">{a.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>
