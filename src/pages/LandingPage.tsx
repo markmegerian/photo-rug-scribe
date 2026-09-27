@@ -4,6 +4,8 @@ import LandingValueProp from "@/components/landing/LandingValueProp";
 import LandingFeatures from "@/components/landing/LandingFeatures";
 import LandingProposal from "@/components/landing/LandingProposal";
 import LandingWhy from "@/components/landing/LandingWhy";
+import LandingFounder from "@/components/landing/LandingFounder";
+import LandingPricingBand from "@/components/landing/LandingPricingBand";
 import LandingFAQ from "@/components/landing/LandingFAQ";
 import LandingCTA from "@/components/landing/LandingCTA";
 import LandingFooter from "@/components/landing/LandingFooter";
@@ -19,6 +21,8 @@ export default function LandingPage() {
         <LandingFeatures />
         <LandingProposal />
         <LandingWhy />
+        <LandingFounder />
+        <LandingPricingBand />
         <LandingFAQ />
         <LandingCTA />
       </main>
