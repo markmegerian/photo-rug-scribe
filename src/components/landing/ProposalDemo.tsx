@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Check, CheckCircle2, Maximize2, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
@@ -81,6 +82,8 @@ function Outcome({ source }: { source: string }) {
 
 export default function ProposalDemo({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
   const { active } = useSampleSelection();
+  const returnFocus = useRef<HTMLElement | null>(null);
+  useEffect(() => { if (open) returnFocus.current = document.activeElement as HTMLElement; }, [open]);
 
   return (
     <>
@@ -108,7 +111,7 @@ export default function ProposalDemo({ open, onOpenChange }: { open: boolean; on
       </aside>
 
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="h-[100dvh] max-h-[100dvh] w-full max-w-none gap-0 overflow-y-auto p-0 sm:h-auto sm:max-h-[92vh] sm:max-w-5xl">
+        <DialogContent onCloseAutoFocus={(e) => { if (returnFocus.current) { e.preventDefault(); returnFocus.current.focus(); } }} className="h-[100dvh] max-h-[100dvh] w-full max-w-none gap-0 overflow-y-auto p-0 sm:h-auto sm:max-h-[92vh] sm:max-w-5xl">
           <div className="border-b border-border px-5 py-4 pr-12">
             <DialogTitle className="text-xl font-extrabold">Sample client proposal</DialogTitle>
             <DialogDescription className="mt-1 text-sm">{DISCLOSURE}</DialogDescription>
