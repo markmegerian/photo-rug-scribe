@@ -113,7 +113,6 @@ export default function LandingHero() {
                 role="tabpanel"
                 id={`workflow-panel-${activeTab}`}
                 aria-labelledby={`workflow-tab-${activeTab}`}
-                tabIndex={0}
               >
                 {activeTab === 'inspect' && (
                   <div>

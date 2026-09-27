@@ -21,8 +21,8 @@ export default function LandingNavbar() {
   }, [mobileOpen]);
 
   const closeMobileMenu = (returnFocus = false) => {
+    if (returnFocus) menuButtonRef.current?.focus();
     setMobileOpen(false);
-    if (returnFocus) requestAnimationFrame(() => menuButtonRef.current?.focus());
   };
 
   const handleMobileMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
