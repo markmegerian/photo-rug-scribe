@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 
-const faqs = [
+export const faqs = [
   {
     question: 'How accurate is the AI analysis?',
     answer: 'Our AI is trained on thousands of rug images and achieves over 95% accuracy on type, origin, and common condition issues. You can adjust anything manually.',
