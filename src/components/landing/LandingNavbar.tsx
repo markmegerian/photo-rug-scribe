@@ -1,131 +1,69 @@
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import rugboostLogo from '@/assets/rugboost-horizontal.svg';
-import { cn } from '@/lib/utils';
 import { trackCTAClick, trackNavClick } from '@/lib/analytics';
 
 const navLinks = [
-  { label: 'Demo', href: '#demo' },
-  { label: 'Features', href: '#features' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Blog', href: '/blog', isRoute: true },
-  { label: 'About', href: '/about', isRoute: true },
+  { label: 'How it works', href: '/#how-it-works' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'About', href: '/about' },
 ];
-
 
 export default function LandingNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (href: string) => {
-    setMobileOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
-    <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      scrolled 
-        ? "bg-background/95 backdrop-blur-md border-b border-border" 
-        : "bg-transparent border-b border-transparent"
-    )}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center" aria-label="Rugboost home">
-            <img src={rugboostLogo} alt="Rugboost" className="h-5 sm:h-6 w-auto" />
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md" aria-label="Primary navigation">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-3">
+          <Link to="/" className="flex min-h-11 shrink-0 items-center" aria-label="Rugboost home">
+            <img src={rugboostLogo} alt="Rugboost" className="h-5 w-auto sm:h-6" />
           </Link>
 
-
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden items-center gap-8 lg:flex">
             {navLinks.map((link) => (
-              link.isRoute ? (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <button
-                  key={link.href}
-                  onClick={() => scrollToSection(link.href)}
-                  className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {link.label}
-                </button>
-              )
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => trackNavClick(link.label)}
+                className="inline-flex min-h-11 items-center text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Button variant="ghost" asChild>
-              <Link to="/support">Contact</Link>
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <Button size="sm" asChild className="h-11 px-3 sm:px-5">
+              <Link to="/request-demo" onClick={() => trackCTAClick('Book a demo', 'navbar')}>Book a demo</Link>
             </Button>
-            <Button variant="warm" asChild>
-              <Link to="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'navbar')}>Request a Demo</Link>
-            </Button>
+            <button
+              type="button"
+              className="flex h-11 w-11 items-center justify-center border border-border lg:hidden"
+              onClick={() => setMobileOpen((open) => !open)}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            >
+              {mobileOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+            </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
         </div>
 
-        {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="lg:hidden py-4 border-t border-border bg-background">
-            <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                link.isRoute ? (
-                  <Link
-                    key={link.href}
-                    to={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="px-4 py-2 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <button
-                    key={link.href}
-                    onClick={() => scrollToSection(link.href)}
-                    className="px-4 py-2 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-                  >
-                    {link.label}
-                  </button>
-                )
-              ))}
-              <div className="flex flex-col gap-2 mt-4 px-4">
-                <Button variant="outline" asChild className="w-full">
-                  <Link to="/support">Contact</Link>
-                </Button>
-                <Button variant="warm" className="w-full" asChild>
-                  <Link to="/request-demo">Request a Demo</Link>
-                </Button>
-              </div>
-            </div>
+          <div id="mobile-navigation" className="border-t border-border py-3 lg:hidden">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => { setMobileOpen(false); trackNavClick(link.label); }}
+                className="flex min-h-11 items-center px-2 text-base font-semibold text-foreground"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         )}
       </div>

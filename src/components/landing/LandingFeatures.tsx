@@ -1,186 +1,64 @@
-import { lazy, Suspense } from 'react';
-import DeviceFrame from '@/components/screenshots/DeviceFrame';
-import { Button } from '@/components/ui/button';
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { trackCTAClick } from '@/lib/analytics';
-import { cn } from '@/lib/utils';
-import { Sparkles, ArrowRight, TrendingUp, FileCheck } from 'lucide-react';
+import { Camera, FileText, Smartphone } from 'lucide-react';
 
+const benefits = [
+  { icon: Camera, label: 'Photos and findings together' },
+  { icon: FileText, label: 'Estimates using your rates' },
+  { icon: Smartphone, label: 'Customer approval by phone' },
+];
 
-// Lazy load mock components
-const MockDashboard = lazy(() => import('@/components/screenshots/MockDashboard'));
-const MockAnalysisReport = lazy(() => import('@/components/screenshots/MockAnalysisReport'));
-const MockPhotoCapture = lazy(() => import('@/components/screenshots/MockPhotoCapture'));
-const MockEstimate = lazy(() => import('@/components/screenshots/MockEstimate'));
-const MockClientPortal = lazy(() => import('@/components/screenshots/MockClientPortal'));
-const MockAnalytics = lazy(() => import('@/components/screenshots/MockAnalytics'));
-
-const MockLoader = () => (
-  <div className="w-full h-full bg-muted animate-pulse rounded-lg" />
-);
-
-const features = [
+const steps = [
   {
-    id: 'analysis',
-    icon: Sparkles,
-    title: 'AI-Powered Inspections',
-    subtitle: 'From 30 minutes to 30 seconds',
-    description: 'Photograph a rug and get type, origin, condition issues, and recommended services instantly.',
-    highlights: ['Automatic rug identification', 'Condition issue detection'],
-    metric: { value: '94%', label: 'faster than manual' },
-    MockComponent: MockAnalysisReport,
+    number: '01',
+    title: 'Capture what you see.',
+    description: 'Photograph the rug and document its condition. AI-assisted inspection notes help you prepare the report, with your team in control.',
   },
   {
-    id: 'estimate',
-    icon: FileCheck,
-    title: 'Estimates That Close',
-    subtitle: 'One-tap approval',
-    description: 'Itemized estimates generate themselves from your pricing rules — clients approve and pay online.',
-    highlights: ['Itemized pricing breakdown', 'Online approval and payment'],
-    metric: { value: '68%', label: 'higher approval rate' },
-    MockComponent: MockEstimate,
+    number: '02',
+    title: 'Put a price to the work.',
+    description: 'Build a clear, itemized estimate using your services and rates. Review the recommendations before sharing them.',
   },
   {
-    id: 'analytics',
-    icon: TrendingUp,
-    title: 'Know Your Numbers',
-    subtitle: 'Data-driven decisions',
-    description: 'Track revenue, conversion rates, and team performance in real time.',
-    highlights: ['Revenue & margin tracking', 'Team performance metrics'],
-    metric: { value: '23%', label: 'revenue increase avg' },
-    MockComponent: MockAnalytics,
+    number: '03',
+    title: 'Make approval easy.',
+    description: 'Send one link. Customers can see their rug, understand the recommended care, and approve the work from their phone.',
   },
 ];
 
-
-function FeatureRow({ feature, index }: { feature: typeof features[0]; index: number }) {
-  const { ref, isVisible } = useScrollAnimation({ threshold: 0.15 });
-  const isEven = index % 2 === 0;
-
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "grid lg:grid-cols-2 gap-8 lg:gap-20 items-center",
-        isEven ? "" : "lg:flex-row-reverse"
-      )}
-    >
-      {/* Text Content */}
-      <div className={cn(
-        "transition-all duration-700 ease-out",
-        isEven ? "" : "lg:order-2",
-        isVisible 
-          ? "opacity-100 translate-x-0" 
-          : isEven 
-            ? "opacity-0 -translate-x-8" 
-            : "opacity-0 translate-x-8"
-      )}>
-        {/* Icon and subtitle */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="h-10 w-10 rounded-none bg-primary/10 flex items-center justify-center">
-            <feature.icon className="h-5 w-5 text-primary" />
-          </div>
-          <span className="text-sm font-medium text-primary">{feature.subtitle}</span>
-        </div>
-
-        <h3 className="font-display text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-extrabold text-foreground mb-3 sm:mb-4 leading-tight">
-          {feature.title}
-        </h3>
-        <p className="text-base sm:text-lg text-muted-foreground mb-5 sm:mb-6 leading-relaxed">
-          {feature.description}
-        </p>
-
-        {/* Highlights */}
-        <ul className="space-y-2.5 sm:space-y-3 mb-5 sm:mb-6">
-          {feature.highlights.map((highlight, i) => (
-            <li 
-              key={i} 
-              className="flex items-center gap-2.5 sm:gap-3 transition-all duration-500"
-              style={{ 
-                transitionDelay: isVisible ? `${i * 100 + 200}ms` : '0ms',
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateX(0)' : 'translateX(-10px)'
-              }}
-            >
-              <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                <svg className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span className="text-sm sm:text-base text-foreground font-medium">{highlight}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Metric callout */}
-        <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-none bg-muted/50 border border-border">
-          <span className="text-xl sm:text-2xl font-bold text-primary">{feature.metric.value}</span>
-          <span className="text-xs sm:text-sm text-muted-foreground">{feature.metric.label}</span>
-        </div>
-      </div>
-
-      {/* Device Mockup */}
-      <div className={cn(
-        "flex justify-center transition-all duration-700 delay-100",
-        isEven ? "lg:justify-end" : "lg:order-1 lg:justify-start",
-        isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-      )}>
-        <div className="relative">
-          {/* Subtle glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 blur-2xl scale-125 opacity-40" />
-          
-          {/* Responsive scale wrapper */}
-          <div className="transform scale-[0.85] sm:scale-100 origin-top">
-            <DeviceFrame device="iphone-15-pro" scale={0.55}>
-              <Suspense fallback={<MockLoader />}>
-                <feature.MockComponent />
-              </Suspense>
-            </DeviceFrame>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function LandingFeatures() {
-  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
-
   return (
-    <section id="features" className="py-12 md:py-24 overflow-x-hidden bg-gradient-to-b from-muted/20 to-background">
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div 
-          ref={headerRef}
-          className={cn(
-            "text-center mb-16 md:mb-24 transition-all duration-700 ease-out",
-            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          )}
-        >
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground mb-3 sm:mb-4 leading-tight">
-            Everything you need to scale
-          </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Three things Rugboost does better than any manual process.
-          </p>
-
-        </div>
-
-        <div className="space-y-16 md:space-y-32">
-          {features.map((feature, index) => (
-            <FeatureRow key={feature.id} feature={feature} index={index} />
+    <>
+      <section aria-label="Rugboost benefits" className="border-b border-border bg-muted/40">
+        <div className="mx-auto grid max-w-7xl divide-y divide-border px-5 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6 lg:px-8">
+          {benefits.map((benefit) => (
+            <div key={benefit.label} className="flex min-h-20 items-center gap-3 py-5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+              <benefit.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
+              <p className="text-sm font-semibold text-foreground">{benefit.label}</p>
+            </div>
           ))}
         </div>
+      </section>
 
-        <div className="mt-16 md:mt-24 text-center">
-          <Button size="lg" variant="warm" className="gap-2" asChild>
-            <a href="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'features')}>
-              Request a Demo
-              <ArrowRight className="h-4 w-4" />
-            </a>
-          </Button>
+      <section id="how-it-works" className="scroll-mt-16 border-b border-border py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">How it works</p>
+            <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">One rug. One record. A clear next step.</h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Keep the inspection, the estimate, and the customer’s decision connected. So your team can move the work forward.
+            </p>
+          </div>
+
+          <ol className="mt-10 grid border-y border-border md:grid-cols-3 md:divide-x md:divide-border">
+            {steps.map((step) => (
+              <li key={step.number} className="border-b border-border py-7 last:border-b-0 md:border-b-0 md:px-7 md:first:pl-0 md:last:pr-0 lg:py-9">
+                <span className="text-xs font-semibold text-muted-foreground">{step.number}</span>
+                <h3 className="mt-4 text-xl font-extrabold text-foreground">{step.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
+              </li>
+            ))}
+          </ol>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
-

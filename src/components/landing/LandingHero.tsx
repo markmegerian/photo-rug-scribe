@@ -1,138 +1,175 @@
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, CheckCircle2, Sparkles } from 'lucide-react';
-import DeviceFrame from '@/components/screenshots/DeviceFrame';
-import MockDashboard from '@/components/screenshots/MockDashboard';
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { cn } from '@/lib/utils';
+import { KeyboardEvent, useRef, useState } from 'react';
+import { ArrowRight, Check, ClipboardCheck, ScanSearch, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { trackCTAClick } from '@/lib/analytics';
+import { Button } from '@/components/ui/button';
+import { trackCTAClick, trackEvent } from '@/lib/analytics';
+import rugPhoto from '@/assets/demo-rug-1.jpg';
 
-const quickWins = [
-  "Used by 500+ rug professionals",
-  "Your pricing, applied automatically",
-  "Clients approve and pay online"
+type WorkflowTab = 'inspect' | 'estimate' | 'approve';
+
+const tabs: { id: WorkflowTab; label: string }[] = [
+  { id: 'inspect', label: 'Inspect' },
+  { id: 'estimate', label: 'Estimate' },
+  { id: 'approve', label: 'Approve' },
 ];
 
-
-
 export default function LandingHero() {
-  const { ref: textRef, isVisible: textVisible } = useScrollAnimation({ threshold: 0.2 });
-  const { ref: mockupRef, isVisible: mockupVisible } = useScrollAnimation({ threshold: 0.2 });
+  const [activeTab, setActiveTab] = useState<WorkflowTab>('estimate');
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const selectTab = (tab: WorkflowTab) => {
+    setActiveTab(tab);
+    trackEvent('sample_workflow_tab', { tab });
+  };
+
+  const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    let nextIndex = index;
+    if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;
+    if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.length) % tabs.length;
+    if (event.key === 'Home') nextIndex = 0;
+    if (event.key === 'End') nextIndex = tabs.length - 1;
+    const nextTab = tabs[nextIndex];
+    if (!nextTab) return;
+    setActiveTab(nextTab.id);
+    tabRefs.current[nextIndex]?.focus();
+  };
 
   return (
-    <section className="pt-28 pb-14 md:pt-32 md:pb-20 overflow-hidden relative">
-      {/* Hairline grid backdrop */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.04]"
-        style={{
-          backgroundImage:
-            'linear-gradient(to right, black 1px, transparent 1px), linear-gradient(to bottom, black 1px, transparent 1px)',
-          backgroundSize: '64px 64px',
-        }}
-      />
+    <section id="top" className="border-b border-border pt-24 sm:pt-28 lg:pt-32">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-12 sm:px-6 sm:pb-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:px-8 lg:pb-20">
+        <div>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+            Software built for rug cleaners
+          </p>
+          <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.02] text-foreground sm:text-5xl lg:text-6xl">
+            Turn rug inspections into approved work.
+          </h1>
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Document each rug, create an estimate with your pricing, and let customers approve the work from their phone.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <Button size="lg" asChild>
+              <Link to="/request-demo" onClick={() => trackCTAClick('Book a demo', 'hero')}>
+                Book a demo
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </Button>
+            <a className="inline-flex min-h-11 items-center text-sm font-semibold text-foreground underline underline-offset-4" href="#how-it-works">
+              See how it works
+            </a>
+          </div>
+          <p className="mt-3 text-sm text-muted-foreground">A personal walkthrough. No obligation.</p>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Text Content */}
-          <div 
-            ref={textRef}
-            className={cn(
-              "text-center lg:text-left transition-all duration-700 ease-out",
-              textVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            )}
-          >
-            {/* Audience line */}
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-5">
-              For rug cleaning &amp; repair businesses
+        <div className="border border-border bg-card shadow-medium" aria-label="Sample Rugboost workflow">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Sample workflow · illustrative data
             </p>
-
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4rem] font-extrabold text-foreground leading-[1.02] mb-5 sm:mb-6">
-              Photograph a rug. Send a priced repair report in{' '}
-              <span className="italic font-normal">60 seconds.</span>
-            </h1>
-
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-7 sm:mb-9 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Rugboost replaces the 30-minute manual inspection: AI reads the rug, prices the work with your rates, and your client approves and pays online.
-            </p>
-
-            {/* Primary CTA */}
-            <div className="flex flex-col items-center lg:items-start gap-3 mb-7">
-              <Button size="lg" variant="warm" className="h-12 px-7 gap-2 text-base w-full sm:w-auto" asChild>
-                <a href="/request-demo" onClick={() => trackCTAClick('Request a Demo', 'hero')}>
-                  Request a Demo
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </Button>
-              <button
-                type="button"
-                className="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
-                onClick={() => {
-                  trackCTAClick('See the interactive demo', 'hero');
-                  document.querySelector('#demo')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                Or try the interactive demo
-              </button>
-            </div>
-
-            {/* Quick wins */}
-            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2">
-              {quickWins.map((win, i) => (
-                <div key={i} className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <CheckCircle2 className="h-4 w-4 text-primary" />
-                  <span>{win}</span>
-                </div>
-              ))}
-            </div>
-
+            <span className="text-xs text-muted-foreground">8' × 10' hand-knotted rug</span>
           </div>
 
-          {/* Device Mockup */}
-          <div 
-            ref={mockupRef}
-            className={cn(
-              "relative flex justify-center lg:justify-end transition-all duration-700 ease-out delay-150 mt-4 lg:mt-0",
-              mockupVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            )}
-          >
-            <div className="relative">
-              {/* Soft neutral halo behind device */}
-              <div className="absolute inset-0 bg-foreground/[0.06] blur-3xl scale-125" />
-              
-              {/* Responsive scale wrapper */}
-              <div className="transform scale-[0.85] sm:scale-100 origin-top">
-                <DeviceFrame device="iphone-15-pro" scale={0.62}>
-                  <MockDashboard />
-                </DeviceFrame>
+          <div className="grid sm:grid-cols-[0.9fr_1.1fr]">
+            <div className="relative min-h-56 border-b border-border sm:min-h-[410px] sm:border-b-0 sm:border-r">
+              <img
+                src={rugPhoto}
+                alt="Sample hand-knotted rug being documented for an inspection"
+                className="absolute inset-0 h-full w-full object-cover"
+                fetchPriority="high"
+              />
+              <div className="absolute bottom-3 left-3 bg-background px-3 py-2 shadow-soft">
+                <p className="text-xs font-semibold text-foreground">Rug 1048</p>
+                <p className="text-[11px] text-muted-foreground">Photos and condition record</p>
               </div>
-              
-              {/* Floating stat cards - hidden on mobile */}
-              <div className="absolute right-full mr-6 bottom-16 z-20 bg-background p-3.5 border border-foreground/15 animate-fade-in hidden lg:block">
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 bg-foreground flex items-center justify-center">
-                    <Sparkles className="h-4 w-4 text-background" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-bold text-foreground">94%</p>
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground whitespace-nowrap">Faster estimates</p>
-                  </div>
-                </div>
+            </div>
+
+            <div className="flex min-h-[410px] flex-col p-4 sm:p-5">
+              <div className="grid grid-cols-3 border border-border" role="tablist" aria-label="Sample workflow stages">
+                {tabs.map((tab, index) => (
+                  <button
+                    key={tab.id}
+                    ref={(element) => { tabRefs.current[index] = element; }}
+                    type="button"
+                    role="tab"
+                    id={`workflow-tab-${tab.id}`}
+                    aria-selected={activeTab === tab.id}
+                    aria-controls={`workflow-panel-${tab.id}`}
+                    tabIndex={activeTab === tab.id ? 0 : -1}
+                    onClick={() => selectTab(tab.id)}
+                    onKeyDown={(event) => handleTabKeyDown(event, index)}
+                    className={`min-h-11 border-r border-border px-2 text-sm font-semibold last:border-r-0 ${
+                      activeTab === tab.id ? 'bg-foreground text-background' : 'bg-background text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
               </div>
 
-              <div className="absolute right-full mr-6 top-16 z-20 bg-background p-3.5 border border-foreground/15 animate-fade-in hidden lg:block" style={{ animationDelay: '200ms' }}>
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 bg-foreground flex items-center justify-center">
-                    <svg className="h-4 w-4 text-background" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
+              <div
+                className="flex flex-1 flex-col pt-5"
+                role="tabpanel"
+                id={`workflow-panel-${activeTab}`}
+                aria-labelledby={`workflow-tab-${activeTab}`}
+                tabIndex={0}
+              >
+                {activeTab === 'inspect' && (
                   <div>
-                    <p className="text-xl font-bold text-foreground">$12k</p>
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground whitespace-nowrap">Avg. yearly savings</p>
+                    <div className="mb-4 flex items-center gap-2">
+                      <ScanSearch className="h-5 w-5" aria-hidden="true" />
+                      <h2 className="text-lg font-extrabold">Inspection findings</h2>
+                    </div>
+                    <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                      AI-assisted recommendations, reviewed by your business before sharing.
+                    </p>
+                    <ul className="divide-y divide-border border-y border-border text-sm">
+                      <li className="flex justify-between gap-3 py-3"><span>Ground-in soil</span><span className="text-muted-foreground">General</span></li>
+                      <li className="flex justify-between gap-3 py-3"><span>Fringe wear</span><span className="text-muted-foreground">Both ends</span></li>
+                      <li className="flex justify-between gap-3 py-3"><span>Color stability</span><span className="text-muted-foreground">Review</span></li>
+                    </ul>
                   </div>
-                </div>
-              </div>
+                )}
 
+                {activeTab === 'estimate' && (
+                  <div>
+                    <div className="mb-4 flex items-center gap-2">
+                      <ClipboardCheck className="h-5 w-5" aria-hidden="true" />
+                      <h2 className="text-lg font-extrabold">Recommended services</h2>
+                    </div>
+                    <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                      Your services and rates, itemized for review before sending.
+                    </p>
+                    <dl className="divide-y divide-border border-y border-border text-sm">
+                      <div className="flex justify-between gap-3 py-3"><dt>Deep cleaning</dt><dd className="font-semibold">$440</dd></div>
+                      <div className="flex justify-between gap-3 py-3"><dt>Fringe repair</dt><dd className="font-semibold">$180</dd></div>
+                      <div className="flex justify-between gap-3 py-4 text-base font-extrabold"><dt>Total</dt><dd>$620</dd></div>
+                    </dl>
+                  </div>
+                )}
+
+                {activeTab === 'approve' && (
+                  <div className="flex flex-1 flex-col">
+                    <div className="mb-4 flex items-center gap-2">
+                      <Send className="h-5 w-5" aria-hidden="true" />
+                      <h2 className="text-lg font-extrabold">Customer review</h2>
+                    </div>
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      One phone-friendly link shows the rug, findings, recommended work, and $620 estimate.
+                    </p>
+                    <div className="mt-6 border border-border bg-muted/50 p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center bg-foreground text-background"><Check className="h-4 w-4" aria-hidden="true" /></span>
+                        <div>
+                          <p className="text-sm font-semibold">Ready for customer review</p>
+                          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">No message has been sent and no approval has been recorded in this sample.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

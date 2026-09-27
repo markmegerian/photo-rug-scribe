@@ -1,12 +1,11 @@
 import LandingNavbar from "@/components/landing/LandingNavbar";
 import LandingHero from "@/components/landing/LandingHero";
-import LandingStats from "@/components/landing/LandingStats";
-import LandingDemo from "@/components/landing/LandingDemo";
 import LandingFeatures from "@/components/landing/LandingFeatures";
-import LandingPricing from "@/components/landing/LandingPricing";
 import LandingFAQ from "@/components/landing/LandingFAQ";
 import LandingCTA from "@/components/landing/LandingCTA";
 import LandingFooter from "@/components/landing/LandingFooter";
+import LandingFounder from "@/components/landing/LandingFounder";
+import MobileDemoBar from "@/components/landing/MobileDemoBar";
 
 export default function LandingPage() {
   return (
@@ -14,14 +13,13 @@ export default function LandingPage() {
       <LandingNavbar />
       <main>
         <LandingHero />
-        <LandingStats />
-        <LandingDemo />
         <LandingFeatures />
-        <LandingPricing />
+        <LandingFounder />
         <LandingFAQ />
         <LandingCTA />
       </main>
       <LandingFooter />
+      <MobileDemoBar />
     </div>
   );
 }
