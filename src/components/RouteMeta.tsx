@@ -35,6 +35,10 @@ const STATIC: Record<string, Meta> = {
     title: "Live Demo — Try AI Rug Inspection | Rugboost",
     description: "Upload your own rug photos and get a real AI inspection with findings, recommended services, and a priced repair report.",
   },
+  "/about": {
+    title: "About Us — Rugboost",
+    description: "Who Rugboost is, our mission to modernize rug cleaning and repair businesses, and how we protect your rug and client data.",
+  },
   "/blog": {
     title: "Blog — Insights for Rug Professionals | Rugboost",
     description: "Tips, pricing strategies, and industry insights to help rug cleaning and repair businesses grow.",
