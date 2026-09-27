@@ -40,7 +40,7 @@ const results = [
 const caseStudy = {
   company: 'Pacific Rug Care',
   location: 'San Francisco, CA',
-  quote: "We went from spending 4 hours a day on inspections and estimates to under 30 minutes. Our clients love the portal, and we've seen a 40% increase in referrals since switching to Rugboost.",
+  quote: "We went from spending 4 hours a day on inspections and estimates to under 30 minutes. Our clients love the portal, and we've seen a 40% increase in referrals since switching to RugBoost.",
   author: 'Michael Chen',
   role: 'Owner',
   results: [
@@ -73,7 +73,7 @@ export default function LandingResults() {
             The numbers speak for themselves
           </h2>
           <p className="text-lg text-background/70 max-w-2xl mx-auto">
-            See the measurable impact Rugboost has on businesses like yours.
+            See the measurable impact RugBoost has on businesses like yours.
           </p>
         </div>
 

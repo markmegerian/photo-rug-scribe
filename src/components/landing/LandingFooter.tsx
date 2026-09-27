@@ -20,7 +20,7 @@ export default function LandingFooter() {
           <div>
             <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-background/60">
-              Inspections, estimates, and customer approvals for rug cleaning and repair businesses.
+              Rug care recommendations, professional proposals, and client approvals for cleaning companies and rug retailers.
             </p>
           </div>
           <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-x-8 gap-y-1 sm:flex sm:flex-wrap sm:justify-end">

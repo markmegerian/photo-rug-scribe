@@ -12,7 +12,7 @@ export default function ThankYou() {
       <header className="border-b border-border">
         <div className="container mx-auto flex items-center px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
+            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
           </Link>
         </div>
       </header>

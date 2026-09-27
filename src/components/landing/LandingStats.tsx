@@ -5,7 +5,7 @@ const stats = [
   {
     value: '50,000+',
     label: 'Rugs Inspected',
-    description: 'by Rugboost users',
+    description: 'by RugBoost users',
   },
   {
     value: '5.2 hrs',

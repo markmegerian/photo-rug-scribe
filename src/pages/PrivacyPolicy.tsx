@@ -13,7 +13,7 @@ const PrivacyPolicy = () => {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
+            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
           </Link>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/" className="gap-2">
@@ -36,7 +36,7 @@ const PrivacyPolicy = () => {
             {/* Introduction */}
             <section>
               <p className="text-foreground/90 leading-relaxed">
-                Rugboost ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our rug inspection and management platform.
+                RugBoost ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our rug inspection and management platform.
               </p>
             </section>
 

@@ -23,7 +23,7 @@ export default function Pricing() {
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Three plans, no hidden fees. Start at 25 rug inspection estimates a month and scale up
-            whenever your shop needs more.
+            whenever your business needs more.
           </p>
         </section>
 
@@ -37,7 +37,7 @@ export default function Pricing() {
 
             <div className="overflow-x-auto border border-border">
               <table className="w-full min-w-[640px] text-left">
-                <caption className="sr-only">Feature comparison across Rugboost plans</caption>
+                <caption className="sr-only">Feature comparison across RugBoost plans</caption>
                 <thead>
                   <tr className="border-b border-border bg-muted">
                     <th scope="col" className="p-4 text-sm font-semibold text-foreground">Feature</th>

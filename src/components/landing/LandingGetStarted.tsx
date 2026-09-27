@@ -66,7 +66,7 @@ export default function LandingGetStarted() {
             <span className="text-primary">under 5 minutes</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            No complex setup, no IT department needed. If you can take a photo, you can use Rugboost.
+            No complex setup, no IT department needed. If you can take a photo, you can use RugBoost.
           </p>
         </div>
 

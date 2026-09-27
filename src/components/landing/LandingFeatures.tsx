@@ -11,13 +11,13 @@ const audiences = [
     icon: Sparkles,
     title: 'For cleaning companies',
     description:
-      'Help your team recognize relevant services beyond routine cleaning, and explain them clearly to every customer.',
+      'Help staff identify relevant services beyond routine cleaning, such as repairs and protective treatments, and explain each one clearly to clients.',
   },
   {
     icon: Store,
     title: 'For rug retailers',
     description:
-      'Support employees who sell rugs but may have limited cleaning and repair knowledge, with clear recommendations and a professional customer proposal.',
+      'Equip your retail team to discuss cleaning and repair services with confidence, supported by clear recommendations and professional client proposals.',
   },
 ];
 

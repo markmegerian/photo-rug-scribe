@@ -28,7 +28,7 @@ const successStories = [
     avatar: 'SC',
     image: '/placeholder.svg',
     headline: 'Saves 8 hours every week',
-    quote: "I used to spend half my day on inspections and estimates. Now I spend that time growing my business. Rugboost paid for itself in the first month.",
+    quote: "I used to spend half my day on inspections and estimates. Now I spend that time growing my business. RugBoost paid for itself in the first month.",
     metrics: [
       { label: 'Weekly Hours Saved', value: '8 hours', icon: Clock },
       { label: 'Pricing Accuracy', value: '100%', icon: Star },
@@ -44,7 +44,7 @@ const successStories = [
     avatar: 'MW',
     image: '/placeholder.svg',
     headline: 'Scaled from 2 to 8 employees',
-    quote: "Training new staff used to take weeks. With Rugboost's guided workflows, new hires are productive on day one. We scaled our team 4x this year.",
+    quote: "Training new staff used to take weeks. With RugBoost's guided workflows, new hires are productive on day one. We scaled our team 4x this year.",
     metrics: [
       { label: 'Team Growth', value: '4x', icon: TrendingUp },
       { label: 'Training Time', value: '1 day', icon: Clock },
@@ -77,7 +77,7 @@ export default function LandingSuccessStories() {
             Real results from real businesses
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Don't just take our word for it. See how Rugboost has transformed these businesses.
+            Don't just take our word for it. See how RugBoost has transformed these businesses.
           </p>
         </div>
 

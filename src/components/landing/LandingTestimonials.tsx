@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const testimonials = [
   {
-    quote: "Rugboost cut our inspection time by 80%. What used to take 30 minutes now takes 5. Our clients love the professional reports, and we've eliminated nearly all pricing disputes.",
+    quote: "RugBoost cut our inspection time by 80%. What used to take 30 minutes now takes 5. Our clients love the professional reports, and we've eliminated nearly all pricing disputes.",
     author: "Michael Chen",
     role: "Owner",
     company: "Pacific Rug Care",
@@ -17,7 +17,7 @@ const testimonials = [
     category: "Efficiency",
   },
   {
-    quote: "I was skeptical about AI accuracy, but Rugboost identifies rug types and conditions better than most of my staff. It catches things we sometimes miss, and the estimates are spot-on.",
+    quote: "I was skeptical about AI accuracy, but RugBoost identifies rug types and conditions better than most of my staff. It catches things we sometimes miss, and the estimates are spot-on.",
     author: "Sarah Martinez",
     role: "Operations Manager",
     company: "Heritage Rugs",
@@ -37,7 +37,7 @@ const testimonials = [
     category: "Client Experience",
   },
   {
-    quote: "We tried other software but nothing stuck. Rugboost was different—my team actually uses it because it saves them time instead of adding work. Setup took 20 minutes.",
+    quote: "We tried other software but nothing stuck. RugBoost was different—my team actually uses it because it saves them time instead of adding work. Setup took 20 minutes.",
     author: "Jennifer Walsh",
     role: "Owner",
     company: "Elite Rug Services",
