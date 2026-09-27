@@ -4,17 +4,17 @@ import { trackCTAClick } from '@/lib/analytics';
 
 export default function LandingFounder() {
   return (
-    <section className="border-t border-border bg-background py-14 sm:py-20">
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-6 lg:px-8">
+    <section className="bg-muted py-16 lg:py-24">
+      <div className="mx-auto max-w-[1120px] px-6 lg:px-8">
         <div className="grid items-center gap-10 md:grid-cols-2 lg:gap-16">
           <div
-            className="mx-auto aspect-square w-full max-w-[240px] rounded-lg bg-muted/60"
+            className="mx-auto aspect-square w-full max-w-[240px] rounded-[12px] border border-border bg-card"
             role="img"
             aria-label="Founder photo placeholder"
           />
           <div>
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">Who built it</p>
-            <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">Who built it</p>
+            <h2 className="font-serif font-normal text-[30px] leading-[1.1] tracking-[-0.01em] text-foreground lg:text-[40px]">
               Built inside a working rug cleaning plant.
             </h2>
             <p className="mt-4 max-w-[36em] text-sm leading-7 text-muted-foreground sm:text-base">
@@ -24,7 +24,7 @@ export default function LandingFounder() {
             </p>
             <Link
               to="/about"
-              className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-foreground underline-offset-4 transition-colors hover:text-terracotta hover:underline"
+              className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-foreground underline-offset-4 transition-colors duration-150 hover:underline"
               onClick={() => trackCTAClick('About RugBoost', 'founder')}
             >
               About RugBoost

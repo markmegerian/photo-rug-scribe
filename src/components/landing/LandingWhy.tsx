@@ -25,22 +25,22 @@ const cards = [
 
 export default function LandingWhy() {
   return (
-    <section className="border-b border-border bg-muted/40 py-14 sm:py-20">
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-6 lg:px-8">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">Why RugBoost</p>
-        <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
+    <section className="py-16 lg:py-24">
+      <div className="mx-auto max-w-[1120px] px-6 lg:px-8">
+        <p className="mb-3 text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">Why RugBoost</p>
+        <h2 className="font-serif font-normal text-[30px] leading-[1.1] tracking-[-0.01em] text-foreground lg:text-[40px]">
           Built for the conversation, not just the cleaning.
         </h2>
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {cards.map(({ icon: Icon, title, body }) => (
-            <div key={title} className="rounded-lg border border-border bg-background p-6 sm:p-8">
-              <Icon className="h-6 w-6 text-foreground" aria-hidden="true" />
-              <h3 className="mt-4 text-lg font-extrabold text-foreground">{title}</h3>
+            <div key={title} className="rounded-[12px] border border-border bg-card p-6 sm:p-8">
+              <Icon className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
+              <h3 className="mt-4 text-lg font-semibold text-foreground">{title}</h3>
               <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">{body}</p>
             </div>
           ))}
         </div>
-        <p className="mt-10 text-center text-sm leading-7 text-muted-foreground">
+        <p className="mt-10 text-center text-[13px] leading-7 text-muted-foreground">
           Works for rug cleaning plants, and for rug retailers who offer cleaning and repair.
         </p>
       </div>
