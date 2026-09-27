@@ -28,8 +28,8 @@ const STATIC: Record<string, Meta> = {
     description: "RugBoost plans for cleaning companies and rug retailers: Starter at $200/month, Pro at $500/month, and custom Enterprise pricing with usage-based estimate volumes.",
   },
   "/request-demo": {
-    title: "Request a Demo — RugBoost",
-    description: "Book a personalized RugBoost demo and see how RugBoost helps your team recommend rug care services and present clear client proposals.",
+    title: "Request a Walkthrough — RugBoost",
+    description: "Request a RugBoost walkthrough. Share your details and we’ll contact you to arrange a time.",
   },
   "/live-demo": {
     title: "Live Demo — Try an AI Rug Assessment | RugBoost",
@@ -57,7 +57,7 @@ const STATIC: Record<string, Meta> = {
   },
   "/thank-you": {
     title: "Thank You — RugBoost",
-    description: "Thanks for requesting a RugBoost demo. Our team will be in touch shortly.",
+    description: "Thanks for requesting a RugBoost walkthrough. We’ll contact you to arrange a time.",
     noindex: true,
   },
 };
