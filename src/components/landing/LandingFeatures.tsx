@@ -25,7 +25,7 @@ export default function LandingFeatures() {
           {steps.map((step, i) => (
             <li key={step.title} className="relative">
               <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-extrabold text-background">{i + 1}</span>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-terracotta text-sm font-extrabold text-background">{i + 1}</span>
                 {i < steps.length - 1 && <ArrowRight className="hidden h-4 w-4 text-muted-foreground md:block md:ml-auto md:mr-4" aria-hidden="true" />}
               </div>
               <h3 className="mt-4 text-lg font-extrabold text-foreground">{step.title}</h3>

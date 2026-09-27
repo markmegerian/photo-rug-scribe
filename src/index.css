@@ -50,6 +50,7 @@
 
     /* Brand ink scale (monochrome only) */
     --ink: 0 0% 0%;
+    --terracotta: 13 62% 45%;
     --ink-soft: 0 0% 20%;
     --ink-mute: 0 0% 45%;
     --paper: 0 0% 100%;
