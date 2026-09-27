@@ -5,7 +5,7 @@ import { trackCTAClick } from '@/lib/analytics';
 
 export default function LandingCTA() {
   return (
-    <section className="bg-foreground py-16 text-background sm:py-20 lg:py-24">
+    <section className="bg-foreground py-14 text-background sm:py-20">
       <div className="mx-auto max-w-4xl px-5 text-center sm:px-6 lg:px-8">
         <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">See it with your own rug.</h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-background/75 sm:text-lg">

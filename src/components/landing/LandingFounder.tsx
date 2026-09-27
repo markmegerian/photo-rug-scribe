@@ -4,7 +4,7 @@ import { trackCTAClick } from '@/lib/analytics';
 
 export default function LandingFounder() {
   return (
-    <section className="border-t border-border bg-background py-16 sm:py-20">
+    <section className="border-t border-border bg-background py-14 sm:py-20">
       <div className="mx-auto max-w-[1200px] px-5 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 md:grid-cols-2 lg:gap-16">
           <div

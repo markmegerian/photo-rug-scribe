@@ -17,7 +17,7 @@ const steps = [
 
 export default function LandingFeatures() {
   return (
-    <section id="how-it-works" className="scroll-mt-16 py-16 sm:py-20">
+    <section id="how-it-works" className="scroll-mt-16 py-14 sm:py-20">
       <div className="mx-auto max-w-[1200px] px-5 sm:px-6 lg:px-8">
         <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">How it works</p>
         <h2 className="max-w-2xl text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">Three steps. Your team stays in control.</h2>
