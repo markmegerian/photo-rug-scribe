@@ -21,6 +21,7 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const RequestDemo = lazy(() => import("./pages/RequestDemo"));
 const ThankYou = lazy(() => import("./pages/ThankYou"));
 const LiveDemo = lazy(() => import("./pages/LiveDemo"));
+const About = lazy(() => import("./pages/About"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback component
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/request-demo" element={<RequestDemo />} />
             <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/live-demo" element={<LiveDemo />} />
+            <Route path="/about" element={<About />} />
             
             {/* Blog */}
             <Route path="/blog" element={<BlogPage />} />

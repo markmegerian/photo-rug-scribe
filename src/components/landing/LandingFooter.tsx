@@ -11,6 +11,7 @@ const footerLinks = {
     { label: 'FAQ', href: '#faq' },
   ],
   Company: [
+    { label: 'About Us', href: '/about' },
     { label: 'Request a Demo', href: '/request-demo' },
     { label: 'Contact', href: '/support' },
     { label: 'Blog', href: '/blog' },

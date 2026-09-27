@@ -12,6 +12,7 @@ const navLinks = [
   { label: 'Pricing', href: '#pricing' },
   { label: 'FAQ', href: '#faq' },
   { label: 'Blog', href: '/blog', isRoute: true },
+  { label: 'About', href: '/about', isRoute: true },
 ];
 
 
