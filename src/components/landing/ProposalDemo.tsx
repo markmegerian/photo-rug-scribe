@@ -99,11 +99,11 @@ export default function ProposalDemo({ open, onOpenChange }: { open: boolean; on
           </div>
           <div className="flex flex-col">
             <ul className="flex-1">
-              {sampleServices.map((s) => <ServiceRow key={s.id} id={s.id} expanded={false} source="hero" />)}
+              {sampleServices.map((s) => <ServiceRow key={s.id} id={s.id} expanded={false} source="proposal" />)}
             </ul>
           </div>
         </div>
-        <Outcome source="hero" />
+        <Outcome source="proposal" />
         <button
           type="button"
           onClick={() => onOpenChange(true)}
