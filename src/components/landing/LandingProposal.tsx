@@ -41,7 +41,7 @@ export default function LandingProposal() {
           <Link
             to="/live-demo"
             onClick={() => trackCTAClick('Try it with your own rug photo', 'proposal')}
-            className="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-semibold underline underline-offset-4 hover:no-underline focus-visible:outline-none focus-visible:underline"
+            className="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-semibold underline underline-offset-4 transition-colors hover:text-terracotta focus-visible:outline-none focus-visible:underline"
           >
             Try it with your own rug photo
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

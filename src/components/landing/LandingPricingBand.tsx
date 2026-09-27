@@ -8,7 +8,7 @@ export default function LandingPricingBand() {
           Plans start at $200 per month for 25 rug inspection estimates. Scale up as your volume grows.{' '}
           <Link
             to="/pricing"
-            className="font-semibold text-foreground underline-offset-4 hover:underline"
+            className="font-semibold text-foreground underline-offset-4 transition-colors hover:text-terracotta hover:underline"
           >
             See pricing
           </Link>

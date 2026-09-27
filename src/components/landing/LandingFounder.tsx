@@ -24,7 +24,7 @@ export default function LandingFounder() {
             </p>
             <Link
               to="/about"
-              className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-foreground underline-offset-4 hover:underline"
+              className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-foreground underline-offset-4 transition-colors hover:text-terracotta hover:underline"
               onClick={() => trackCTAClick('About RugBoost', 'founder')}
             >
               About RugBoost

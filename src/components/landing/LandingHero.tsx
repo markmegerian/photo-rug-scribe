@@ -61,7 +61,7 @@ export default function LandingHero() {
                     <li key={s.id} className="flex items-center gap-3 border-b border-border py-2.5 last:border-b-0">
                       <span
                         aria-hidden="true"
-                        className={`flex h-5 w-5 shrink-0 items-center justify-center border ${i < 2 ? 'border-foreground bg-foreground text-background' : 'border-foreground bg-background'}`}
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center border ${i < 2 ? 'border-terracotta bg-terracotta text-background' : 'border-foreground bg-background'}`}
                       >
                         {i < 2 && <Check className="h-3.5 w-3.5" />}
                       </span>

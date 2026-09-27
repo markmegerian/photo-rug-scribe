@@ -26,7 +26,7 @@ function ServiceRow({ id, expanded, source }: { id: string; expanded: boolean; s
       <div className="flex items-center gap-3 px-4 py-2">
         <input
           type="checkbox"
-          className="h-5 w-5 shrink-0 cursor-pointer accent-foreground"
+          className="h-5 w-5 shrink-0 cursor-pointer accent-terracotta"
           checked={on}
           onChange={() => toggleSampleService(s.id, source)}
           aria-label={`Include ${s.name}, $${s.price}`}
