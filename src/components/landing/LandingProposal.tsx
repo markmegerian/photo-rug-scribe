@@ -23,7 +23,7 @@ export default function LandingProposal() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id="proposal" className="scroll-mt-16 border-b border-t border-border py-16 sm:py-20">
+    <section id="proposal" className="scroll-mt-16 border-b border-t border-border py-14 sm:py-20">
       <div className="mx-auto grid max-w-[1200px] gap-10 px-5 sm:px-6 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-14 lg:px-8">
         <div>
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">The proposal</p>

@@ -10,7 +10,7 @@ const SELECTED_TOTAL = 620;
 export default function LandingHero() {
   return (
     <section id="top" className="border-b border-border pt-20 sm:pt-24">
-      <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-10 sm:px-6 lg:grid-cols-[0.82fr_1fr] lg:items-center lg:gap-12 lg:px-8 lg:py-12">
+      <div className="mx-auto grid max-w-[1200px] gap-10 px-5 pb-14 sm:px-6 sm:pb-20 lg:grid-cols-[0.82fr_1fr] lg:items-center lg:gap-12 lg:px-8">
         <div>
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
             For rug cleaning companies and rug retailers

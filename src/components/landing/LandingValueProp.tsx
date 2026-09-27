@@ -1,6 +1,6 @@
 export default function LandingValueProp() {
   return (
-    <section className="border-b border-border bg-muted/40 py-16 sm:py-24">
+    <section className="border-b border-border bg-muted/40 py-14 sm:py-20">
       <div className="mx-auto max-w-[44em] px-5 text-center sm:px-6">
         <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
           A price without an explanation is hard to approve.

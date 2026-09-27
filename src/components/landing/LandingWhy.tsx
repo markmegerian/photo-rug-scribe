@@ -25,7 +25,7 @@ const cards = [
 
 export default function LandingWhy() {
   return (
-    <section className="border-b border-border bg-muted/40 py-16 sm:py-20">
+    <section className="border-b border-border bg-muted/40 py-14 sm:py-20">
       <div className="mx-auto max-w-[1200px] px-5 sm:px-6 lg:px-8">
         <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">Why RugBoost</p>
         <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">

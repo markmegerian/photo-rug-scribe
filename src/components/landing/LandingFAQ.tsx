@@ -17,7 +17,7 @@ export const faqs = [
 
 export default function LandingFAQ() {
   return (
-    <section id="faq" className="border-b border-border py-16 sm:py-20">
+    <section id="faq" className="border-b border-border py-14 sm:py-20">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 md:grid-cols-[0.65fr_1.35fr] lg:gap-20 lg:px-8">
         <div>
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">Questions</p>
