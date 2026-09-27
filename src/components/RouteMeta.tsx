@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { getBlogPosts } from "@/components/landing/LandingBlog";
+import { faqs } from "@/components/landing/LandingFAQ";
 import { plans } from "@/data/plans";
 
 const BASE = "https://rugboost.com";
@@ -61,6 +62,21 @@ const ALIASES: Record<string, string> = { "/privacy": "/privacy-policy", "/terms
 
 function resolve(pathname: string): Meta {
   const path = ALIASES[pathname] ?? (pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname);
+
+  if (path === "/") {
+    return {
+      ...STATIC[path],
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      },
+    };
+  }
 
   if (path === "/pricing") {
     return {
