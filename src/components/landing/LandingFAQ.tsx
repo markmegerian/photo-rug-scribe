@@ -2,16 +2,16 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 export const faqs = [
   {
+    question: 'Does AI make the final decisions?',
+    answer: 'No. AI suggests findings and services. Your team reviews every recommendation and price before a proposal is sent.',
+  },
+  {
     question: 'Can I use my own service pricing?',
     answer: 'Yes. Proposals use your own services and rates, and your team can adjust any price before sending.',
   },
   {
     question: 'What does my customer see?',
     answer: 'Clients see annotated rug photos, an explanation of each recommended service, and itemized pricing. They can approve selected services and decline others.',
-  },
-  {
-    question: 'Does AI make the final decisions?',
-    answer: 'No. AI suggests findings and services. Your team reviews every recommendation and price before a proposal is sent.',
   },
 ];
 
@@ -21,7 +21,7 @@ export default function LandingFAQ() {
       <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 md:grid-cols-[0.65fr_1.35fr] lg:gap-20 lg:px-8">
         <div>
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">Questions</p>
-          <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">A few things to know.</h2>
+          <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Common questions.</h2>
         </div>
         <Accordion type="single" collapsible className="border-t border-border">
           {faqs.map((faq, index) => (
