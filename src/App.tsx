@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import RouteMeta from "@/components/RouteMeta";
+import ScrollToHash from "@/components/ScrollToHash";
 
 // Lazy load pages
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -38,6 +39,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <RouteMeta />
+        <ScrollToHash />
         <Suspense fallback={<PageLoader />}>
           <Routes>
             {/* Landing */}
