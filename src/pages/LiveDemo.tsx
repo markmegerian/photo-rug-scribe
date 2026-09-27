@@ -136,7 +136,7 @@ export default function LiveDemo() {
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
+            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
           </Link>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/">
@@ -157,7 +157,7 @@ export default function LiveDemo() {
               Upload your own rug photos
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Add up to three photos of a real rug and Rugboost will generate an inspection and
+              Add up to three photos of a real rug and RugBoost will generate an inspection and
               priced repair report, exactly like it does inside the app.
             </p>
           </div>

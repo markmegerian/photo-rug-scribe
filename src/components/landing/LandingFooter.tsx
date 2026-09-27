@@ -18,7 +18,7 @@ export default function LandingFooter() {
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-8 border-b border-background/15 pb-8 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <img src={rugboostLogo} alt="Rugboost" className="h-6 w-auto" />
+            <img src={rugboostLogo} alt="RugBoost" className="h-6 w-auto" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-background/60">
               Inspections, estimates, and customer approvals for rug cleaning and repair businesses.
             </p>
@@ -31,7 +31,7 @@ export default function LandingFooter() {
             ))}
           </nav>
         </div>
-        <p className="pt-6 text-xs text-background/50">© {new Date().getFullYear()} Rugboost. All rights reserved.</p>
+        <p className="pt-6 text-xs text-background/50">© {new Date().getFullYear()} RugBoost. All rights reserved.</p>
       </div>
     </footer>
   );
