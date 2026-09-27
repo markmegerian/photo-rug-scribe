@@ -1,5 +1,6 @@
 import LandingNavbar from "@/components/landing/LandingNavbar";
 import LandingHero from "@/components/landing/LandingHero";
+import LandingSampleProposal from "@/components/landing/LandingSampleProposal";
 import LandingFeatures from "@/components/landing/LandingFeatures";
 import LandingFAQ from "@/components/landing/LandingFAQ";
 import LandingCTA from "@/components/landing/LandingCTA";
@@ -13,6 +14,7 @@ export default function LandingPage() {
       <LandingNavbar />
       <main>
         <LandingHero />
+        <LandingSampleProposal />
         <LandingFeatures />
         <LandingFounder />
         <LandingFAQ />

@@ -7,7 +7,7 @@ export default function MobileDemoBar() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const hero = document.querySelector('#top');
+    const hero = document.querySelector('#hero-cta');
     const footer = document.querySelector('footer');
     if (!hero) return;
 
