@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { getBlogPosts } from "@/components/landing/LandingBlog";
@@ -121,6 +122,15 @@ function resolve(pathname: string): Meta {
 export default function RouteMeta() {
   const { pathname } = useLocation();
   const meta = resolve(pathname);
+
+  // Drop static index.html fallbacks so each page ships only its own tags.
+  useEffect(() => {
+    document
+      .querySelectorAll(
+        'head meta[property="og:title"]:not([data-rh]), head meta[property="og:description"]:not([data-rh]), head meta[property="og:url"]:not([data-rh]), head meta[name="description"]:not([data-rh]), head meta[name="twitter:title"]:not([data-rh]), head meta[name="twitter:description"]:not([data-rh])',
+      )
+      .forEach((el) => el.remove());
+  }, []);
   const canonicalPath = ALIASES[pathname] ?? pathname;
   const url = `${BASE}${canonicalPath === "/" ? "/" : canonicalPath.replace(/\/$/, "")}`;
 
