@@ -25,11 +25,7 @@ export default function LandingFounder() {
             <Link
               to="/about"
               className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-foreground underline-offset-4 hover:underline"
-              onClick={() => {
-                import('@/lib/analytics').then(({ trackCTAClick }) =>
-                  trackCTAClick('About RugBoost', 'founder'),
-                );
-              }}
+              onClick={() => trackCTAClick('About RugBoost', 'founder')}
             >
               About RugBoost
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
