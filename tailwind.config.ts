@@ -17,7 +17,7 @@ export default {
 			display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 			body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 			sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-			serif: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+			serif: ['"Instrument Serif"', 'Georgia', 'serif'],
 			mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
 		},
   		colors: {
@@ -42,7 +42,6 @@ export default {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
   			},
-  			terracotta: 'hsl(var(--terracotta))',
   			accent: {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'

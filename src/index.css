@@ -8,34 +8,34 @@
 
 @layer base {
   :root {
-    /* Rugboost brand: strict monochrome — black artwork on light surfaces */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 4%;
+    /* Rugboost brand: warm neutrals — ink text on warm paper */
+    --background: 40 27% 98%; /* #FBFAF8 page background */
+    --foreground: 51 19% 7%; /* #16150F primary text / ink */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 4%;
+    --card: 0 0% 100%; /* #FFFFFF card and surface background */
+    --card-foreground: 51 19% 7%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 4%;
+    --popover-foreground: 51 19% 7%;
 
-    --primary: 0 0% 0%;
+    --primary: 51 19% 7%; /* #16150F primary button, hover #2B2A25 (accent) */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 4%;
+    --secondary: 0 0% 100%; /* white surface used for inverted buttons */
+    --secondary-foreground: 51 19% 7%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 40 21% 95%; /* #F4F2EE alternate section background */
+    --muted-foreground: 40 4% 42%; /* #6F6C66 secondary text */
 
-    --accent: 0 0% 12%;
+    --accent: 50 8% 16%; /* #2B2A25 primary button hover */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 0% 20%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 0 0% 0%;
+    --border: 38 18% 88%; /* #E6E2DB borders and dividers, always 1px */
+    --input: 38 18% 88%;
+    --ring: 51 19% 7%;
 
     --radius: 0.125rem;
 
@@ -48,13 +48,12 @@
     --sidebar-border: 0 0% 88%;
     --sidebar-ring: 0 0% 0%;
 
-    /* Brand ink scale (monochrome only) */
-    --ink: 0 0% 0%;
-    --terracotta: 13 62% 45%;
-    --ink-soft: 0 0% 20%;
-    --ink-mute: 0 0% 45%;
-    --paper: 0 0% 100%;
-    --paper-dim: 0 0% 96%;
+    /* Brand ink scale (no accent colors) */
+    --ink: 51 19% 7%;
+    --ink-soft: 51 12% 20%;
+    --ink-mute: 40 4% 42%;
+    --paper: 40 27% 98%;
+    --paper-dim: 40 21% 95%;
 
     --gradient-warm: linear-gradient(135deg, hsl(0 0% 0%) 0%, hsl(0 0% 18%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 96%) 100%);
@@ -186,13 +185,53 @@
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   }
 
-  /* Brand eyebrow: wide-tracked uppercase, mirrors the wordmark lockup */
+  /* Brand eyebrow: uppercase, lightly tracked, secondary text color */
   .eyebrow {
     text-transform: uppercase;
-    letter-spacing: 0.28em;
-    font-weight: 600;
-    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    font-size: 0.75rem;
     line-height: 1.2;
+  }
+
+  /* Landing composition: 17px body copy */
+  .landing {
+    font-size: 17px;
+  }
+
+  /* Hero visual card: the single soft shadow on the landing page */
+  .shadow-hero {
+    box-shadow: 0 1px 2px rgba(22, 21, 15, 0.04), 0 12px 32px rgba(22, 21, 15, 0.06);
+  }
+
+  /* Proposal checkbox: 18px, 4px radius, ink fill with a white check when checked */
+  .proposal-check {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border: 1px solid hsl(var(--foreground));
+    border-radius: 4px;
+    background: transparent;
+    display: inline-grid;
+    place-content: center;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+  .proposal-check:checked {
+    background-color: hsl(var(--foreground));
+  }
+  .proposal-check:checked::before {
+    content: '';
+    width: 9px;
+    height: 5px;
+    border-left: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: translateY(-1px) rotate(-45deg);
+  }
+  .proposal-check:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 
   /* Hairline rule used to structure sections */
