@@ -8,7 +8,7 @@ import { trackCTAClick, trackNavClick } from '@/lib/analytics';
 const navLinks = [
   { label: 'How it works', href: '/#how-it-works' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'About', href: '/about' },
+  { label: 'Live demo', href: '/live-demo' },
 ];
 
 export default function LandingNavbar() {
