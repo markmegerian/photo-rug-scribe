@@ -3,21 +3,21 @@ import { Store, Sparkles } from 'lucide-react';
 const benefits = [
   {
     number: '01',
-    title: 'Recognize opportunities your team might miss.',
+    title: 'Recognize the opportunity.',
     description:
-      'A rug may need more than cleaning. Help your staff identify potential repair and restoration needs and understand which of your services may be appropriate.',
+      'Help your staff spot potential care needs and identify relevant services—even when rug cleaning and repair aren’t their specialty.',
   },
   {
     number: '02',
-    title: 'Know what to recommend—and how to explain it.',
+    title: 'Make the case for the work.',
     description:
-      'Support your staff with inspection findings, service recommendations, and estimates using your pricing. Give them a clear starting point for the customer conversation.',
+      'RugBoost turns inspection findings into customer-facing recommendations that explain what is being proposed, why it matters, and what the customer gains.',
   },
   {
     number: '03',
-    title: 'Make it easier for customers to say yes.',
+    title: 'Move the sale toward approval.',
     description:
-      'Present rug photos, recommended services, and itemized pricing together. Help customers understand the proposed work and approve it from their phone.',
+      'Bring photos, service explanations, and itemized pricing together in a professional proposal customers can review and approve from their phone.',
   },
 ];
 
@@ -26,13 +26,13 @@ const audiences = [
     icon: Sparkles,
     title: 'For cleaning companies',
     description:
-      'Help your team recognize service opportunities beyond routine cleaning and present a more complete care recommendation.',
+      'Help your team recognize relevant rug services and communicate their value beyond a routine cleaning quote.',
   },
   {
     icon: Store,
     title: 'For rug retailers',
     description:
-      'Give your sales staff the guidance to discuss cleaning and repairs with the same confidence they bring to selling rugs.',
+      'Equip your sales staff to offer rug care with clear recommendations and a professional customer presentation.',
   },
 ];
 
@@ -44,10 +44,10 @@ export default function LandingFeatures() {
           <div className="max-w-2xl">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">How it works</p>
             <h2 className="text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
-              Guidance for your staff. Clarity for your customers.
+              From what your staff finds to what your customer approves.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Photos, AI-assisted findings, estimates, and a customer link support your team's judgment at every step.
+              Whether you clean rugs or sell them, RugBoost recommends services based on each rug’s needs, and your team reviews every recommendation before it goes to the customer.
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export default function LandingFeatures() {
       <section aria-labelledby="audience-heading" className="border-b border-border bg-muted/40 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <h2 id="audience-heading" className="max-w-2xl text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
-            Built for the people already talking to your customers.
+            More support for your staff. More opportunity for your business.
           </h2>
           <div className="mt-10 grid gap-px border border-border bg-border md:grid-cols-2">
             {audiences.map((a) => (

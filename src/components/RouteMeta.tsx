@@ -11,9 +11,9 @@ type Meta = { title: string; description: string; canonical?: string; noindex?: 
 
 const STATIC: Record<string, Meta> = {
   "/": {
-    title: "RugBoost — Help Your Team Sell Rug Care With Confidence",
+    title: "RugBoost — Help Your Team Sell More Rug Care",
     description:
-      "For cleaning companies and rug retailers: RugBoost helps staff spot potential cleaning and repair needs, recommend your services, and explain their value so customers can approve.",
+      "For cleaning companies and rug retailers: RugBoost helps staff identify rug service opportunities, explains the value to customers, and presents clear estimates ready for approval.",
   },
   "/how-it-works": {
     title: "How It Works — RugBoost",
